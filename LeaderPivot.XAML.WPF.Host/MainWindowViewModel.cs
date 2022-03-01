@@ -15,6 +15,13 @@ namespace LeaderPivot.XAML.WPF.Host;
 
 internal class MainWindowViewModel : INotifyPropertyChanged
 {
+    private bool _DisplayGrandTotals;
+    public bool DisplayGrandTotals
+    {
+        get => _DisplayGrandTotals;
+        set => SetProp(ref _DisplayGrandTotals, value);
+    }
+
     private Grid? _Grid;
     public Grid? Grid
     {
@@ -28,9 +35,8 @@ internal class MainWindowViewModel : INotifyPropertyChanged
     {
         Grid = new Grid();
         Grid.Background = new SolidColorBrush(Colors.Cyan);
-        Grid.ShowGridLines = true;
+        Grid.ShowGridLines = false;
         BuildMatrix();
-
     }
 
 
@@ -51,7 +57,7 @@ internal class MainWindowViewModel : INotifyPropertyChanged
         LeaderAnalytics.LeaderPivot.Matrix matrix = matrixBuilder.BuildMatrix(salesData, dimensions, measures, displayGrandTotals);
         int rowCount = matrix.Rows.Count;
         int columnCount = matrix.Rows[0].Cells.Sum(x => x.ColSpan);
-        table = new byte[rowCount,columnCount];
+        table = new byte[rowCount,columnCount];                        
 
         for (int j = 0; j < columnCount; j++)
             Grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
@@ -64,14 +70,29 @@ internal class MainWindowViewModel : INotifyPropertyChanged
             for (int j = 0; j < matrix.Rows[i].Cells.Count; j++)
             {
                 MatrixCell cell = matrix.Rows[i].Cells[j];
-                TextBox textBlock = new TextBox();
-                textBlock.Text = cell.Value?.ToString();
-                Grid.SetRow(textBlock, i);
-                Grid.SetRowSpan(textBlock, cell.RowSpan);
+                
+                TextBlock t = new TextBlock();
+                t.Text = cell.Value?.ToString();
                 columnIndex = IncrementCol(i, columnIndex, cell);
-                Grid.SetColumn(textBlock, columnIndex);
-                Grid.SetColumnSpan(textBlock, cell.ColSpan);
-                Grid.Children.Add(textBlock);
+               
+                if (true)
+                {
+                    Border b = new Border { BorderBrush = new SolidColorBrush(Colors.Black), Background = new SolidColorBrush(Colors.White), BorderThickness = new Thickness(.5) };
+                    b.Child = t;
+                    Grid.SetRow(b, i);
+                    Grid.SetRowSpan(b, cell.RowSpan);
+                    Grid.SetColumn(b, columnIndex);
+                    Grid.SetColumnSpan(b, cell.ColSpan);
+                    Grid.Children.Add(b);
+                }
+                else
+                {
+                    Grid.SetRow(t, i);
+                    Grid.SetRowSpan(t, cell.RowSpan);
+                    Grid.SetColumn(t, columnIndex);
+                    Grid.SetColumnSpan(t, cell.ColSpan);
+                    Grid.Children.Add(t);
+                }
             }
         }
     }
@@ -87,7 +108,7 @@ internal class MainWindowViewModel : INotifyPropertyChanged
 
         for (int r = rowIndex; r < rowIndex + cell.RowSpan; r++)
             for(int c = colIndex; c < colIndex + cell.ColSpan; c++ )
-            table[r,c] = 1;
+                table[r,c] = 1;
 
         return colIndex;
     }

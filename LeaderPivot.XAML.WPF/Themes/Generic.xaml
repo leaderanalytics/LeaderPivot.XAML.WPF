@@ -2,13 +2,157 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="clr-namespace:LeaderPivot.XAML.WPF">
-    <Style TargetType="{x:Type local:CustomControl1}">
+    
+    <Style TargetType="{x:Type local:LeaderPivotControl}" >
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type local:CustomControl1}">
+                <ControlTemplate TargetType="{x:Type local:LeaderPivotControl}" >
                     <Border Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}">
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            DataContext="{Binding RelativeSource={RelativeSource AncestorType=local:LeaderPivotControl}}">
+                        <ScrollViewer 
+                                HorizontalScrollBarVisibility="Auto" 
+                                VerticalScrollBarVisibility="Auto" 
+                                x:Name="ContentScrollViewer" 
+                                >
+                            <Grid x:Name="PART_Grid"></Grid>
+                        </ScrollViewer>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <Style TargetType="{x:Type local:Cell}"  x:Key="cellStyle">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:Cell }">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            DataContext="{Binding RelativeSource={RelativeSource AncestorType=local:Cell}}">
+                        <TextBlock Text="{Binding Content}"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="BorderBrush" Value="Black"/>
+        <Setter Property="BorderThickness" Value=".5"/>
+        <Style.Resources>
+            <Style TargetType="TextBlock">
+                <Setter Property="Padding" Value="6"/>
+                <Setter Property="TextWrapping" Value="Wrap"/>
+            </Style>
+        </Style.Resources>
+    </Style>
+    
+    <Style TargetType="{x:Type local:BaseTotalCell}" BasedOn="{StaticResource cellStyle}" x:Key="totalCellStyle">
+        <Setter Property="Background" Value="Gainsboro"/>
+
+        <Style.Resources>
+            <Style TargetType="TextBlock">
+                <Setter Property="Padding" Value="6"/>
+                <Setter Property="TextAlignment" Value="Right"/>
+                <Setter Property="TextWrapping" Value="NoWrap"/>
+            </Style>
+        </Style.Resources>
+    </Style>
+
+    <Style TargetType="{x:Type local:GroupHeaderCell}" BasedOn="{StaticResource cellStyle}">
+        
+    </Style>
+    
+    <Style TargetType="{x:Type local:GrandTotalHeaderCell }"  BasedOn="{StaticResource totalCellStyle}">
+        <Style.Resources>
+            <Style TargetType="TextBlock">
+                <Setter Property="Padding" Value="6"/>
+                <Setter Property="TextAlignment" Value="Left"/>
+                <Setter Property="TextWrapping" Value="Wrap"/>
+            </Style>
+        </Style.Resources>
+    </Style>
+    
+    <Style TargetType="{x:Type local:GrandTotalCell }"  BasedOn="{StaticResource totalCellStyle}">
+        
+    </Style>
+    
+    <Style TargetType="{x:Type local:MeasureCell }"  BasedOn="{StaticResource cellStyle}">
+        <Style.Resources>
+            <Style TargetType="TextBlock">
+                <Setter Property="Padding" Value="6"/>
+                <Setter Property="TextAlignment" Value="Right"/>
+                <Setter Property="TextWrapping" Value="NoWrap"/>
+            </Style>
+        </Style.Resources>
+    </Style>
+    
+    <Style TargetType="{x:Type local:MeasureLabelCell }"  BasedOn="{StaticResource cellStyle}">
+        
+    </Style>
+    
+    <Style TargetType="{x:Type local:MeasureTotalLabelCell }"  BasedOn="{StaticResource totalCellStyle}">
+        <Style.Resources>
+            <Style TargetType="TextBlock">
+                <Setter Property="Padding" Value="6"/>
+                <Setter Property="TextAlignment" Value="Left"/>
+                <Setter Property="TextWrapping" Value="Wrap"/>
+            </Style>
+        </Style.Resources>
+    </Style>
+    
+    <Style TargetType="{x:Type local:TotalCell }"  BasedOn="{StaticResource totalCellStyle}">
+        
+    </Style>
+    
+    <Style TargetType="{x:Type local:TotalHeaderCell }"  BasedOn="{StaticResource totalCellStyle}">
+        <Style.Resources>
+            <Style TargetType="TextBlock">
+                <Setter Property="Padding" Value="6"/>
+                <Setter Property="TextAlignment" Value="Left"/>
+                <Setter Property="TextWrapping" Value="Wrap"/>
+            </Style>
+        </Style.Resources>
+    </Style>
+    
+    <Style TargetType="{x:Type local:DimensionContainerCell }"  BasedOn="{StaticResource cellStyle}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:DimensionContainerCell}" >
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            DataContext="{Binding RelativeSource={RelativeSource AncestorType=local:LeaderPivotControl}}">
+                        <ScrollViewer>
+                            <ItemsControl ItemsSource="{TemplateBinding Dimensions}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Button Content="{Binding DisplayValue}" />
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <Style TargetType="{x:Type local:MeasureContainerCell }"  BasedOn="{StaticResource cellStyle}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:MeasureContainerCell}" >
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            DataContext="{Binding RelativeSource={RelativeSource AncestorType=local:LeaderPivotControl}}">
+                        <ScrollViewer 
+                                HorizontalScrollBarVisibility="Auto" 
+                                VerticalScrollBarVisibility="Auto" 
+                                x:Name="ContentScrollViewer" 
+                                >
+                            <Grid x:Name="PART_Grid"></Grid>
+                        </ScrollViewer>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
