@@ -145,13 +145,23 @@
                     <Border Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
+                            Padding="6"
                             DataContext="{Binding RelativeSource={RelativeSource AncestorType=local:LeaderPivotControl}}">
-                        <ScrollViewer 
-                                HorizontalScrollBarVisibility="Auto" 
-                                VerticalScrollBarVisibility="Auto" 
-                                x:Name="ContentScrollViewer" 
-                                >
-                            <Grid x:Name="PART_Grid"></Grid>
+                        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" x:Name="ContentScrollViewer">
+                            <Grid x:Name="PART_Grid">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Button Content="Reload Data" Command="{Binding ReloadDataCommand}" Height="30" Width="80"/>
+                                <ItemsControl ItemsSource="{Binding ViewBuilder.Measures}" Grid.Row="1">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <CheckBox Content="{Binding DisplayValue}" IsChecked="{Binding IsEnabled}" Command="{Binding RelativeSource={RelativeSource AncestorType=local:LeaderPivotControl}, Path=MeasureCheckedChangedCommand }" CommandParameter="{Binding}"/>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </Grid>
                         </ScrollViewer>
                     </Border>
                 </ControlTemplate>

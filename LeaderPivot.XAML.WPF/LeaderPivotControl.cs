@@ -13,6 +13,7 @@ using System.Windows.Media.Media3D;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using LeaderAnalytics.LeaderPivot;
+using Microsoft.Toolkit.Mvvm.Input;
 
 namespace LeaderPivot.XAML.WPF;
 /// <summary>
@@ -66,6 +67,30 @@ public class LeaderPivotControl: ContentControl
         DependencyProperty.Register("ViewBuilder", typeof(PivotViewBuilder), typeof(LeaderPivotControl), new PropertyMetadata(null,ViewBuilderPropertyChanged));
 
 
+
+    public ICommand ReloadDataCommand   
+    {
+        get { return (ICommand)GetValue(ReloadDataCommandProperty); }
+        set { SetValue(ReloadDataCommandProperty, value); }
+    }
+
+    public static readonly DependencyProperty ReloadDataCommandProperty =
+        DependencyProperty.Register("command", typeof(ICommand), typeof(LeaderPivotControl), new PropertyMetadata(null));
+
+
+
+    public ICommand MeasureCheckedChangedCommand
+    {
+        get { return (ICommand)GetValue(MeasureCheckedChangedProperty); }
+        set { SetValue(MeasureCheckedChangedProperty, value); }
+    }
+
+    public static readonly DependencyProperty MeasureCheckedChangedProperty =
+        DependencyProperty.Register("MeasureCheckedChanged", typeof(ICommand), typeof(LeaderPivotControl), new PropertyMetadata(null));
+
+
+
+
     private byte[,]? table;
     private Grid grid;
 
@@ -77,7 +102,8 @@ public class LeaderPivotControl: ContentControl
 
     public LeaderPivotControl()
     {
-    
+        ReloadDataCommand = new RelayCommand(BuildGrid);
+        MeasureCheckedChangedCommand = new RelayCommand<Measure>(MeasureCheckedChanged);
     }
 
     public override void OnApplyTemplate()
@@ -86,18 +112,23 @@ public class LeaderPivotControl: ContentControl
         grid = (Grid) Template.FindName("PART_Grid", this);
     }
 
-    private void LeaderPivotControl_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
-    {
-        throw new NotImplementedException();
-    }
-
     public static void ViewBuilderPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
     { 
         ((LeaderPivotControl)sender).BuildGrid();
     }
 
+    public void MeasureCheckedChanged(Measure measure)
+    { 
+        BuildGrid();
+    }
+
+
     public void BuildGrid()
     {
+        ViewBuilder.BuildMatrix();
+        grid.Children.Clear();
+        grid.RowDefinitions.Clear();
+        grid.ColumnDefinitions.Clear();
         int rowCount = ViewBuilder.Matrix.Rows.Count;
         int columnCount = ViewBuilder.Matrix.Rows[0].Cells.Sum(x => x.ColSpan);
 
@@ -140,10 +171,8 @@ public class LeaderPivotControl: ContentControl
         }
     }
 
-    private int IncrementCol(int rowIndex, int startingCol, Cell cell)
+    private int IncrementCol(int rowIndex, int colIndex, Cell cell)
     {
-        int colIndex = startingCol;
-
         while (table[rowIndex, colIndex] == 1)
             colIndex++;
 

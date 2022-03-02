@@ -31,13 +31,9 @@ public class PivotViewBuilder<T> : PivotViewBuilder
         NodeBuilder<T> nodeBuilder = new NodeBuilder<T>();
         Validator<T> validator = new Validator<T>();
         MatrixBuilder = new MatrixBuilder<T>(nodeBuilder, validator);
-        BuildMatrix();
     }
 
-    public void BuildMatrix()
-    {
-        Matrix = MatrixBuilder.BuildMatrix(LoadData(), Dimensions, MeasuresT, DisplayGrandTotals);
-    }
+    public override void BuildMatrix() => Matrix = MatrixBuilder.BuildMatrix(LoadData(), Dimensions, MeasuresT, DisplayGrandTotals);
 }
 
 
@@ -56,7 +52,6 @@ public abstract class PivotViewBuilder : INotifyPropertyChanged
         get => _RowDimensions;
         protected set => SetProp(ref _RowDimensions, value);
     }
-
 
     private IList<Dimension> _ColumnDimensions;
     public IList<Dimension> ColumnDimensions
@@ -78,6 +73,8 @@ public abstract class PivotViewBuilder : INotifyPropertyChanged
         get => _Matrix;
         protected set => SetProp(ref _Matrix, value);
     }
+
+    public abstract void BuildMatrix();
 
     #region INotifyPropertyChanged implementation
     public event PropertyChangedEventHandler? PropertyChanged;
