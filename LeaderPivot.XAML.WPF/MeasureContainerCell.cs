@@ -13,9 +13,4 @@ internal class MeasureContainerCell : Cell
     public List<Measure> Measures { get; set; }
 
     static MeasureContainerCell() => DefaultStyleKeyProperty.OverrideMetadata(typeof(MeasureContainerCell), new FrameworkPropertyMetadata(typeof(MeasureContainerCell)));
-
-    public MeasureContainerCell(MatrixCell mCell) : base(mCell)
-    {
-
-    }
 }

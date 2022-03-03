@@ -148,19 +148,22 @@ public class LeaderPivotControl: ContentControl
 
                 Cell cell = mCell.CellType switch
                 {
-                    CellType.Measure => new MeasureCell(mCell),
-                    CellType.Total => new TotalCell(mCell),
-                    CellType.GrandTotal => new GrandTotalCell(mCell),
-                    CellType.GroupHeader => new GroupHeaderCell(mCell),
-                    CellType.TotalHeader => new TotalHeaderCell(mCell),
-                    CellType.GrandTotalHeader => new GrandTotalHeaderCell(mCell),
-                    CellType.MeasureTotalLabel => new MeasureTotalLabelCell(mCell),
-                    CellType.MeasureLabel when i == 0 && j == 0 => new MeasureContainerCell(mCell),
-                    CellType.MeasureLabel when i == 0 && j == 1 => new DimensionContainerCell(mCell),
-                    CellType.MeasureLabel => new MeasureLabelCell(mCell),
+                    CellType.Measure => new MeasureCell(),
+                    CellType.Total => new TotalCell(),
+                    CellType.GrandTotal => new GrandTotalCell(),
+                    CellType.GroupHeader => new GroupHeaderCell(),
+                    CellType.TotalHeader => new TotalHeaderCell(),
+                    CellType.GrandTotalHeader => new GrandTotalHeaderCell(),
+                    CellType.MeasureTotalLabel => new MeasureTotalLabelCell(),
+                    CellType.MeasureLabel when i == 0 && j == 0 => new MeasureContainerCell(),
+                    CellType.MeasureLabel when i == 0 && j == 1 => new DimensionContainerCell(),
+                    CellType.MeasureLabel => new MeasureLabelCell(),
                     _ => throw new NotImplementedException()
                 };
-
+                
+                cell.RowSpan = mCell.RowSpan;
+                cell.ColSpan = mCell.ColSpan;
+                cell.Content = mCell.Value?.ToString(); 
                 columnIndex = IncrementCol(i, columnIndex, cell);
                 Grid.SetRow(cell, i);
                 Grid.SetRowSpan(cell, cell.RowSpan);

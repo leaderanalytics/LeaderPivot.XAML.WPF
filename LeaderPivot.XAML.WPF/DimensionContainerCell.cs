@@ -6,7 +6,6 @@ namespace LeaderPivot.XAML.WPF;
 internal class DimensionContainerCell : Cell
 {
 
-
     public List<Dimension> Dimensions
     {
         get { return (List<Dimension>)GetValue(DimensionsProperty); }
@@ -22,9 +21,4 @@ internal class DimensionContainerCell : Cell
     public bool IsRows { get; set; }
 
     static DimensionContainerCell() => DefaultStyleKeyProperty.OverrideMetadata(typeof(DimensionContainerCell), new FrameworkPropertyMetadata(typeof(DimensionContainerCell)));
-
-    public DimensionContainerCell(MatrixCell mCell) : base(mCell)
-    {
-        
-    }
 }

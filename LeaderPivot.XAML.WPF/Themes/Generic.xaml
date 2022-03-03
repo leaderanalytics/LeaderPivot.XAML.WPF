@@ -152,6 +152,7 @@
                                 <Grid.RowDefinitions>
                                     <RowDefinition/>
                                     <RowDefinition/>
+                                    <RowDefinition/>
                                 </Grid.RowDefinitions>
                                 <Button Content="Reload Data" Command="{Binding ReloadDataCommand}" Height="30" Width="80"/>
                                 <ItemsControl ItemsSource="{Binding ViewBuilder.Measures}" Grid.Row="1">
@@ -161,6 +162,7 @@
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>
+                                <local:DimensionContainerCell IsRows="True" Dimensions="{Binding ViewBuilder.RowDimensions}" Grid.Row="2"></local:DimensionContainerCell>
                             </Grid>
                         </ScrollViewer>
                     </Border>
