@@ -6,12 +6,12 @@
         xmlns:local="clr-namespace:LeaderPivot.XAML.WPF.Host"
         xmlns:leaderpivot="clr-namespace:LeaderPivot.XAML.WPF;assembly=LeaderPivot.XAML.WPF"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="900" Width="1500">
 
     <Grid >
         <Grid.RowDefinitions>
-            <RowDefinition/>
-            <!--<RowDefinition/>-->
+            <RowDefinition Height="150"/>
+            <RowDefinition />
         </Grid.RowDefinitions>
         
         <!--<ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
@@ -21,6 +21,13 @@
         <Button FontFamily="Segoe MDL2 Assets" Content="&#xE936;" Height="21" Width="21" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></Button>
         <Button FontFamily="Segoe MDL2 Assets" Content="&#xE937;"></Button>
         </StackPanel>-->
-        <leaderpivot:LeaderPivotControl Grid.Row="0" ViewBuilder="{Binding ViewBuilder}" />
+        <local:ControlPanel x:Name="cp"/>
+        <leaderpivot:LeaderPivotControl 
+            Grid.Row="1" 
+            DisplayGrandTotalOption="{Binding ElementName=cp, Path=DisplayGrandTotalOption}"
+            DisplayDimensionButtons="{Binding ElementName=cp, Path=DisplayDimensionButtons}"
+            DisplayMeasureSelectors="{Binding ElementName=cp, Path=DisplayMeasureSelectors}"
+            DisplayReloadDataButton="{Binding ElementName=cp, Path=DisplayReloadDataButton}"
+            ViewBuilder="{Binding ViewBuilder}" />
     </Grid>
 </Window>

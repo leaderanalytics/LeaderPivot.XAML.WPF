@@ -43,7 +43,7 @@ public abstract class PivotViewBuilder : INotifyPropertyChanged
     public bool DisplayGrandTotals
     {
         get => _DisplayGrandTotals;
-        protected set => SetProp(ref _DisplayGrandTotals, value);
+        set => SetProp(ref _DisplayGrandTotals, value);
     }
 
     private IList<Dimension> _RowDimensions;

@@ -68,3 +68,8 @@ internal class TotalHeaderCell : BaseTotalCell
 {
     static TotalHeaderCell() => DefaultStyleKeyProperty.OverrideMetadata(typeof(TotalHeaderCell), new FrameworkPropertyMetadata(typeof(TotalHeaderCell)));
 }
+
+internal class MeasureContainerCell : Cell
+{
+    static MeasureContainerCell() => DefaultStyleKeyProperty.OverrideMetadata(typeof(MeasureContainerCell), new FrameworkPropertyMetadata(typeof(MeasureContainerCell)));
+}

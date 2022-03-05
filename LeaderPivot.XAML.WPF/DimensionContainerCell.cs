@@ -6,19 +6,26 @@ namespace LeaderPivot.XAML.WPF;
 internal class DimensionContainerCell : Cell
 {
 
-    public List<Dimension> Dimensions
+    public IList<Dimension> Dimensions
     {
-        get { return (List<Dimension>)GetValue(DimensionsProperty); }
+        get { return (IList<Dimension>)GetValue(DimensionsProperty); }
         set { SetValue(DimensionsProperty, value); }
     }
 
-    // Using a DependencyProperty as the backing store for Dimensions.  This enables animation, styling, binding, etc...
     public static readonly DependencyProperty DimensionsProperty =
-        DependencyProperty.Register("Dimensions", typeof(List<Dimension>), typeof(DimensionContainerCell), new PropertyMetadata(null));
+        DependencyProperty.Register("Dimensions", typeof(IList<Dimension>), typeof(DimensionContainerCell), new PropertyMetadata(null));
+
+
+    public bool IsRows
+    {
+        get { return (bool)GetValue(IsRowsProperty); }
+        set { SetValue(IsRowsProperty, value); }
+    }
+
+    public static readonly DependencyProperty IsRowsProperty =
+        DependencyProperty.Register("IsRows", typeof(bool), typeof(DimensionContainerCell), new PropertyMetadata(false));
 
 
     public int MaxDimensions { get; set; }
-    public bool IsRows { get; set; }
-
     static DimensionContainerCell() => DefaultStyleKeyProperty.OverrideMetadata(typeof(DimensionContainerCell), new FrameworkPropertyMetadata(typeof(DimensionContainerCell)));
 }

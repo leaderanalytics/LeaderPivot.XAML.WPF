@@ -1,0 +1,34 @@
+﻿<UserControl x:Class="LeaderPivot.XAML.WPF.Host.ControlPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:LeaderPivot.XAML.WPF.Host"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid DataContext="{Binding RelativeSource={RelativeSource AncestorType=local:ControlPanel}}">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.Resources>
+            <Style TargetType="CheckBox">
+                <Setter Property="Margin" Value="0,0,20,0"/>
+            </Style>
+            <Style TargetType="StackPanel">
+                <Setter Property="Margin" Value="0,10,0,0"/>
+            </Style>
+        </Grid.Resources>
+        <Label Content="Sales Data" Grid.RowSpan="2" FontSize="30"></Label>
+        <StackPanel Orientation="Horizontal" Grid.Column="1">
+            <CheckBox IsChecked="{Binding DisplayGrandTotalOption}" Content="Grand Totals Option"/>
+            <CheckBox IsChecked="{Binding DisplayDimensionButtons}" Content="Dimension Buttons"/>
+            <CheckBox IsChecked="{Binding DisplayMeasureSelectors}" Content="Measure Selectors"/>
+            <CheckBox IsChecked="{Binding DisplayReloadDataButton}" Content="Reload Data Button"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

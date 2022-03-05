@@ -47,15 +47,6 @@ namespace LeaderPivot.XAML.WPF;
 /// </summary>
 public class LeaderPivotControl: ContentControl
 {
-    public bool DisplayGrandTotals
-    {
-        get { return (bool)GetValue(DisplayGrandTotalsProperty); }
-        set { SetValue(DisplayGrandTotalsProperty, value); }
-    }
-
-    public static readonly DependencyProperty DisplayGrandTotalsProperty =
-        DependencyProperty.Register("DisplayGrandTotals", typeof(bool), typeof(LeaderPivotControl), new PropertyMetadata(false));
-
 
     public PivotViewBuilder ViewBuilder
     {
@@ -64,7 +55,59 @@ public class LeaderPivotControl: ContentControl
     }
 
     public static readonly DependencyProperty ViewBuilderProperty =
-        DependencyProperty.Register("ViewBuilder", typeof(PivotViewBuilder), typeof(LeaderPivotControl), new PropertyMetadata(null,ViewBuilderPropertyChanged));
+        DependencyProperty.Register("ViewBuilder", typeof(PivotViewBuilder), typeof(LeaderPivotControl), new PropertyMetadata(null, ViewBuilderPropertyChanged));
+
+
+    public bool DisplayGrandTotalOption
+    {
+        get { return (bool)GetValue(DisplayGrandTotalOptionProperty); }
+        set { SetValue(DisplayGrandTotalOptionProperty, value); }
+    }
+
+    public static readonly DependencyProperty DisplayGrandTotalOptionProperty =
+        DependencyProperty.Register("DisplayGrandTotalOption", typeof(bool), typeof(LeaderPivotControl), new PropertyMetadata(true));
+
+
+    public bool DisplayDimensionButtons
+    {
+        get { return (bool)GetValue(DisplayDimensionButtonsProperty); }
+        set { SetValue(DisplayDimensionButtonsProperty, value); }
+    }
+
+    public static readonly DependencyProperty DisplayDimensionButtonsProperty =
+        DependencyProperty.Register("DisplayDimensionButtons", typeof(bool), typeof(LeaderPivotControl), new PropertyMetadata(true));
+
+
+    public bool DisplayMeasureSelectors
+    {
+        get { return (bool)GetValue(DisplayMeasureSelectorsProperty); }
+        set { SetValue(DisplayMeasureSelectorsProperty, value); }
+    }
+
+    public static readonly DependencyProperty DisplayMeasureSelectorsProperty =
+        DependencyProperty.Register("DisplayMeasureSelectors", typeof(bool), typeof(LeaderPivotControl), new PropertyMetadata(true));
+
+
+    public bool DisplayReloadDataButton
+    {
+        get { return (bool)GetValue(DisplayReloadDataButtonProperty); }
+        set { SetValue(DisplayReloadDataButtonProperty, value); }
+    }
+
+    public static readonly DependencyProperty DisplayReloadDataButtonProperty =
+        DependencyProperty.Register("DisplayReloadDataButton", typeof(bool), typeof(LeaderPivotControl), new FrameworkPropertyMetadata(false));
+
+
+
+    public bool IsLoading
+    {
+        get { return (bool)GetValue(IsLoadingProperty); }
+        set { SetValue(IsLoadingProperty, value); }
+    }
+
+    public static readonly DependencyProperty IsLoadingProperty =
+        DependencyProperty.Register("IsLoading", typeof(bool), typeof(LeaderPivotControl), new FrameworkPropertyMetadata(false));
+
 
 
 
@@ -78,7 +121,6 @@ public class LeaderPivotControl: ContentControl
         DependencyProperty.Register("command", typeof(ICommand), typeof(LeaderPivotControl), new PropertyMetadata(null));
 
 
-
     public ICommand MeasureCheckedChangedCommand
     {
         get { return (ICommand)GetValue(MeasureCheckedChangedProperty); }
@@ -89,16 +131,11 @@ public class LeaderPivotControl: ContentControl
         DependencyProperty.Register("MeasureCheckedChanged", typeof(ICommand), typeof(LeaderPivotControl), new PropertyMetadata(null));
 
 
-
-
     private byte[,]? table;
     private Grid grid;
 
     
-    static LeaderPivotControl()
-    {
-        DefaultStyleKeyProperty.OverrideMetadata(typeof(LeaderPivotControl), new FrameworkPropertyMetadata(typeof(LeaderPivotControl)));
-    }
+    static LeaderPivotControl() => DefaultStyleKeyProperty.OverrideMetadata(typeof(LeaderPivotControl), new FrameworkPropertyMetadata(typeof(LeaderPivotControl)));
 
     public LeaderPivotControl()
     {
@@ -125,6 +162,7 @@ public class LeaderPivotControl: ContentControl
 
     public void BuildGrid()
     {
+        IsLoading = true;
         ViewBuilder.BuildMatrix();
         grid.Children.Clear();
         grid.RowDefinitions.Clear();
@@ -155,12 +193,12 @@ public class LeaderPivotControl: ContentControl
                     CellType.TotalHeader => new TotalHeaderCell(),
                     CellType.GrandTotalHeader => new GrandTotalHeaderCell(),
                     CellType.MeasureTotalLabel => new MeasureTotalLabelCell(),
-                    CellType.MeasureLabel when i == 0 && j == 0 => new MeasureContainerCell(),
-                    CellType.MeasureLabel when i == 0 && j == 1 => new DimensionContainerCell(),
+                    CellType.MeasureLabel when i == 0 && j == 0 => new MeasureContainerCell() ,
+                    CellType.MeasureLabel when i == 0 && j == 1 => new DimensionContainerCell {  Dimensions = ViewBuilder.ColumnDimensions, IsRows = false, Padding = new Thickness(6,0,0,0)},
                     CellType.MeasureLabel => new MeasureLabelCell(),
                     _ => throw new NotImplementedException()
                 };
-                
+
                 cell.RowSpan = mCell.RowSpan;
                 cell.ColSpan = mCell.ColSpan;
                 cell.Content = mCell.Value?.ToString(); 
@@ -172,6 +210,7 @@ public class LeaderPivotControl: ContentControl
                 grid.Children.Add(cell);
             }
         }
+        IsLoading = false;
     }
 
     private int IncrementCol(int rowIndex, int colIndex, Cell cell)
