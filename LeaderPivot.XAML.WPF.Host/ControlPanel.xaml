@@ -6,6 +6,10 @@
              xmlns:local="clr-namespace:LeaderPivot.XAML.WPF.Host"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <local:NegateVisibilityConverter x:Key="NegateVisibilityConverter" />
+    </UserControl.Resources>
+    
     <Grid DataContext="{Binding RelativeSource={RelativeSource AncestorType=local:ControlPanel}}" VerticalAlignment="Top">
         <Grid.RowDefinitions>
             <RowDefinition/>
@@ -28,13 +32,13 @@
             </Style>
         </Grid.Resources>
         <Label Content="Sales Data" Grid.RowSpan="2" FontSize="30" Margin="20"></Label>
-        <StackPanel Grid.Column="1" >
+        <StackPanel Grid.Column="1" Visibility="{Binding PanelVisibility}" >
             <CheckBox IsChecked="{Binding DisplayGrandTotalOption}" Content="Grand Totals Option"/>
             <CheckBox IsChecked="{Binding DisplayDimensionButtons}" Content="Dimension Buttons"/>
             <CheckBox IsChecked="{Binding DisplayMeasureSelectors}" Content="Measure Selectors"/>
             <CheckBox IsChecked="{Binding DisplayReloadDataButton}" Content="Reload Data Button"/>
         </StackPanel>
-        <StackPanel Grid.Column="1" Grid.Row="2" >
+        <StackPanel Grid.Column="1" Grid.Row="2" Visibility="{Binding PanelVisibility}" >
             <CheckBox IsChecked="{Binding UseResponsiveSizing}" Content="Responsive Sizing"/>
             <StackPanel Orientation="Horizontal" Margin="0">
                 <Label Content="{Binding FontSizeString}" VerticalAlignment="Center"/>
@@ -45,6 +49,19 @@
                 <Slider Value="{Binding CellPadding}" Minimum="0" Maximum="10" Width="200" VerticalAlignment="Center"/>
             </StackPanel>
         </StackPanel>
-        <Button Grid.RowSpan="2" Grid.Column="2" Content="Controls" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="20" Padding="6"/>
+        <Button Grid.RowSpan="2" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="20" Padding="6" Command="{Binding TogglePanelVisibilityCommand}">
+            <Button.Content>
+                <StackPanel Margin="0">
+                    <TextBlock Visibility="{Binding PanelVisibility}">
+                        <Run FontFamily="Segoe MDL2 Assets" Text="&#xEB11;" />
+                        <Run Text="Controls" />
+                    </TextBlock>
+                    <TextBlock Visibility="{Binding PanelVisibility, Converter={StaticResource NegateVisibilityConverter}}">
+                        <Run FontFamily="Segoe MDL2 Assets" Text="&#xEB0F;" />
+                        <Run Text="Controls" />
+                    </TextBlock>
+                </StackPanel>
+            </Button.Content>
+        </Button>
     </Grid>
 </UserControl>

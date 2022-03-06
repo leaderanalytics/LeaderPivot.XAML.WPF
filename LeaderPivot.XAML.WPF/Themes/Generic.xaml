@@ -195,7 +195,7 @@
                                           IsChecked="{Binding ViewBuilder.DisplayGrandTotals}" Command="{Binding ReloadDataCommand}" Padding="2" 
                                           Visibility="{Binding DisplayGrandTotalOption, Converter={StaticResource BooleanToVisibilityConverter}}"
                                           Grid.Row="2" />
-                                <local:DimensionContainerCell BorderThickness="0"
+                                <local:DimensionContainerCell BorderThickness="0" Margin="0,3,0,0"
                                     IsRows="True" 
                                     Dimensions="{Binding ViewBuilder.RowDimensions}" 
                                     Grid.Row="3"/>

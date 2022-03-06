@@ -22,7 +22,6 @@ using System.Windows.Media.Media3D;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using LeaderAnalytics.LeaderPivot;
-using Microsoft.Toolkit.Mvvm.Input;
 namespace LeaderAnalytics.LeaderPivot.XAML.WPF;
 
 public class LeaderPivotControl: ContentControl
@@ -153,6 +152,11 @@ public class LeaderPivotControl: ContentControl
     
     public void BuildGrid()
     {
+        // Row span takes precidence over column span.
+        // In other words if a cell spans multiple rows, cells in the second and subsequent rows are pushed to the right - not down.
+        // A cell is never pushed down to a lower row - it is pushed to the right.  Therefore a cells row index in the matrix is
+        // always the same as it's row number in the grid.
+
         IsLoading = true;
         ViewBuilder.BuildMatrix();
         grid.Children.Clear();

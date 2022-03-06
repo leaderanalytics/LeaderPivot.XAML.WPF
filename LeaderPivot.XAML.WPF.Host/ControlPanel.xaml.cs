@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LeaderAnalytics.LeaderPivot.XAML.WPF;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -58,8 +59,6 @@ public partial class ControlPanel : UserControl, INotifyPropertyChanged
     public static readonly DependencyProperty DisplayReloadDataButtonProperty =
         DependencyProperty.Register("DisplayReloadDataButton", typeof(bool), typeof(ControlPanel), new PropertyMetadata(false));
 
-
-
     public string SelectedPivotStyle
     {
         get { return (string)GetValue(SelectedPivotStyleProperty); }
@@ -87,7 +86,7 @@ public partial class ControlPanel : UserControl, INotifyPropertyChanged
     }
 
     public static readonly DependencyProperty CellPaddingProperty =
-        DependencyProperty.Register("CellPadding", typeof(int), typeof(ControlPanel), new PropertyMetadata(4, (s, e) => ((ControlPanel)s).RaisePropertyChanged("CellPaddingString")));
+        DependencyProperty.Register("CellPadding", typeof(int), typeof(ControlPanel), new PropertyMetadata(4, (s, e) => ((ControlPanel)s).RaisePropertyChanged(nameof(CellPaddingString))));
 
 
     public int PivotControlFontSize
@@ -97,16 +96,33 @@ public partial class ControlPanel : UserControl, INotifyPropertyChanged
     }
 
     public static readonly DependencyProperty PivotControlFontSizeProperty =
-        DependencyProperty.Register("PivotControlFontSize", typeof(int), typeof(ControlPanel), new PropertyMetadata(11, (s,e) => ((ControlPanel)s).RaisePropertyChanged("FontSizeString")));
+        DependencyProperty.Register("PivotControlFontSize", typeof(int), typeof(ControlPanel), new PropertyMetadata(11, (s,e) => ((ControlPanel)s).RaisePropertyChanged(nameof(FontSizeString))));
 
+
+    private ICommand _TogglePanelVisibilityCommand;
+    public ICommand TogglePanelVisibilityCommand
+    { 
+        get => _TogglePanelVisibilityCommand;
+        set => SetProp(ref _TogglePanelVisibilityCommand, value);
+    }
+
+
+    private Visibility _PanelVisibility;
+    public Visibility PanelVisibility
+    {
+        get => _PanelVisibility;
+        set => SetProp(ref _PanelVisibility, value);
+    }
 
     public string CellPaddingString => $"Cell Padding ({CellPadding})";
     public string FontSizeString => $"Font Size ({PivotControlFontSize})";
-
+    
 
     public ControlPanel()
     {
         InitializeComponent();
+        PanelVisibility = Visibility.Collapsed;
+        TogglePanelVisibilityCommand = new RelayCommand(() => PanelVisibility = PanelVisibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible);
     }
 
     #region INotifyPropertyChanged implementation
