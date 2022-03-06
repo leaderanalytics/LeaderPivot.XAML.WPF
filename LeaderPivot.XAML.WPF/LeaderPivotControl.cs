@@ -34,7 +34,7 @@ public class LeaderPivotControl: ContentControl
     }
 
     public static readonly DependencyProperty ViewBuilderProperty =
-        DependencyProperty.Register("ViewBuilder", typeof(PivotViewBuilder), typeof(LeaderPivotControl), new PropertyMetadata(null, (s,e) => ((LeaderPivotControl)s).BuildGrid()));
+        DependencyProperty.Register("ViewBuilder", typeof(PivotViewBuilder), typeof(LeaderPivotControl), new PropertyMetadata(null, (s,e) => ((LeaderPivotControl)s).BuildGrid(null)));
 
 
     public bool DisplayGrandTotalOption
@@ -120,27 +120,22 @@ public class LeaderPivotControl: ContentControl
         DependencyProperty.Register("command", typeof(ICommand), typeof(LeaderPivotControl), new PropertyMetadata(null));
 
 
-    public ICommand MeasureCheckedChangedCommand
-    {
-        get { return (ICommand)GetValue(MeasureCheckedChangedProperty); }
-        set { SetValue(MeasureCheckedChangedProperty, value); }
-    }
 
-    public static readonly DependencyProperty MeasureCheckedChangedProperty =
-        DependencyProperty.Register("MeasureCheckedChanged", typeof(ICommand), typeof(LeaderPivotControl), new PropertyMetadata(null));
+    
+
 
     #endregion
 
     private byte[,]? table;
     private Grid grid;
-
+    private ICommand toggleNodeExpansionCommand;
     
     static LeaderPivotControl() => DefaultStyleKeyProperty.OverrideMetadata(typeof(LeaderPivotControl), new FrameworkPropertyMetadata(typeof(LeaderPivotControl)));
 
     public LeaderPivotControl()
     {
-        ReloadDataCommand = new RelayCommand(BuildGrid);
-        MeasureCheckedChangedCommand = new RelayCommand<Measure>(x => BuildGrid());
+        ReloadDataCommand = new RelayCommand(() => BuildGrid(null));
+        toggleNodeExpansionCommand = new RelayCommand<string>(x => BuildGrid(x));
     }
 
     public override void OnApplyTemplate()
@@ -150,15 +145,15 @@ public class LeaderPivotControl: ContentControl
     }
 
     
-    public void BuildGrid()
+    public void BuildGrid(string? nodeID)
     {
         // Row span takes precidence over column span.
-        // In other words if a cell spans multiple rows, cells in the second and subsequent rows are pushed to the right - not down.
+        // If a cell spans multiple rows, cells in the second and subsequent rows are pushed to the right - not down.
         // A cell is never pushed down to a lower row - it is pushed to the right.  Therefore a cells row index in the matrix is
         // always the same as it's row number in the grid.
 
         IsLoading = true;
-        ViewBuilder.BuildMatrix();
+        ViewBuilder.BuildMatrix(nodeID);
         grid.Children.Clear();
         grid.RowDefinitions.Clear();
         grid.ColumnDefinitions.Clear();
@@ -184,7 +179,7 @@ public class LeaderPivotControl: ContentControl
                     CellType.Measure => new MeasureCell(),
                     CellType.Total => new TotalCell(),
                     CellType.GrandTotal => new GrandTotalCell(),
-                    CellType.GroupHeader => new GroupHeaderCell(),
+                    CellType.GroupHeader => new GroupHeaderCell { NodeID = mCell.NodeID, IsExpanded = mCell.IsExpanded, CanToggleExpansion = mCell.CanToggleExapansion, ToggleNodeExpansionCommand = toggleNodeExpansionCommand },
                     CellType.TotalHeader => new TotalHeaderCell(),
                     CellType.GrandTotalHeader => new GrandTotalHeaderCell(),
                     CellType.MeasureTotalLabel => new MeasureTotalLabelCell(),

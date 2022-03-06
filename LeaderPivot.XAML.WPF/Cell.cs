@@ -17,23 +17,55 @@ internal abstract class Cell : ContentControl
 
 internal abstract class BaseTotalCell : Cell 
 {
-}
 
+}
 
 internal class GroupHeaderCell : Cell
 {
-    public bool IsExpanded { get; set; }
-    public bool CanToggleExapansion { get; set; }
-    public string? NodeID { get; set; }
-    public ICommand ToggleExpansion { get; set; }
+    public bool IsExpanded
+    {
+        get { return (bool)GetValue(IsExpandedProperty); }
+        set { SetValue(IsExpandedProperty, value); }
+    }
+
+    public static readonly DependencyProperty IsExpandedProperty =
+        DependencyProperty.Register("IsExpanded", typeof(bool), typeof(GroupHeaderCell), new PropertyMetadata(true));
+
+
+    public bool CanToggleExpansion
+    {
+        get { return (bool)GetValue(CanToggleExpansionProperty); }
+        set { SetValue(CanToggleExpansionProperty, value); }
+    }
+    
+    public static readonly DependencyProperty CanToggleExpansionProperty =
+        DependencyProperty.Register("CanToggleExpansion", typeof(bool), typeof(GroupHeaderCell), new PropertyMetadata(true));
+
+
+    public string NodeID
+    {
+        get { return (string)GetValue(NodeIDProperty); }
+        set { SetValue(NodeIDProperty, value); }
+    }
+
+    public static readonly DependencyProperty NodeIDProperty =
+        DependencyProperty.Register("NodeID", typeof(string), typeof(GroupHeaderCell), new PropertyMetadata(null));
+
+
+    public ICommand ToggleNodeExpansionCommand
+    {
+        get { return (ICommand)GetValue(ToggleNodeExpansionCommandProperty); }
+        set { SetValue(ToggleNodeExpansionCommandProperty, value); }
+    }
+
+    public static readonly DependencyProperty ToggleNodeExpansionCommandProperty =
+        DependencyProperty.Register("ToggleNodeExpansionCommand", typeof(ICommand), typeof(GroupHeaderCell), new PropertyMetadata(null));
+
 
     static GroupHeaderCell() => DefaultStyleKeyProperty.OverrideMetadata(typeof(GroupHeaderCell), new FrameworkPropertyMetadata(typeof(GroupHeaderCell)));
-
-    public async Task HandleToggleExpand()
-    {
-        //await ToggleExpansion.InvokeAsync(NodeID);
-    }
+    
 }
+
 internal class GrandTotalHeaderCell : BaseTotalCell 
 {
     static GrandTotalHeaderCell() => DefaultStyleKeyProperty.OverrideMetadata(typeof(GrandTotalHeaderCell), new FrameworkPropertyMetadata(typeof(GrandTotalHeaderCell)));

@@ -33,7 +33,7 @@ public class PivotViewBuilder<T> : PivotViewBuilder
         MatrixBuilder = new MatrixBuilder<T>(nodeBuilder, validator);
     }
 
-    public override void BuildMatrix() => Matrix = MatrixBuilder.BuildMatrix(LoadData(), Dimensions, MeasuresT, DisplayGrandTotals);
+    public override void BuildMatrix(string? nodeID = null) => Matrix = string.IsNullOrEmpty(nodeID) ? MatrixBuilder.BuildMatrix(LoadData(), Dimensions, MeasuresT, DisplayGrandTotals) : MatrixBuilder.ToggleNodeExpansion(nodeID);
 }
 
 
@@ -74,7 +74,7 @@ public abstract class PivotViewBuilder : INotifyPropertyChanged
         protected set => SetProp(ref _Matrix, value);
     }
 
-    public abstract void BuildMatrix();
+    public abstract void BuildMatrix(string? nodeID);
 
     #region INotifyPropertyChanged implementation
     public event PropertyChangedEventHandler? PropertyChanged;
