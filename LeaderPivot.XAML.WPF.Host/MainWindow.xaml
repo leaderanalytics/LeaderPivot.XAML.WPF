@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LeaderPivot.XAML.WPF.Host"
-        xmlns:leaderpivot="clr-namespace:LeaderPivot.XAML.WPF;assembly=LeaderPivot.XAML.WPF"
+        xmlns:leaderpivot="clr-namespace:LeaderAnalytics.LeaderPivot.XAML.WPF;assembly=LeaderAnalytics.LeaderPivot.XAML.WPF"
         mc:Ignorable="d"
         Title="MainWindow" Height="900" Width="1500">
 
@@ -28,6 +28,9 @@
             DisplayDimensionButtons="{Binding ElementName=cp, Path=DisplayDimensionButtons}"
             DisplayMeasureSelectors="{Binding ElementName=cp, Path=DisplayMeasureSelectors}"
             DisplayReloadDataButton="{Binding ElementName=cp, Path=DisplayReloadDataButton}"
+            UseResponsiveSizing="{Binding ElementName=cp, Path=UseResponsiveSizing}"
+            FontSize="{Binding ElementName=cp, Path=PivotControlFontSize}"
+            CellPadding="{Binding ElementName=cp, Path=CellPadding}"
             ViewBuilder="{Binding ViewBuilder}" />
     </Grid>
 </Window>

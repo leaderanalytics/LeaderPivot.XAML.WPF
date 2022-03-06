@@ -10,7 +10,7 @@ using System.Windows;
 using LeaderAnalytics.LeaderPivot;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-namespace LeaderPivot.XAML.WPF;
+namespace LeaderAnalytics.LeaderPivot.XAML.WPF;
 
 public class PivotViewBuilder<T> : PivotViewBuilder
 {

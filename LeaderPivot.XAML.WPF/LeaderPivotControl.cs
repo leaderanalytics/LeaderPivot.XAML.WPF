@@ -1,6 +1,15 @@
-﻿using System;
+﻿/* 
+ * Copyright 2021 Leader Analytics 
+ * LeaderAnalytics.com
+ * SamWheat.com
+ * 
+ * Please do not remove this header.
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -14,40 +23,11 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using LeaderAnalytics.LeaderPivot;
 using Microsoft.Toolkit.Mvvm.Input;
+namespace LeaderAnalytics.LeaderPivot.XAML.WPF;
 
-namespace LeaderPivot.XAML.WPF;
-/// <summary>
-/// Follow steps 1a or 1b and then 2 to use this custom control in a XAML file.
-///
-/// Step 1a) Using this custom control in a XAML file that exists in the current project.
-/// Add this XmlNamespace attribute to the root element of the markup file where it is 
-/// to be used:
-///
-///     xmlns:MyNamespace="clr-namespace:LeaderPivot.XAML.WPF"
-///
-///
-/// Step 1b) Using this custom control in a XAML file that exists in a different project.
-/// Add this XmlNamespace attribute to the root element of the markup file where it is 
-/// to be used:
-///
-///     xmlns:MyNamespace="clr-namespace:LeaderPivot.XAML.WPF;assembly=LeaderPivot.XAML.WPF"
-///
-/// You will also need to add a project reference from the project where the XAML file lives
-/// to this project and Rebuild to avoid compilation errors:
-///
-///     Right click on the target project in the Solution Explorer and
-///     "Add Reference"->"Projects"->[Select this project]
-///
-///
-/// Step 2)
-/// Go ahead and use your control in the XAML file.
-///
-///     <MyNamespace:CustomControl1/>
-///
-/// </summary>
 public class LeaderPivotControl: ContentControl
 {
-
+    #region Properties
     public PivotViewBuilder ViewBuilder
     {
         get { return (PivotViewBuilder)GetValue(ViewBuilderProperty); }
@@ -55,7 +35,7 @@ public class LeaderPivotControl: ContentControl
     }
 
     public static readonly DependencyProperty ViewBuilderProperty =
-        DependencyProperty.Register("ViewBuilder", typeof(PivotViewBuilder), typeof(LeaderPivotControl), new PropertyMetadata(null, ViewBuilderPropertyChanged));
+        DependencyProperty.Register("ViewBuilder", typeof(PivotViewBuilder), typeof(LeaderPivotControl), new PropertyMetadata(null, (s,e) => ((LeaderPivotControl)s).BuildGrid()));
 
 
     public bool DisplayGrandTotalOption
@@ -98,6 +78,25 @@ public class LeaderPivotControl: ContentControl
         DependencyProperty.Register("DisplayReloadDataButton", typeof(bool), typeof(LeaderPivotControl), new FrameworkPropertyMetadata(false));
 
 
+    public bool UseResponsiveSizing
+    {
+        get { return (bool)GetValue(UseResponsiveSizingProperty); }
+        set { SetValue(UseResponsiveSizingProperty, value); }
+    }
+    
+    public static readonly DependencyProperty UseResponsiveSizingProperty =
+        DependencyProperty.Register("UseResponsiveSizing", typeof(bool), typeof(LeaderPivotControl), new PropertyMetadata(false));
+
+
+    public int CellPadding
+    {
+        get { return (int)GetValue(CellPaddingProperty); }
+        set { SetValue(CellPaddingProperty, value); }
+    }
+
+    public static readonly DependencyProperty CellPaddingProperty =
+        DependencyProperty.Register("CellPadding", typeof(int), typeof(LeaderPivotControl), new PropertyMetadata(4));
+
 
     public bool IsLoading
     {
@@ -108,8 +107,9 @@ public class LeaderPivotControl: ContentControl
     public static readonly DependencyProperty IsLoadingProperty =
         DependencyProperty.Register("IsLoading", typeof(bool), typeof(LeaderPivotControl), new FrameworkPropertyMetadata(false));
 
+    #endregion
 
-
+    #region Commands
 
     public ICommand ReloadDataCommand   
     {
@@ -130,6 +130,7 @@ public class LeaderPivotControl: ContentControl
     public static readonly DependencyProperty MeasureCheckedChangedProperty =
         DependencyProperty.Register("MeasureCheckedChanged", typeof(ICommand), typeof(LeaderPivotControl), new PropertyMetadata(null));
 
+    #endregion
 
     private byte[,]? table;
     private Grid grid;
@@ -140,7 +141,7 @@ public class LeaderPivotControl: ContentControl
     public LeaderPivotControl()
     {
         ReloadDataCommand = new RelayCommand(BuildGrid);
-        MeasureCheckedChangedCommand = new RelayCommand<Measure>(MeasureCheckedChanged);
+        MeasureCheckedChangedCommand = new RelayCommand<Measure>(x => BuildGrid());
     }
 
     public override void OnApplyTemplate()
@@ -149,17 +150,7 @@ public class LeaderPivotControl: ContentControl
         grid = (Grid) Template.FindName("PART_Grid", this);
     }
 
-    public static void ViewBuilderPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
-    { 
-        ((LeaderPivotControl)sender).BuildGrid();
-    }
-
-    public void MeasureCheckedChanged(Measure measure)
-    { 
-        BuildGrid();
-    }
-
-
+    
     public void BuildGrid()
     {
         IsLoading = true;

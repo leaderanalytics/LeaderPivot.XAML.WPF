@@ -1,16 +1,48 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>net6.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
+	<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 	<ImplicitUsings>enable</ImplicitUsings>
+	<IncludeSymbols>true</IncludeSymbols>
+	<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+	<Authors>Leader Analytics</Authors>
+	<Company>Leader Analytics</Company>
+	<Product>LeaderAnalytics.LeaderPivot.XAML.WPF</Product>
+	<Description>LeaderPivot pivot table control for WPF applications</Description>
+	<Copyright>2021 Leader Analytics</Copyright>
+	<PackageProjectUrl>https://github.com/leaderanalytics/LeaderPivot.XAML.WPF</PackageProjectUrl>
+	<PackageIcon>icon.png</PackageIcon>
+	<RepositoryUrl>https://github.com/leaderanalytics/LeaderPivot.XAML.WPF.git</RepositoryUrl>
+	<RepositoryType>git</RepositoryType>
+	<PackageTags>Leader Analytics LeaderAnalytics Pivot Table Pivot Grid Pivot Matrix WPF</PackageTags>
+	<PackageReleaseNotes>See Repository</PackageReleaseNotes>
+	<Version>1.0.0-beta.1</Version>
+	<AssemblyVersion>1.0.0.0</AssemblyVersion>
+	<FileVersion>1.0.0.0</FileVersion>
+	<PackageId>LeaderAnalytics.LeaderPivot.XAML.WPF</PackageId>
+	<PackageLicenseFile>LICENSE.md</PackageLicenseFile>  
   </PropertyGroup>
 
+	<PropertyGroup>
+		<RootNamespace>LeaderAnalytics.LeaderPivot.XAML.WPF</RootNamespace>
+		<AssemblyName>LeaderAnalytics.LeaderPivot.XAML.WPF</AssemblyName>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="..\icon.png" Pack="true" PackagePath="\" />
+		<None Include="..\LICENSE.md" Pack="true" PackagePath="\" />
+	</ItemGroup>
+
+	<Target Name="CopyPackage" AfterTargets="Pack" Condition=" '$(Configuration)'=='Debug' ">
+		<Copy SourceFiles="$(OutputPath)..\$(PackageId).$(PackageVersion).nupkg" DestinationFolder="c:\NugetPackages\" />
+		<Copy SourceFiles="$(OutputPath)..\$(PackageId).$(PackageVersion).snupkg" DestinationFolder="c:\NugetPackages\" />
+	</Target>	
+	
   <ItemGroup>
     <PackageReference Include="LeaderAnalytics.LeaderPivot" Version="1.0.16-beta.2" />
     <PackageReference Include="Microsoft.Toolkit.Mvvm" Version="7.1.2" />
     <PackageReference Include="System.ObjectModel" Version="4.3.0" />
   </ItemGroup>
-
 </Project>

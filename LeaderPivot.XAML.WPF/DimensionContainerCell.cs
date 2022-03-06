@@ -1,7 +1,7 @@
 ﻿using LeaderAnalytics.LeaderPivot;
 using System.Windows;
 
-namespace LeaderPivot.XAML.WPF;
+namespace LeaderAnalytics.LeaderPivot.XAML.WPF;
 
 internal class DimensionContainerCell : Cell
 {

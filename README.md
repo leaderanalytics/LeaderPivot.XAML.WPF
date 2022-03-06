@@ -1,20 +1,30 @@
-# Introduction 
-TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project. 
+![Leader Analytics](./logo.png)
+
+THIS PROJECT IS IN EARLY DEVELOPMENT STAGES.  DEMO APP AND NUGET PACKAGE DO NOT YET EXIST. SOME LINKS BELOW DO NOT WORK.
+
+
+# LeaderPivot.XAML.WPF
+
+A pivot table control for WPF.
+
+* Easy to implement and configure
+* Drag and drop dimensions across axis
+* User configurable measures
+* Four color themes provided, customize or create your own.
+
+![Leader Analytics pivot table control](./screencap.png) 
 
 # Getting Started
-TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
-1.	Installation process
-2.	Software dependencies
-3.	Latest releases
-4.	API references
 
-# Build and Test
-TODO: Describe and show how to build your code and run the tests. 
+* [Get the demo application](https://github.com/leaderanalytics/LeaderPivot.XXX)
 
-# Contribute
-TODO: Explain how other users and developers can contribute to make your code better. 
+* [Get the test data application](https://github.com/leaderanalytics/LeaderPivot.TestData)
 
-If you want to learn more about creating good readme files then refer the following [guidelines](https://docs.microsoft.com/en-us/azure/devops/repos/git/create-a-readme?view=azure-devops). You can also seek inspiration from the below readme files:
-- [ASP.NET Core](https://github.com/aspnet/Home)
-- [Visual Studio Code](https://github.com/Microsoft/vscode)
-- [Chakra Core](https://github.com/Microsoft/ChakraCore)
+* [Get the NuGet package](https://www.nuget.org/packages/LeaderAnalytics.LeaderPivot.XXX/)
+
+* Create a data structure to model your denormalized data.  See the [`SalesData`](https://github.com/leaderanalytics/LeaderPivot.TestData/blob/main/LeaderPivot.TestData/SalesData.cs) class for an example.
+
+* Create [Dimensions](https://github.com/leaderanalytics/LeaderPivot/blob/main/LeaderPivot/Dimension.cs) and [Measures](https://github.com/leaderanalytics/LeaderPivot/blob/main/LeaderPivot/Measure.cs).    Dimensions are used to group data.  Measures are used to create the values shown in each cell of the pivot table.  Examples are provided in the [TestData](https://github.com/leaderanalytics/LeaderPivot.TestData/blob/main/LeaderPivot.TestData/SalesData.cs) project.
+
+* Add a [LeaderPivot control](https://github.com/leaderanalytics/LeaderPivot.XXX) to your page.  
+

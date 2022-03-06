@@ -6,29 +6,45 @@
              xmlns:local="clr-namespace:LeaderPivot.XAML.WPF.Host"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid DataContext="{Binding RelativeSource={RelativeSource AncestorType=local:ControlPanel}}">
+    <Grid DataContext="{Binding RelativeSource={RelativeSource AncestorType=local:ControlPanel}}" VerticalAlignment="Top">
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <Grid.Resources>
             <Style TargetType="CheckBox">
                 <Setter Property="Margin" Value="0,0,20,0"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
             </Style>
             <Style TargetType="StackPanel">
                 <Setter Property="Margin" Value="0,10,0,0"/>
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+                <Setter Property="Orientation" Value="Horizontal"/>
             </Style>
         </Grid.Resources>
-        <Label Content="Sales Data" Grid.RowSpan="2" FontSize="30"></Label>
-        <StackPanel Orientation="Horizontal" Grid.Column="1">
+        <Label Content="Sales Data" Grid.RowSpan="2" FontSize="30" Margin="20"></Label>
+        <StackPanel Grid.Column="1" >
             <CheckBox IsChecked="{Binding DisplayGrandTotalOption}" Content="Grand Totals Option"/>
             <CheckBox IsChecked="{Binding DisplayDimensionButtons}" Content="Dimension Buttons"/>
             <CheckBox IsChecked="{Binding DisplayMeasureSelectors}" Content="Measure Selectors"/>
             <CheckBox IsChecked="{Binding DisplayReloadDataButton}" Content="Reload Data Button"/>
         </StackPanel>
+        <StackPanel Grid.Column="1" Grid.Row="2" >
+            <CheckBox IsChecked="{Binding UseResponsiveSizing}" Content="Responsive Sizing"/>
+            <StackPanel Orientation="Horizontal" Margin="0">
+                <Label Content="{Binding FontSizeString}" VerticalAlignment="Center"/>
+                <Slider Value="{Binding PivotControlFontSize}" Minimum="6" Maximum="20" Width="200" VerticalAlignment="Center"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0">
+                <Label Content="{Binding CellPaddingString}" VerticalAlignment="Center"/>
+                <Slider Value="{Binding CellPadding}" Minimum="0" Maximum="10" Width="200" VerticalAlignment="Center"/>
+            </StackPanel>
+        </StackPanel>
+        <Button Grid.RowSpan="2" Grid.Column="2" Content="Controls" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="20" Padding="6"/>
     </Grid>
 </UserControl>

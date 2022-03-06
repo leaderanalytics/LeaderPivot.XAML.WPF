@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace LeaderPivot.XAML.WPF;
+namespace LeaderAnalytics.LeaderPivot.XAML.WPF;
 
 internal abstract class Cell : ContentControl
 {

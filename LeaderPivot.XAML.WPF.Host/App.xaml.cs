@@ -17,7 +17,7 @@ public partial class App : Application
     #if DEBUG
             // For better XAML Hot Reloading of themes\generic.xaml content add it to App.Resources
             ResourceDictionary rd = new ResourceDictionary();
-            rd.Source = new Uri("pack://application:,,,/LeaderPivot.XAML.WPF;component/Themes/Generic.xaml");
+            rd.Source = new Uri("pack://application:,,,/LeaderAnalytics.LeaderPivot.XAML.WPF;component/Themes/Generic.xaml");
             this.Resources.MergedDictionaries.Add(rd);
     #endif    
     }

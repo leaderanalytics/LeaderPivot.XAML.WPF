@@ -5,7 +5,12 @@ VisualStudioVersion = 17.0.32126.317
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LeaderPivot.XAML.WPF", "LeaderPivot.XAML.WPF\LeaderPivot.XAML.WPF.csproj", "{4FF893CB-F332-4B80-8DA4-214ED26D6658}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeaderPivot.XAML.WPF.Host", "LeaderPivot.XAML.WPF.Host\LeaderPivot.XAML.WPF.Host.csproj", "{FB5AA441-9020-4EBC-99C3-02BE28DDB621}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LeaderPivot.XAML.WPF.Host", "LeaderPivot.XAML.WPF.Host\LeaderPivot.XAML.WPF.Host.csproj", "{FB5AA441-9020-4EBC-99C3-02BE28DDB621}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C39061ED-79D0-4B5D-A917-6912CD0B5620}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -70,6 +70,39 @@ public partial class ControlPanel : UserControl, INotifyPropertyChanged
         DependencyProperty.Register("SelectedPivotStyle", typeof(string), typeof(ControlPanel), new PropertyMetadata(null));
 
 
+    public bool UseResponsiveSizing
+    {
+        get { return (bool)GetValue(UseResponsiveSizingProperty); }
+        set { SetValue(UseResponsiveSizingProperty, value); }
+    }
+
+    public static readonly DependencyProperty UseResponsiveSizingProperty =
+        DependencyProperty.Register("UseResponsiveSizing", typeof(bool), typeof(ControlPanel), new PropertyMetadata(false));
+
+
+    public int CellPadding
+    {
+        get { return (int)GetValue(CellPaddingProperty); }
+        set { SetValue(CellPaddingProperty, value); }
+    }
+
+    public static readonly DependencyProperty CellPaddingProperty =
+        DependencyProperty.Register("CellPadding", typeof(int), typeof(ControlPanel), new PropertyMetadata(4, (s, e) => ((ControlPanel)s).RaisePropertyChanged("CellPaddingString")));
+
+
+    public int PivotControlFontSize
+    {
+        get { return (int)GetValue(PivotControlFontSizeProperty); }
+        set { SetValue(PivotControlFontSizeProperty, value); }
+    }
+
+    public static readonly DependencyProperty PivotControlFontSizeProperty =
+        DependencyProperty.Register("PivotControlFontSize", typeof(int), typeof(ControlPanel), new PropertyMetadata(11, (s,e) => ((ControlPanel)s).RaisePropertyChanged("FontSizeString")));
+
+
+    public string CellPaddingString => $"Cell Padding ({CellPadding})";
+    public string FontSizeString => $"Font Size ({PivotControlFontSize})";
+
 
     public ControlPanel()
     {
