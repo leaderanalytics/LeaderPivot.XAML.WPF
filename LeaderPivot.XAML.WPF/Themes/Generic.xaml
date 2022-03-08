@@ -94,27 +94,28 @@
                                 CommandParameter="{Binding NodeID}"
                                 Visibility="{Binding CanToggleExpansion, Converter={StaticResource BooleanToVisibilityConverter}}">
                                 <Button.Resources>
+                                    <Style TargetType="Border">
+                                        <Setter Property="CornerRadius" Value="45"/>
+                                    </Style>
                                     <Style TargetType="Button">
+                                        <Setter Property="Height" Value="25"/>
+                                        <Setter Property="Width" Value="25"/>
                                         <Setter Property="HorizontalAlignment" Value="Left"/>
                                         <Setter Property="VerticalAlignment" Value="top"/>
                                         <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                                        <Setter Property="VerticalContentAlignment" Value="Center"/>
-                                        <Setter Property="Padding" Value="4"/>
-                                        <Setter Property="FontSize" Value="14"/>
+                                        <Setter Property="VerticalContentAlignment" Value="Bottom"/>
+                                        
+                                        <Setter Property="FontSize" Value="10"/>
                                         <Setter Property="FontFamily" Value="Segoe MDL2 Assets"/>
                                         <Setter Property="Margin" Value="3"/>
-                                        <Setter Property="Template">
-                                            <Setter.Value>
-                                                <ControlTemplate TargetType="Button">
-                                                    <Ellipse Height="30" Width="30" Fill="Gray"/>
-                                                </ControlTemplate>
-                                            </Setter.Value>
-                                        </Setter>
+                                       
                                         <Style.Triggers>
                                             <DataTrigger Binding="{Binding IsExpanded}" Value="True">
+                                                <Setter Property="Padding" Value="6,8,6,4"/>
                                                 <Setter Property="Content" Value="&#xE936;"/>
                                             </DataTrigger>
                                             <DataTrigger Binding="{Binding IsExpanded}" Value="False">
+                                                <Setter Property="Padding" Value="9,6,3,6"/>
                                                 <Setter Property="Content" Value="&#xE937;"/>
                                             </DataTrigger>
                                         </Style.Triggers>
