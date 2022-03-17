@@ -8,11 +8,19 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using LeaderAnalytics.LeaderPivot.XAML.WPF;
+using System.Windows.Input;
 
 namespace LeaderPivot.XAML.WPF.Host;
 
 internal class MainWindowViewModel2 : INotifyPropertyChanged
 {
+    private string _SelectedDropDownButtonItem;
+    public string SelectedDropDownButtonItem
+    {
+        get => _SelectedDropDownButtonItem;
+        set => SetProp(ref _SelectedDropDownButtonItem, value);
+    }
+
     private PivotViewBuilder<SalesData> _ViewBuilder;
     public PivotViewBuilder<SalesData> ViewBuilder
     {
@@ -21,16 +29,44 @@ internal class MainWindowViewModel2 : INotifyPropertyChanged
     }
     private SalesDataService SalesDataService;
 
+
+    private ICommand _DummyDropDownButtonCommand;
+    public ICommand DummyDropDownButtonCommand
+    {
+        get => _DummyDropDownButtonCommand;
+        set => SetProp(ref _DummyDropDownButtonCommand, value);
+    }
+
+    private ICommand _DummyListBoxCommand;
+    public ICommand DummyListBoxCommand
+    {
+        get => _DummyListBoxCommand;
+        set => SetProp(ref _DummyListBoxCommand, value);
+    }
+
+
     public MainWindowViewModel2()
     {
+        DummyDropDownButtonCommand = new RelayCommand(() =>
+        {
+            string z = SelectedDropDownButtonItem;
+        });
+
+        DummyListBoxCommand = new RelayCommand<string>((x) =>
+        {
+            string z = x;
+        });
+
         SalesDataService = new SalesDataService();
         BuildMatrix();
     }
 
     private void BuildMatrix()
     {
+        SelectedDropDownButtonItem = "World";
         List<Dimension<SalesData>> dimensions = SalesDataService.LoadDimensions();
         List<Measure<SalesData>> measures = SalesDataService.LoadMeasures();
+        dimensions.First(x => x.DisplayValue == "City").IsEnabled = false;
         ViewBuilder = new PivotViewBuilder<SalesData>(dimensions, measures, LoadData, true);
     }
 

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Windows.Media;
 
-namespace LeaderAnalytics.LeaderPivot.XAML.WPF;
+namespace LeaderAnalytics.LeaderPivot.XAML.WPF.Converters;
 internal class BoolToStretchConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

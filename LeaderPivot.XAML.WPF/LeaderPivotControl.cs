@@ -120,8 +120,16 @@ public class LeaderPivotControl: ContentControl
         DependencyProperty.Register("command", typeof(ICommand), typeof(LeaderPivotControl), new PropertyMetadata(null));
 
 
+    public ICommand DimensionEventCommand
+    {
+        get { return (ICommand)GetValue(DimensionEventCommandProperty); }
+        set { SetValue(DimensionEventCommandProperty, value); }
+    }
 
-    
+    public static readonly DependencyProperty DimensionEventCommandProperty =
+        DependencyProperty.Register("DimensionEventCommand", typeof(ICommand), typeof(LeaderPivotControl), new PropertyMetadata(null));
+
+
 
 
     #endregion
@@ -135,6 +143,7 @@ public class LeaderPivotControl: ContentControl
     public LeaderPivotControl()
     {
         ReloadDataCommand = new RelayCommand(() => BuildGrid(null));
+        DimensionEventCommand = new RelayCommand<DimensionEventArgs>(DimensionEventCommandHandler);
         toggleNodeExpansionCommand = new RelayCommand<string>(x => BuildGrid(x));
     }
 
@@ -143,7 +152,6 @@ public class LeaderPivotControl: ContentControl
         base.OnApplyTemplate();
         grid = (Grid) Template.FindName("PART_Grid", this);
     }
-
     
     public void BuildGrid(string? nodeID)
     {
@@ -201,6 +209,25 @@ public class LeaderPivotControl: ContentControl
             }
         }
         IsLoading = false;
+    }
+
+    public void DimensionEventCommandHandler(DimensionEventArgs dimensionEvent)
+    { 
+        if(dimensionEvent == null)
+            throw new ArgumentNullException(nameof(dimensionEvent));
+
+        IList<Dimension> dimensions = dimensionEvent.IsRow ? ViewBuilder.RowDimensions : ViewBuilder.ColumnDimensions;
+        Dimension dimension = dimensions.First(x => x.DisplayValue == dimensionEvent.DimensionID);
+        
+        var x = dimensionEvent.Action switch
+        {
+            DimensionAction.SortAscending => dimension.IsAscending = true,
+            DimensionAction.SortDescending => dimension.IsAscending = false,
+            DimensionAction.Hide => dimension.IsEnabled = false,
+            DimensionAction.UnHide => dimension.IsEnabled = true,
+            _ => throw new Exception($"DimensionAction not recognised: {dimensionEvent.Action}"),
+        };
+        BuildGrid(null);
     }
 
     private int IncrementCol(int rowIndex, int colIndex, Cell cell)

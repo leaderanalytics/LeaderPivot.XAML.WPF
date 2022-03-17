@@ -4,16 +4,21 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LeaderPivot.XAML.WPF.Host"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:leaderpivot="clr-namespace:LeaderAnalytics.LeaderPivot.XAML.WPF;assembly=LeaderAnalytics.LeaderPivot.XAML.WPF"
         mc:Ignorable="d"
         Title="MainWindow" Height="900" Width="1500">
-
     <Grid >
         <Grid.RowDefinitions>
             <RowDefinition Height="150"/>
             <RowDefinition />
+            <RowDefinition />
         </Grid.RowDefinitions>
-        
+        <Grid.Resources>
+            <DataTemplate x:Key="zz">
+                <CheckBox IsChecked="True" IsEnabled="True" Content="{Binding}" Command="{Binding RelativeSource={RelativeSource AncestorType=Window},Path=DataContext.DummyListBoxCommand}" CommandParameter="{Binding}"></CheckBox>
+            </DataTemplate>
+        </Grid.Resources>
         <!--<ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
             <ContentPresenter Content="{Binding Grid}" ></ContentPresenter>
         </ScrollViewer>-->
@@ -32,5 +37,24 @@
             FontSize="{Binding ElementName=cp, Path=PivotControlFontSize}"
             CellPadding="{Binding ElementName=cp, Path=CellPadding}"
             ViewBuilder="{Binding ViewBuilder}" />
+        
+        <Border Grid.Row="2" BorderThickness="1" Background="Cornsilk" Padding="30">
+            <StackPanel Orientation="Vertical">
+                <Label Content="{Binding SelectedDropDownButtonItem}"></Label>
+                <leaderpivot:DropDownButton 
+                    ItemTemplate="{StaticResource zz}"
+                    SelectedItem="{Binding SelectedDropDownButtonItem}" 
+                    SelectionChangedCommand="{Binding DummyDropDownButtonCommand}" Content="This is a DropDownButton">
+                    <leaderpivot:DropDownButton.ItemsSource>
+                        <x:Array Type="{x:Type sys:String}">
+                            <sys:String>Hello</sys:String>
+                            <sys:String>World</sys:String>
+                        </x:Array>
+                    </leaderpivot:DropDownButton.ItemsSource>
+                    
+                </leaderpivot:DropDownButton>
+            </StackPanel>
+        </Border>
+        
     </Grid>
 </Window>

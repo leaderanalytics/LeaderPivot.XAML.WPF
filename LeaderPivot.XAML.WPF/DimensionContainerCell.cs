@@ -1,11 +1,11 @@
-﻿using LeaderAnalytics.LeaderPivot;
+﻿using System.Collections.ObjectModel;
 using System.Windows;
+using System.Windows.Input;
 
 namespace LeaderAnalytics.LeaderPivot.XAML.WPF;
 
 internal class DimensionContainerCell : Cell
 {
-
     public IList<Dimension> Dimensions
     {
         get { return (IList<Dimension>)GetValue(DimensionsProperty); }
@@ -14,7 +14,6 @@ internal class DimensionContainerCell : Cell
 
     public static readonly DependencyProperty DimensionsProperty =
         DependencyProperty.Register("Dimensions", typeof(IList<Dimension>), typeof(DimensionContainerCell), new PropertyMetadata(null));
-
 
     public bool IsRows
     {
@@ -25,7 +24,11 @@ internal class DimensionContainerCell : Cell
     public static readonly DependencyProperty IsRowsProperty =
         DependencyProperty.Register("IsRows", typeof(bool), typeof(DimensionContainerCell), new PropertyMetadata(false));
 
-
     public int MaxDimensions { get; set; }
+
+    public DimensionContainerCell()
+    {
+    }
+
     static DimensionContainerCell() => DefaultStyleKeyProperty.OverrideMetadata(typeof(DimensionContainerCell), new FrameworkPropertyMetadata(typeof(DimensionContainerCell)));
 }

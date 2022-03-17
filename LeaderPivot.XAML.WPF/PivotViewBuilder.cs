@@ -25,8 +25,9 @@ public class PivotViewBuilder<T> : PivotViewBuilder
         Dimensions = dimensions;
         MeasuresT = measures;
         LoadData = loadData;
-        RowDimensions = dimensions.Where(x => x.IsRow).OrderBy(x => x.Sequence).ToList<Dimension>();
-        ColumnDimensions = dimensions.Where(x => !x.IsRow).OrderBy(x => x.Sequence).ToList<Dimension>();
+        RowDimensions = dimensions.Where(x => x.IsEnabled && x.IsRow).OrderBy(x => x.Sequence).ToList<Dimension>();
+        ColumnDimensions = dimensions.Where(x => x.IsEnabled && !x.IsRow).OrderBy(x => x.Sequence).ToList<Dimension>();
+        HiddenDimensions = dimensions.Where(x => !x.IsEnabled).OrderBy(x => x.Sequence).ToList<Dimension>();
         Measures = MeasuresT.OrderBy(x => x.Sequence).ToList<Measure>();
         NodeBuilder<T> nodeBuilder = new NodeBuilder<T>();
         Validator<T> validator = new Validator<T>();
@@ -60,6 +61,24 @@ public abstract class PivotViewBuilder : INotifyPropertyChanged
         protected set => SetProp(ref _ColumnDimensions, value);
     }
 
+    private IList<Dimension> _HiddenDimensions;
+    public IList<Dimension> HiddenDimensions
+    {
+        get => _HiddenDimensions;
+        protected set 
+        {
+            SetProp(ref _HiddenDimensions, value);
+            RaisePropertyChanged(nameof(HiddenDimensionsVisibility));
+        }
+    }
+
+    private Dimension _SelectedHiddenDimension;
+    public Dimension SelectedHiddenDimension
+    {
+        get => _SelectedHiddenDimension;
+        set => SetProp(ref _SelectedHiddenDimension, value);
+    }
+
     private IList<Measure> _Measures;
     public IList<Measure> Measures
     {
@@ -73,6 +92,8 @@ public abstract class PivotViewBuilder : INotifyPropertyChanged
         get => _Matrix;
         protected set => SetProp(ref _Matrix, value);
     }
+
+    public Visibility HiddenDimensionsVisibility => (HiddenDimensions?.Any() ?? false) ? Visibility.Visible : Visibility.Collapsed;
 
     public abstract void BuildMatrix(string? nodeID);
 

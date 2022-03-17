@@ -1,18 +1,33 @@
 ﻿using LeaderAnalytics.LeaderPivot;
 using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace LeaderAnalytics.LeaderPivot.XAML.WPF;
 
-internal abstract class Cell : ContentControl
+internal abstract class Cell : ContentControl, INotifyPropertyChanged
 {
     public string? DataLabel { get; set; }
     public int RowSpan { get; set; } = 1;
     public int ColSpan { get; set; } = 1;
 
     static Cell() => DefaultStyleKeyProperty.OverrideMetadata(typeof(Cell), new FrameworkPropertyMetadata(typeof(Cell)));
+
+    #region INotifyPropertyChanged implementation
+    public event PropertyChangedEventHandler? PropertyChanged;
+    public void RaisePropertyChanged([CallerMemberNameAttribute] string propertyName = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
+    public void SetProp<T>(ref T prop, T value, [CallerMemberNameAttribute] string propertyName = "")
+    {
+        if (!Object.Equals(prop, value))
+        {
+            prop = value;
+            RaisePropertyChanged(propertyName);
+        }
+    }
+    #endregion
 }
 
 internal abstract class BaseTotalCell : Cell 
