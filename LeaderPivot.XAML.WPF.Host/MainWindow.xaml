@@ -12,7 +12,6 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="150"/>
             <RowDefinition />
-            <RowDefinition />
         </Grid.RowDefinitions>
         <Grid.Resources>
             <DataTemplate x:Key="zz">
@@ -37,24 +36,5 @@
             FontSize="{Binding ElementName=cp, Path=PivotControlFontSize}"
             CellPadding="{Binding ElementName=cp, Path=CellPadding}"
             ViewBuilder="{Binding ViewBuilder}" />
-        
-        <Border Grid.Row="2" BorderThickness="1" Background="Cornsilk" Padding="30">
-            <StackPanel Orientation="Vertical">
-                <Label Content="{Binding SelectedDropDownButtonItem}"></Label>
-                <leaderpivot:DropDownButton 
-                    ItemTemplate="{StaticResource zz}"
-                    SelectedItem="{Binding SelectedDropDownButtonItem}" 
-                    SelectionChangedCommand="{Binding DummyDropDownButtonCommand}" Content="This is a DropDownButton">
-                    <leaderpivot:DropDownButton.ItemsSource>
-                        <x:Array Type="{x:Type sys:String}">
-                            <sys:String>Hello</sys:String>
-                            <sys:String>World</sys:String>
-                        </x:Array>
-                    </leaderpivot:DropDownButton.ItemsSource>
-                    
-                </leaderpivot:DropDownButton>
-            </StackPanel>
-        </Border>
-        
     </Grid>
 </Window>

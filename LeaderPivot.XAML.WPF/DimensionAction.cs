@@ -4,6 +4,8 @@ namespace LeaderAnalytics.LeaderPivot.XAML.WPF;
 
 public enum DimensionAction
 {
+    [Description("Do nothing")]
+    NoOp,
     [Description("Sort Ascending")]
     SortAscending,
     [Description("Sort Descending")]

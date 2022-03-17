@@ -1,4 +1,3 @@
-<!--https://github.com/dotnet/wpf/issues/6261-->
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -28,7 +27,7 @@
                 </CheckBox.IsChecked>
                 <CheckBox.CommandParameter>
                     <MultiBinding Converter="{StaticResource DimensionEventArgsConverter}">
-                        <Binding RelativeSource="{RelativeSource AncestorType=local:DimensionButton}" Path="." />
+                        <Binding RelativeSource="{RelativeSource AncestorType=local:DimensionButton}" Path="Dimension" />
                         <Binding Path="." />
                     </MultiBinding>
                 </CheckBox.CommandParameter>
@@ -291,13 +290,30 @@
                                     Dimensions="{Binding ViewBuilder.RowDimensions}" 
                                     Grid.Row="3"/>
 
-                                <ComboBox Grid.Row="4" Margin="0,6,0,0" 
+                                <ComboBox Grid.Row="4" Margin="0,6,0,0" x:Name="HiddenDimensionsComboBox"
                                           Text="Hidden Dimensions" 
                                           IsReadOnly="True" IsEditable="True"
                                           DisplayMemberPath="DisplayValue"
                                           Visibility="{Binding ViewBuilder.HiddenDimensionsVisibility}"
                                           ItemsSource="{Binding ViewBuilder.HiddenDimensions}"
-                                          SelectedItem="{Binding ViewBuilder.SelectedHiddenDimension}"  />
+                                          SelectedItem="{x:Null}">
+                                    <Behaviors:Interaction.Triggers>
+                                        <Behaviors:EventTrigger EventName="SelectionChanged">
+                                            <Behaviors:InvokeCommandAction Command="{Binding DimensionEventCommand}">
+                                                <Behaviors:InvokeCommandAction.CommandParameter>
+                                                    <MultiBinding Converter="{StaticResource DimensionEventArgsConverter}">
+                                                        <Binding ElementName="HiddenDimensionsComboBox" Path="SelectedItem" />
+                                                        <Binding >
+                                                            <Binding.Source>
+                                                                <x:Static Member="local:DimensionAction.UnHide"/>
+                                                            </Binding.Source>
+                                                        </Binding>
+                                                    </MultiBinding>
+                                                </Behaviors:InvokeCommandAction.CommandParameter>
+                                            </Behaviors:InvokeCommandAction>
+                                        </Behaviors:EventTrigger>
+                                    </Behaviors:Interaction.Triggers>
+                                </ComboBox>
                             </Grid>
                         </ScrollViewer>
                     </Border>

@@ -14,27 +14,36 @@ namespace LeaderAnalytics.LeaderPivot.XAML.WPF;
 
 public class PivotViewBuilder<T> : PivotViewBuilder
 {
-    private IEnumerable<Dimension<T>> Dimensions;
+    private IEnumerable<Dimension<T>> DimensionsT;
     private IEnumerable<Measure<T>> MeasuresT;
     private Func<IEnumerable<T>> LoadData;
     private MatrixBuilder<T> MatrixBuilder;
 
     public PivotViewBuilder(IEnumerable<Dimension<T>> dimensions, IEnumerable<Measure<T>> measures, Func<IEnumerable<T>> loadData, bool displayGrandTotals = true)
     {
-        DisplayGrandTotals = displayGrandTotals;
-        Dimensions = dimensions;
+        DimensionsT = dimensions;
         MeasuresT = measures;
-        LoadData = loadData;
-        RowDimensions = dimensions.Where(x => x.IsEnabled && x.IsRow).OrderBy(x => x.Sequence).ToList<Dimension>();
-        ColumnDimensions = dimensions.Where(x => x.IsEnabled && !x.IsRow).OrderBy(x => x.Sequence).ToList<Dimension>();
-        HiddenDimensions = dimensions.Where(x => !x.IsEnabled).OrderBy(x => x.Sequence).ToList<Dimension>();
+        Dimensions = DimensionsT.ToList<Dimension>();
         Measures = MeasuresT.OrderBy(x => x.Sequence).ToList<Measure>();
+        DisplayGrandTotals = displayGrandTotals;
+        LoadData = loadData;
         NodeBuilder<T> nodeBuilder = new NodeBuilder<T>();
         Validator<T> validator = new Validator<T>();
         MatrixBuilder = new MatrixBuilder<T>(nodeBuilder, validator);
     }
 
-    public override void BuildMatrix(string? nodeID = null) => Matrix = string.IsNullOrEmpty(nodeID) ? MatrixBuilder.BuildMatrix(LoadData(), Dimensions, MeasuresT, DisplayGrandTotals) : MatrixBuilder.ToggleNodeExpansion(nodeID);
+    public override void BuildMatrix(string? nodeID = null)
+    {
+        if (string.IsNullOrEmpty(nodeID))
+        {
+            RowDimensions = Dimensions.Where(x => x.IsEnabled && x.IsRow).OrderBy(x => x.Sequence).ToList();
+            ColumnDimensions = Dimensions.Where(x => x.IsEnabled && !x.IsRow).OrderBy(x => x.Sequence).ToList();
+            HiddenDimensions = Dimensions.Where(x => !x.IsEnabled).OrderBy(x => x.Sequence).ToList();
+            Matrix = MatrixBuilder.BuildMatrix(LoadData(), DimensionsT, MeasuresT, DisplayGrandTotals);
+        }
+        else
+            Matrix = MatrixBuilder.ToggleNodeExpansion(nodeID);
+    }
 }
 
 
@@ -45,6 +54,13 @@ public abstract class PivotViewBuilder : INotifyPropertyChanged
     {
         get => _DisplayGrandTotals;
         set => SetProp(ref _DisplayGrandTotals, value);
+    }
+
+    private IList<Dimension> _Dimensions;
+    public IList<Dimension> Dimensions
+    {
+        get => _Dimensions;
+        protected set => SetProp(ref _Dimensions, value);
     }
 
     private IList<Dimension> _RowDimensions;
@@ -72,12 +88,7 @@ public abstract class PivotViewBuilder : INotifyPropertyChanged
         }
     }
 
-    private Dimension _SelectedHiddenDimension;
-    public Dimension SelectedHiddenDimension
-    {
-        get => _SelectedHiddenDimension;
-        set => SetProp(ref _SelectedHiddenDimension, value);
-    }
+    
 
     private IList<Measure> _Measures;
     public IList<Measure> Measures

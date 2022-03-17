@@ -215,9 +215,10 @@ public class LeaderPivotControl: ContentControl
     { 
         if(dimensionEvent == null)
             throw new ArgumentNullException(nameof(dimensionEvent));
+        if (dimensionEvent.Action == DimensionAction.NoOp)
+            return;
 
-        IList<Dimension> dimensions = dimensionEvent.IsRow ? ViewBuilder.RowDimensions : ViewBuilder.ColumnDimensions;
-        Dimension dimension = dimensions.First(x => x.DisplayValue == dimensionEvent.DimensionID);
+        Dimension dimension = ViewBuilder.Dimensions.First(x => x.DisplayValue == dimensionEvent.DimensionID);
         
         var x = dimensionEvent.Action switch
         {
@@ -241,4 +242,5 @@ public class LeaderPivotControl: ContentControl
 
         return colIndex;
     }
+    
 }
