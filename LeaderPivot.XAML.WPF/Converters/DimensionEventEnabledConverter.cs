@@ -7,14 +7,19 @@ using System.Windows.Data;
 using System.Windows;
 
 namespace LeaderAnalytics.LeaderPivot.XAML.WPF.Converters;
-public class DimensionEventCheckedConverter : IMultiValueConverter
+public class DimensionEventEnabledConverter : IMultiValueConverter
 {
     public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
-        Dimension dimension = values[0] as Dimension ?? throw new Exception("Could not bind to Dimension");
-        DimensionAction action = (DimensionAction)values[1];
-        
-        return action == DimensionAction.Hide? false : action == DimensionAction.SortAscending ? dimension.IsAscending : ! dimension.IsAscending;
+        DimensionAction action = (DimensionAction)values[0];
+
+        if (action != DimensionAction.Hide)
+            return true;
+
+        // Do not allow user to hide a Dimension if that dimension is the only one for the axis:
+
+        DimensionContainerCell cell = values[1] as DimensionContainerCell ?? throw new Exception("Could not bind to DimensionContainerCell");
+        return cell.Dimensions.Count > 1;
     }
 
     public object[] ConvertBack(object value, Type[] targetTypes, object parameter, System.Globalization.CultureInfo culture)

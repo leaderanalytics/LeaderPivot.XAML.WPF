@@ -12,16 +12,23 @@
     <converters:NegateConverter x:Key="NegateConverter"/>
     <converters:DimensionEventArgsConverter x:Key="DimensionEventArgsConverter"/>
     <converters:DimensionEventCheckedConverter x:Key="DimensionEventCheckedConverter"/>
+    <converters:DimensionEventEnabledConverter x:Key="DimensionEventEnabledConverter"/>
     <converters:DimensionActionDescriptionConverter x:Key="DimensionActionDescriptionConverter"/>
     
     <DataTemplate x:Key="DimensionButtonItemTemplate">
         <Border Padding="0,4,0,4" HorizontalAlignment="Left" VerticalAlignment="Center">
-            <CheckBox HorizontalAlignment="Left" VerticalAlignment="Center"
+            <CheckBox HorizontalAlignment="Left" VerticalAlignment="Center" 
                 Content="{Binding Converter={StaticResource DimensionActionDescriptionConverter}}" 
                 Command="{Binding RelativeSource={RelativeSource AncestorType=local:LeaderPivotControl}, Path=DimensionEventCommand}">
+                <CheckBox.IsEnabled>
+                    <MultiBinding Converter="{StaticResource DimensionEventEnabledConverter}">
+                        <Binding Path="." />
+                        <Binding RelativeSource="{RelativeSource AncestorType=local:DimensionContainerCell}" Path="." />
+                    </MultiBinding>
+                </CheckBox.IsEnabled>
                 <CheckBox.IsChecked>
                     <MultiBinding Converter="{StaticResource DimensionEventCheckedConverter}">
-                        <Binding RelativeSource="{RelativeSource AncestorType=local:DimensionButton}" Path="." />
+                        <Binding RelativeSource="{RelativeSource AncestorType=local:DimensionButton}" Path="Dimension" />
                         <Binding Path="." />
                     </MultiBinding>
                 </CheckBox.IsChecked>
@@ -333,7 +340,6 @@
                             DataContext="{Binding RelativeSource={RelativeSource AncestorType=local:DimensionButton}}">
                         <local:DropDownButton
                             Content="{Binding Content}" 
-                            SelectedItem="{Binding SelectedItem}"
                             ItemTemplate="{StaticResource DimensionButtonItemTemplate}"
                             Style="{StaticResource ResourceKey=DropDownButtonStyle}">
                             <local:DropDownButton.ItemsSource>
