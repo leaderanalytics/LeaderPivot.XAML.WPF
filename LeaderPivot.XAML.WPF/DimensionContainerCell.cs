@@ -30,6 +30,7 @@ internal class DimensionContainerCell : Cell
 
     public DimensionContainerCell()
     {
+        
     }
 
     static DimensionContainerCell() => DefaultStyleKeyProperty.OverrideMetadata(typeof(DimensionContainerCell), new FrameworkPropertyMetadata(typeof(DimensionContainerCell)));

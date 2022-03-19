@@ -228,6 +228,7 @@
     </Style>
     
     <Style TargetType="{x:Type local:DimensionContainerCell }"  BasedOn="{StaticResource cellStyle}">
+        <Setter Property="Padding" Value="6"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:DimensionContainerCell}" >
@@ -240,7 +241,8 @@
                         <ScrollViewer Visibility="{Binding DisplayDimensionButtons, Converter={StaticResource BooleanToVisibilityConverter}}" HorizontalAlignment="Left">
                             <ItemsControl Name="DimensionItems" 
                                           ItemsSource="{TemplateBinding Dimensions}"  
-                                          dd:DragDrop.IsDragSource="True" dd:DragDrop.IsDropTarget="True" dd:DragDrop.DropHandler="{Binding}">
+                                          dd:DragDrop.IsDragSource="True" dd:DragDrop.IsDropTarget="True" dd:DragDrop.DropHandler="{Binding}" 
+                                          dd:DragDrop.UseDefaultDragAdorner="True"  >
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
                                         <local:DimensionButton Content="{Binding DisplayValue}" Dimension="{Binding}">
@@ -331,7 +333,6 @@
             </Setter.Value>
         </Setter>
     </Style>
-
     
     <Style TargetType="{x:Type local:DimensionButton}">
         <Setter Property="Template">

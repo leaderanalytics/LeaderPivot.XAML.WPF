@@ -194,7 +194,7 @@ public class LeaderPivotControl: ContentControl, IDropTarget
                     CellType.GrandTotalHeader => new GrandTotalHeaderCell(),
                     CellType.MeasureTotalLabel => new MeasureTotalLabelCell(),
                     CellType.MeasureLabel when i == 0 && j == 0 => new MeasureContainerCell() ,
-                    CellType.MeasureLabel when i == 0 && j == 1 => new DimensionContainerCell {  Dimensions = ViewBuilder.ColumnDimensions, IsRows = false, Padding = new Thickness(6,0,0,0)},
+                    CellType.MeasureLabel when i == 0 && j == 1 => new DimensionContainerCell { Dimensions = ViewBuilder.ColumnDimensions, IsRows = false },
                     CellType.MeasureLabel => new MeasureLabelCell(),
                     _ => throw new NotImplementedException()
                 };
@@ -252,7 +252,7 @@ public class LeaderPivotControl: ContentControl, IDropTarget
 
         if (sourceItem != null && targetItem != null)
         {
-            dropInfo.DropTargetAdorner = DropTargetAdorners.Highlight;
+            dropInfo.DropTargetAdorner = DropTargetAdorners.Insert;
             dropInfo.Effects = DragDropEffects.Move;
         }
     }
