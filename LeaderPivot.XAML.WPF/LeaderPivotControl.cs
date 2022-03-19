@@ -21,10 +21,12 @@ using System.Windows.Media.Imaging;
 using System.Windows.Media.Media3D;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using GongSolutions.Wpf.DragDrop;
+using GongSolutions.Wpf.DragDrop.Utilities;
 using LeaderAnalytics.LeaderPivot;
 namespace LeaderAnalytics.LeaderPivot.XAML.WPF;
 
-public class LeaderPivotControl: ContentControl
+public class LeaderPivotControl: ContentControl, IDropTarget
 {
     #region Properties
     public PivotViewBuilder ViewBuilder
@@ -242,5 +244,38 @@ public class LeaderPivotControl: ContentControl
 
         return colIndex;
     }
-    
+
+    void IDropTarget.DragOver(IDropInfo dropInfo)
+    {
+        Dimension sourceItem = dropInfo.Data as Dimension;
+        Dimension targetItem = dropInfo.TargetItem as Dimension;
+
+        if (sourceItem != null && targetItem != null)
+        {
+            dropInfo.DropTargetAdorner = DropTargetAdorners.Highlight;
+            dropInfo.Effects = DragDropEffects.Move;
+        }
+    }
+
+    void IDropTarget.Drop(IDropInfo dropInfo)
+    {
+        var insertIndex = dropInfo.UnfilteredInsertIndex;
+        var sourceList = dropInfo.DragInfo?.SourceCollection?.TryGetList();
+        var targetList = dropInfo.TargetCollection.TryGetList();
+        Dimension sourceItem = (Dimension)dropInfo.Data;
+        Dimension targetItem = (Dimension)dropInfo.TargetItem;
+
+        if (sourceList != targetList)
+            sourceItem.IsRow = !sourceItem.IsRow;
+        
+        sourceItem.Sequence = insertIndex;
+        IList<Dimension> dimensions = sourceItem.IsRow ? ViewBuilder.RowDimensions : ViewBuilder.ColumnDimensions;
+        
+        foreach (Dimension d in dimensions.Where(x => x != sourceItem && x.Sequence >= sourceItem.Sequence))
+            d.Sequence++;
+
+        BuildGrid(null);
+        
+    }
+
 }

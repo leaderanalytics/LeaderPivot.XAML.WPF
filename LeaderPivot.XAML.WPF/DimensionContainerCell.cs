@@ -1,6 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
+// https://jm2k69.github.io/2018/11/WPF-Solution-Drag-and-Drop-GongSolutions.html
+// https://github.com/punker76/gong-wpf-dragdrop
 
 namespace LeaderAnalytics.LeaderPivot.XAML.WPF;
 
@@ -31,4 +33,6 @@ internal class DimensionContainerCell : Cell
     }
 
     static DimensionContainerCell() => DefaultStyleKeyProperty.OverrideMetadata(typeof(DimensionContainerCell), new FrameworkPropertyMetadata(typeof(DimensionContainerCell)));
+
+    
 }

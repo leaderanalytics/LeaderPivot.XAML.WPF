@@ -64,6 +64,17 @@ public class DropDownButton : ContentControl, INotifyPropertyChanged
     public static readonly DependencyProperty ItemTemplateProperty =
         DependencyProperty.Register("ItemTemplate", typeof(DataTemplate), typeof(DropDownButton), new PropertyMetadata(null));
 
+
+    public Style ButtonStyle  
+    {
+        get { return (Style)GetValue(ButtonStyleProperty); }
+        set { SetValue(ButtonStyleProperty, value); }
+    }
+
+    public static readonly DependencyProperty ButtonStyleProperty =
+        DependencyProperty.Register("ButtonStyle", typeof(Style), typeof(DropDownButton), new PropertyMetadata(null));
+
+
     #endregion
 
     private bool _IsDropDownOpen;
