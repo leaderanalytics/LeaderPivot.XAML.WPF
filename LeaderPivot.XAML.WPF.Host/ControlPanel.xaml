@@ -37,6 +37,7 @@
             <CheckBox IsChecked="{Binding DisplayDimensionButtons}" Content="Dimension Buttons"/>
             <CheckBox IsChecked="{Binding DisplayMeasureSelectors}" Content="Measure Selectors"/>
             <CheckBox IsChecked="{Binding DisplayReloadDataButton}" Content="Reload Data Button"/>
+            <CheckBox IsChecked="{Binding UseDarkTheme}" Content="Dark Theme"/>
         </StackPanel>
         <StackPanel Grid.Column="1" Grid.Row="2" Visibility="{Binding PanelVisibility}" >
             <CheckBox IsChecked="{Binding UseResponsiveSizing}" Content="Responsive Sizing"/>

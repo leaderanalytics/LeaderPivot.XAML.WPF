@@ -6,8 +6,12 @@
         xmlns:local="clr-namespace:LeaderPivot.XAML.WPF.Host"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:leaderpivot="clr-namespace:LeaderAnalytics.LeaderPivot.XAML.WPF;assembly=LeaderAnalytics.LeaderPivot.XAML.WPF"
+        
         mc:Ignorable="d"
-        Title="MainWindow" Height="900" Width="1500">
+        Title="LeaderPivot" Height="900" Width="1500"
+        
+        
+        >
     <Grid >
         <Grid.RowDefinitions>
             <RowDefinition Height="150"/>

@@ -1,4 +1,5 @@
 ﻿using LeaderAnalytics.LeaderPivot.XAML.WPF;
+using MaterialDesignThemes.Wpf;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -79,6 +80,16 @@ public partial class ControlPanel : UserControl, INotifyPropertyChanged
         DependencyProperty.Register("UseResponsiveSizing", typeof(bool), typeof(ControlPanel), new PropertyMetadata(false));
 
 
+    public bool UseDarkTheme
+    {
+        get { return (bool)GetValue(UseDarkThemeProperty); }
+        set { SetValue(UseDarkThemeProperty, value); }
+    }
+
+    public static readonly DependencyProperty UseDarkThemeProperty =
+        DependencyProperty.Register("UseDarkTheme", typeof(bool), typeof(ControlPanel), new PropertyMetadata(false, UseDarkThemeChanged));
+
+
     public int CellPadding
     {
         get { return (int)GetValue(CellPaddingProperty); }
@@ -123,6 +134,16 @@ public partial class ControlPanel : UserControl, INotifyPropertyChanged
         InitializeComponent();
         PanelVisibility = Visibility.Collapsed;
         TogglePanelVisibilityCommand = new RelayCommand(() => PanelVisibility = PanelVisibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible);
+    }
+
+    public static void UseDarkThemeChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+    {
+        ControlPanel panel = sender as ControlPanel;
+        var paletteHelper = new PaletteHelper();
+        var theme = paletteHelper.GetTheme();
+
+        theme.SetBaseTheme(panel.UseDarkTheme ? Theme.Dark : Theme.Light);
+        paletteHelper.SetTheme(theme);
     }
 
     #region INotifyPropertyChanged implementation

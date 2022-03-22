@@ -43,7 +43,9 @@
   <ItemGroup>
     <PackageReference Include="gong-wpf-dragdrop" Version="3.1.1" />
     <PackageReference Include="LeaderAnalytics.LeaderPivot" Version="1.0.16-beta.2" />
+    <PackageReference Include="MaterialDesignThemes" Version="4.4.0-ci94" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
+    <PackageReference Include="ShowMeTheXAML.MSBuild" Version="2.0.0" />
     <PackageReference Include="System.ObjectModel" Version="4.3.0" />
   </ItemGroup>
 </Project>
