@@ -49,7 +49,7 @@
         </Border>
     </DataTemplate>
     
-    <Style TargetType="ScrollViewer">
+    <Style TargetType="{x:Type ScrollViewer}">
         <Setter Property="HorizontalScrollBarVisibility" Value="Auto"/>
         <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
     </Style>
@@ -243,8 +243,12 @@
                             BorderThickness="{TemplateBinding BorderThickness}"
                             Padding="{TemplateBinding Padding}"
                             DataContext="{Binding RelativeSource={RelativeSource AncestorType=local:LeaderPivotControl}}">
-                        
-                        <ScrollViewer Visibility="{Binding DisplayDimensionButtons, Converter={StaticResource BooleanToVisibilityConverter}}" HorizontalAlignment="Left">
+
+                        <ScrollViewer 
+                            Visibility="{Binding DisplayDimensionButtons, Converter={StaticResource BooleanToVisibilityConverter}}"  
+                            VerticalScrollBarVisibility="Auto"
+                            HorizontalScrollBarVisibility="Auto"
+                            HorizontalAlignment="Left">
                             <ItemsControl Name="DimensionItems" 
                                           ItemsSource="{TemplateBinding Dimensions}"  
                                           dd:DragDrop.IsDragSource="True" dd:DragDrop.IsDropTarget="True" dd:DragDrop.DropHandler="{Binding}" 
@@ -277,7 +281,7 @@
                             BorderThickness="{TemplateBinding BorderThickness}"
                             Padding="6"
                             DataContext="{Binding RelativeSource={RelativeSource AncestorType=local:LeaderPivotControl}}">
-                        <ScrollViewer x:Name="ContentScrollViewer">
+                        <ScrollViewer x:Name="ContentScrollViewer" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
                             <Grid x:Name="PART_Grid">
                                 <Grid.RowDefinitions>
                                     <RowDefinition/>

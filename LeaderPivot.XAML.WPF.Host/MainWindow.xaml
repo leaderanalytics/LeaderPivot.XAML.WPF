@@ -6,12 +6,16 @@
         xmlns:local="clr-namespace:LeaderPivot.XAML.WPF.Host"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:leaderpivot="clr-namespace:LeaderAnalytics.LeaderPivot.XAML.WPF;assembly=LeaderAnalytics.LeaderPivot.XAML.WPF"
-        
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="LeaderPivot" Height="900" Width="1500"
-        
-        
-        >
+        Title="LeaderPivot Demo" Height="900" Width="1500"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal" 
+        TextOptions.TextRenderingMode="Auto"        
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}">
     <Grid >
         <Grid.RowDefinitions>
             <RowDefinition Height="150"/>
@@ -30,15 +34,16 @@
         <Button FontFamily="Segoe MDL2 Assets" Content="&#xE937;"></Button>
         </StackPanel>-->
         <local:ControlPanel x:Name="cp"/>
-        <leaderpivot:LeaderPivotControl 
-            Grid.Row="1" 
-            DisplayGrandTotalOption="{Binding ElementName=cp, Path=DisplayGrandTotalOption}"
-            DisplayDimensionButtons="{Binding ElementName=cp, Path=DisplayDimensionButtons}"
-            DisplayMeasureSelectors="{Binding ElementName=cp, Path=DisplayMeasureSelectors}"
-            DisplayReloadDataButton="{Binding ElementName=cp, Path=DisplayReloadDataButton}"
-            UseResponsiveSizing="{Binding ElementName=cp, Path=UseResponsiveSizing}"
-            FontSize="{Binding ElementName=cp, Path=PivotControlFontSize}"
-            CellPadding="{Binding ElementName=cp, Path=CellPadding}"
-            ViewBuilder="{Binding ViewBuilder}" />
+        <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+            <leaderpivot:LeaderPivotControl 
+                DisplayGrandTotalOption="{Binding ElementName=cp, Path=DisplayGrandTotalOption}"
+                DisplayDimensionButtons="{Binding ElementName=cp, Path=DisplayDimensionButtons}"
+                DisplayMeasureSelectors="{Binding ElementName=cp, Path=DisplayMeasureSelectors}"
+                DisplayReloadDataButton="{Binding ElementName=cp, Path=DisplayReloadDataButton}"
+                UseResponsiveSizing="{Binding ElementName=cp, Path=UseResponsiveSizing}"
+                FontSize="{Binding ElementName=cp, Path=PivotControlFontSize}"
+                CellPadding="{Binding ElementName=cp, Path=CellPadding}"
+                ViewBuilder="{Binding ViewBuilder}" />
+        </ScrollViewer>
     </Grid>
 </Window>
