@@ -4,6 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:LeaderPivot.XAML.WPF.Host"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:Behaviors="http://schemas.microsoft.com/xaml/behaviors"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
@@ -21,7 +23,7 @@
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <Grid.Resources>
-            <Style TargetType="CheckBox">
+            <Style TargetType="CheckBox" BasedOn="{StaticResource MaterialDesignUserForegroundCheckBox}">
                 <Setter Property="Margin" Value="0,0,20,0"/>
                 <Setter Property="VerticalAlignment" Value="Center"/>
             </Style>
@@ -30,6 +32,7 @@
                 <Setter Property="HorizontalAlignment" Value="Center"/>
                 <Setter Property="Orientation" Value="Horizontal"/>
             </Style>
+            
         </Grid.Resources>
         <Label Content="Sales Data" Grid.RowSpan="2" FontSize="30" Margin="20"></Label>
         <StackPanel Grid.Column="1" Visibility="{Binding PanelVisibility}" >
@@ -38,9 +41,23 @@
             <CheckBox IsChecked="{Binding DisplayMeasureSelectors}" Content="Measure Selectors"/>
             <CheckBox IsChecked="{Binding DisplayReloadDataButton}" Content="Reload Data Button"/>
             <CheckBox IsChecked="{Binding UseDarkTheme}" Content="Dark Theme"/>
+            
+            <materialDesign:PopupBox 
+                Width="300" IsPopupOpen="{Binding IsColorPickerPopupOpen}" 
+                PlacementMode="BottomAndAlignRightEdges" Padding="8" StaysOpen="True"  >
+                <materialDesign:PopupBox.ToggleContent>
+                    <Button x:Name="ColorPickerButton" Content="Colors..." Command="{Binding ShowColorPickerPopupCommand}"/>
+                </materialDesign:PopupBox.ToggleContent>
+                <StackPanel Orientation="Vertical">
+                    <Label Content="Primary Color:"/>
+                    <materialDesign:ColorPicker Height="80"  Width="300"  Color="{Binding PrimaryColor, Delay=25}"  />
+                    <Label Content="Secondary Color:"/>
+                    <materialDesign:ColorPicker Height="80"  Width="300"  Color="{Binding SecondaryColor, Delay=25}"/>
+                    <Button Content="Close" Command="{Binding HideColorPickerPopupCommand}" HorizontalAlignment="Right" Margin="0,8,0,0"/>
+                </StackPanel>
+            </materialDesign:PopupBox>
         </StackPanel>
         <StackPanel Grid.Column="1" Grid.Row="2" Visibility="{Binding PanelVisibility}" >
-            <CheckBox IsChecked="{Binding UseResponsiveSizing}" Content="Responsive Sizing"/>
             <StackPanel Orientation="Horizontal" Margin="0">
                 <Label Content="{Binding FontSizeString}" VerticalAlignment="Center"/>
                 <Slider Value="{Binding PivotControlFontSize}" Minimum="6" Maximum="20" Width="200" VerticalAlignment="Center"/>

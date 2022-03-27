@@ -21,29 +21,18 @@
             <RowDefinition Height="150"/>
             <RowDefinition />
         </Grid.RowDefinitions>
-        <Grid.Resources>
-            <DataTemplate x:Key="zz">
-                <CheckBox IsChecked="True" IsEnabled="True" Content="{Binding}" Command="{Binding RelativeSource={RelativeSource AncestorType=Window},Path=DataContext.DummyListBoxCommand}" CommandParameter="{Binding}"></CheckBox>
-            </DataTemplate>
-        </Grid.Resources>
-        <!--<ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-            <ContentPresenter Content="{Binding Grid}" ></ContentPresenter>
-        </ScrollViewer>-->
-        <!--<StackPanel>
-        <Button FontFamily="Segoe MDL2 Assets" Content="&#xE936;" Height="21" Width="21" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></Button>
-        <Button FontFamily="Segoe MDL2 Assets" Content="&#xE937;"></Button>
-        </StackPanel>-->
+        
         <local:ControlPanel x:Name="cp"/>
-        <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-            <leaderpivot:LeaderPivotControl 
+
+        <leaderpivot:LeaderPivotControl 
+                Grid.Row="1"
                 DisplayGrandTotalOption="{Binding ElementName=cp, Path=DisplayGrandTotalOption}"
                 DisplayDimensionButtons="{Binding ElementName=cp, Path=DisplayDimensionButtons}"
                 DisplayMeasureSelectors="{Binding ElementName=cp, Path=DisplayMeasureSelectors}"
                 DisplayReloadDataButton="{Binding ElementName=cp, Path=DisplayReloadDataButton}"
-                UseResponsiveSizing="{Binding ElementName=cp, Path=UseResponsiveSizing}"
                 FontSize="{Binding ElementName=cp, Path=PivotControlFontSize}"
                 CellPadding="{Binding ElementName=cp, Path=CellPadding}"
                 ViewBuilder="{Binding ViewBuilder}" />
-        </ScrollViewer>
+
     </Grid>
 </Window>

@@ -1,5 +1,7 @@
 ﻿using LeaderAnalytics.LeaderPivot.XAML.WPF;
+using MaterialDesignColors;
 using MaterialDesignThemes.Wpf;
+using MaterialDesignColors.ColorManipulation;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,6 +18,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Drawing;
+using System.Windows.Controls.Primitives;
 
 namespace LeaderPivot.XAML.WPF.Host;
 
@@ -68,13 +72,7 @@ public partial class ControlPanel : UserControl, INotifyPropertyChanged
 
     public static readonly DependencyProperty SelectedPivotStyleProperty =
         DependencyProperty.Register("SelectedPivotStyle", typeof(string), typeof(ControlPanel), new PropertyMetadata(null));
-
-
-    public bool UseResponsiveSizing
-    {
-        get { return (bool)GetValue(UseResponsiveSizingProperty); }
-        set { SetValue(UseResponsiveSizingProperty, value); }
-    }
+    
 
     public static readonly DependencyProperty UseResponsiveSizingProperty =
         DependencyProperty.Register("UseResponsiveSizing", typeof(bool), typeof(ControlPanel), new PropertyMetadata(false));
@@ -117,12 +115,54 @@ public partial class ControlPanel : UserControl, INotifyPropertyChanged
         set => SetProp(ref _TogglePanelVisibilityCommand, value);
     }
 
+    private ICommand _ShowColorPickerPopupCommand;
+    public ICommand ShowColorPickerPopupCommand
+    {
+        get => _ShowColorPickerPopupCommand;
+        set => SetProp(ref _ShowColorPickerPopupCommand, value);
+    }
+
+    private ICommand _HideColorPickerPopupCommand;
+    public ICommand HideColorPickerPopupCommand
+    {
+        get => _HideColorPickerPopupCommand;
+        set => SetProp(ref _HideColorPickerPopupCommand, value);
+    }
 
     private Visibility _PanelVisibility;
     public Visibility PanelVisibility
     {
         get => _PanelVisibility;
         set => SetProp(ref _PanelVisibility, value);
+    }
+
+    private System.Windows.Media.Color _PrimaryColor;
+    public System.Windows.Media.Color PrimaryColor
+    {
+        get => _PrimaryColor;
+        set
+        {
+            SetProp(ref _PrimaryColor, value);
+            ColorsChanged();
+        }
+    }
+
+    private System.Windows.Media.Color _SecondaryColor;
+    public System.Windows.Media.Color SecondaryColor
+    {
+        get => _SecondaryColor;
+        set
+        {
+            SetProp(ref _SecondaryColor, value);
+            ColorsChanged();
+        }
+    }
+
+    private bool _IsColorPickerPopupOpen;
+    public bool IsColorPickerPopupOpen
+    {
+        get => _IsColorPickerPopupOpen;
+        set => SetProp( ref _IsColorPickerPopupOpen, value);
     }
 
     public string CellPaddingString => $"Cell Padding ({CellPadding})";
@@ -134,6 +174,12 @@ public partial class ControlPanel : UserControl, INotifyPropertyChanged
         InitializeComponent();
         PanelVisibility = Visibility.Collapsed;
         TogglePanelVisibilityCommand = new RelayCommand(() => PanelVisibility = PanelVisibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible);
+        ShowColorPickerPopupCommand = new RelayCommand(() => IsColorPickerPopupOpen = true);
+        HideColorPickerPopupCommand = new RelayCommand(() => IsColorPickerPopupOpen = false);
+        var paletteHelper = new PaletteHelper();
+        var theme = paletteHelper.GetTheme();
+        PrimaryColor = theme.PrimaryMid.Color;
+        SecondaryColor = theme.SecondaryMid.Color;
     }
 
     public static void UseDarkThemeChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
@@ -141,8 +187,21 @@ public partial class ControlPanel : UserControl, INotifyPropertyChanged
         ControlPanel panel = sender as ControlPanel;
         var paletteHelper = new PaletteHelper();
         var theme = paletteHelper.GetTheme();
-
         theme.SetBaseTheme(panel.UseDarkTheme ? Theme.Dark : Theme.Light);
+        paletteHelper.SetTheme(theme);
+    }
+
+    public void ColorsChanged()
+    {
+        var paletteHelper = new PaletteHelper();
+        var theme = paletteHelper.GetTheme();
+        theme.PrimaryLight = new ColorPair(PrimaryColor.Lighten());
+        theme.PrimaryMid = new ColorPair(PrimaryColor);
+        theme.PrimaryDark = new ColorPair(PrimaryColor.Darken());
+        
+        theme.SecondaryLight = new ColorPair(SecondaryColor.Lighten());
+        theme.SecondaryMid = new ColorPair(SecondaryColor);
+        theme.SecondaryDark = new ColorPair(SecondaryColor.Darken());
         paletteHelper.SetTheme(theme);
     }
 

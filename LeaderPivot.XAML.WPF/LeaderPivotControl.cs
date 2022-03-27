@@ -78,15 +78,15 @@ public class LeaderPivotControl: ContentControl, IDropTarget
     public static readonly DependencyProperty DisplayReloadDataButtonProperty =
         DependencyProperty.Register("DisplayReloadDataButton", typeof(bool), typeof(LeaderPivotControl), new FrameworkPropertyMetadata(false));
 
-
-    public bool UseResponsiveSizing
-    {
-        get { return (bool)GetValue(UseResponsiveSizingProperty); }
-        set { SetValue(UseResponsiveSizingProperty, value); }
-    }
+    // 
+    //public bool UseResponsiveSizing
+    //{
+    //    get { return (bool)GetValue(UseResponsiveSizingProperty); }
+    //    set { SetValue(UseResponsiveSizingProperty, value); }
+    //}
     
-    public static readonly DependencyProperty UseResponsiveSizingProperty =
-        DependencyProperty.Register("UseResponsiveSizing", typeof(bool), typeof(LeaderPivotControl), new PropertyMetadata(false));
+    //public static readonly DependencyProperty UseResponsiveSizingProperty =
+    //    DependencyProperty.Register("UseResponsiveSizing", typeof(bool), typeof(LeaderPivotControl), new PropertyMetadata(false));
 
 
     public int CellPadding

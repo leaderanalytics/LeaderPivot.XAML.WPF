@@ -81,11 +81,8 @@
                             BorderThickness="{TemplateBinding BorderThickness}"
                             DataContext="{Binding RelativeSource={RelativeSource AncestorType=local:LeaderPivotControl}}" >
 
-                        <ScrollViewer x:Name="ContentScrollViewer">
-
-                            <Viewbox Stretch="{Binding UseResponsiveSizing, Converter={StaticResource BoolToStretchConverter}}" >
-                                <Grid x:Name="PART_Grid"  ></Grid> <!--MaxWidth="1200"-->
-                            </Viewbox>
+                        <ScrollViewer x:Name="ContentScrollViewer" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                            <Grid x:Name="PART_Grid"  ></Grid> 
                         </ScrollViewer>
                     </Border>
                 </ControlTemplate>
@@ -116,7 +113,7 @@
     </Style>
     
     <Style TargetType="{x:Type local:BaseTotalCell}" BasedOn="{StaticResource cellStyle}" x:Key="totalCellStyle">
-        <Setter Property="Background" Value="Gainsboro"/>
+        <Setter Property="Background" Value="{DynamicResource MaterialDesignTextFieldBoxBackground}"/>
 
         <Style.Resources>
             <Style TargetType="TextBlock">
@@ -312,10 +309,11 @@
                                     Dimensions="{Binding ViewBuilder.RowDimensions}" 
                                     Grid.Row="3"/>
 
-                                <ComboBox Grid.Row="4" Margin="0,6,0,0" x:Name="HiddenDimensionsComboBox"
+                                <ComboBox Grid.Row="4" Margin="0,6,0,6" x:Name="HiddenDimensionsComboBox" Padding="6"
                                           Text="Hidden Dimensions" 
                                           IsReadOnly="True" IsEditable="True"
                                           DisplayMemberPath="DisplayValue"
+                                          Style="{StaticResource MaterialDesignOutlinedComboBox}"
                                           Visibility="{Binding ViewBuilder.HiddenDimensionsVisibility}"
                                           ItemsSource="{Binding ViewBuilder.HiddenDimensions}"
                                           SelectedItem="{x:Null}">
@@ -357,7 +355,7 @@
                             ItemTemplate="{StaticResource DimensionButtonItemTemplate}"
                             Style="{StaticResource ResourceKey=DropDownButtonStyle}">
                             <local:DropDownButton.ButtonStyle>
-                                <Style TargetType="{x:Type Button}">
+                                <Style TargetType="{x:Type Button}" BasedOn="{StaticResource MaterialDesignRaisedButton}">
                                     <Setter Property="Padding" Value="6"/>
                                 </Style>
                             </local:DropDownButton.ButtonStyle>
@@ -378,7 +376,7 @@
     <Style TargetType="local:DropDownButton">
         <Setter Property="ButtonStyle">
             <Setter.Value>
-                <Style TargetType="{x:Type Button}">
+                <Style TargetType="{x:Type Button}" >
                     <Setter Property="Padding" Value="3"/>
                 </Style>
             </Setter.Value>
@@ -397,8 +395,9 @@
                         </Behaviors:Interaction.Triggers>
                         <StackPanel Orientation="Vertical">
 
-                            <materialDesign:PopupBox PlacementMode="BottomAndAlignLeftEdges" IsPopupOpen="{Binding IsDropDownOpen}"  >
+                            <materialDesign:PopupBox PlacementMode="BottomAndAlignLeftEdges" IsPopupOpen="{Binding IsDropDownOpen, Mode=OneWay}" >
                                 <materialDesign:PopupBox.ToggleContent>
+                                    
                                     <Button x:Name="MartyMcButton" Content="{Binding Content}" Command="{Binding ToggleDropDownCommand}" Style="{TemplateBinding ButtonStyle}"></Button>
                                 </materialDesign:PopupBox.ToggleContent>
                                 <Border  Margin="0,0,8,8" >

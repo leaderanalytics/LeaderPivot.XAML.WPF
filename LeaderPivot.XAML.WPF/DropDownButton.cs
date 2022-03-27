@@ -103,7 +103,7 @@ public class DropDownButton : ContentControl, INotifyPropertyChanged
 
     public DropDownButton()
     {
-        ToggleDropDownCommand = new RelayCommand(() => IsDropDownOpen = IsDropDownOpen ? false : true);
+        ToggleDropDownCommand = new RelayCommand(() => IsDropDownOpen = !IsDropDownOpen);
         MouseLeaveCommand = new RelayCommand(() => IsDropDownOpen = false);
     }
     
