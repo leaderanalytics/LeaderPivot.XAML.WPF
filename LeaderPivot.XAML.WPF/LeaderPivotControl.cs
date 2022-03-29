@@ -26,7 +26,7 @@ using GongSolutions.Wpf.DragDrop.Utilities;
 using LeaderAnalytics.LeaderPivot;
 namespace LeaderAnalytics.LeaderPivot.XAML.WPF;
 
-public class LeaderPivotControl: ContentControl, IDropTarget
+public class LeaderPivotControl: ContentControl, IDropTarget, IDragSource
 {
     #region Properties
     public PivotViewBuilder ViewBuilder
@@ -245,6 +245,7 @@ public class LeaderPivotControl: ContentControl, IDropTarget
         return colIndex;
     }
 
+    #region IDropTarget
     void IDropTarget.DragOver(IDropInfo dropInfo)
     {
         Dimension sourceItem = dropInfo.Data as Dimension;
@@ -259,15 +260,25 @@ public class LeaderPivotControl: ContentControl, IDropTarget
 
     void IDropTarget.Drop(IDropInfo dropInfo)
     {
-        var insertIndex = dropInfo.UnfilteredInsertIndex;
-        var sourceList = dropInfo.DragInfo?.SourceCollection?.TryGetList();
+        int insertIndex = dropInfo.UnfilteredInsertIndex;
+        var sourceList = dropInfo.DragInfo.SourceCollection.TryGetList();
         var targetList = dropInfo.TargetCollection.TryGetList();
         Dimension sourceItem = (Dimension)dropInfo.Data;
         Dimension targetItem = (Dimension)dropInfo.TargetItem;
 
         if (sourceList != targetList)
+        {
             sourceItem.IsRow = !sourceItem.IsRow;
-        
+
+            if (targetList.Count == 1 && sourceList.Count == 1)
+            {
+                // Swap dimensions across axis...
+                Dimension otherDimension = targetList.Cast<Dimension>().First(x => x != sourceItem);
+                targetList.Remove(otherDimension);
+                otherDimension.IsRow = !otherDimension.IsRow;
+                sourceList.Add(otherDimension);
+            }
+        }
         sourceItem.Sequence = insertIndex;
         IList<Dimension> dimensions = sourceItem.IsRow ? ViewBuilder.RowDimensions : ViewBuilder.ColumnDimensions;
         
@@ -277,5 +288,52 @@ public class LeaderPivotControl: ContentControl, IDropTarget
         BuildGrid(null);
         
     }
+    #endregion
 
+    #region IDragSource implementation
+    public void StartDrag(IDragInfo dragInfo)
+    {
+        dragInfo.Data = dragInfo.SourceItem;
+        dragInfo.Effects = dragInfo.Data != null ? DragDropEffects.Copy | DragDropEffects.Move : DragDropEffects.None;
+    }
+
+    public bool CanStartDrag(IDragInfo dragInfo)
+    {
+        var sourceList = dragInfo.SourceCollection?.TryGetList();
+        Dimension sourceItem = (Dimension)dragInfo.SourceItem;
+        IList<Dimension> dimensions = sourceItem.IsRow ? ViewBuilder.RowDimensions : ViewBuilder.ColumnDimensions;
+        
+        // If source dimensions has exactly one dimension, count dimensions on cross axis.
+        // If cross axis has exactly one dimension allow the drag and swap axis for each 
+        // dimension on drop. 
+        // Otherwise do not allow the drag if source dimensions has only one dimension.
+
+        if (dimensions.Count == 1)
+        {
+            IList<Dimension> crossAxisDimensions = sourceItem.IsRow ? ViewBuilder.ColumnDimensions : ViewBuilder.RowDimensions;
+
+            if (crossAxisDimensions.Count > 1)
+                return false;
+        }
+        return true;
+    }
+
+    public void Dropped(IDropInfo dropInfo)
+    {
+    }
+
+    public void DragDropOperationFinished(DragDropEffects operationResult, IDragInfo dragInfo)
+    {
+    }
+
+    public void DragCancelled()
+    {
+    }
+
+    public bool TryCatchOccurredException(Exception exception)
+    {
+        return false;
+    }
+    #endregion
 }
+
