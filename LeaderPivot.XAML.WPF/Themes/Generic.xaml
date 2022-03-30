@@ -359,6 +359,8 @@
                             <local:DropDownButton.ButtonStyle>
                                 <Style TargetType="{x:Type Button}" BasedOn="{StaticResource MaterialDesignRaisedButton}">
                                     <Setter Property="Padding" Value="6"/>
+                                    <Setter Property="Margin" Value="4"/>
+                                    <Setter Property="materialDesign:ShadowAssist.ShadowDepth" Value="Depth3"/>
                                 </Style>
                             </local:DropDownButton.ButtonStyle>
                             <local:DropDownButton.ItemsSource>
