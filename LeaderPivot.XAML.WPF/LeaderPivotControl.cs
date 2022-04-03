@@ -8,8 +8,10 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -21,9 +23,12 @@ using System.Windows.Media.Imaging;
 using System.Windows.Media.Media3D;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using CommunityToolkit.Mvvm.Input;
 using GongSolutions.Wpf.DragDrop;
 using GongSolutions.Wpf.DragDrop.Utilities;
 using LeaderAnalytics.LeaderPivot;
+using MaterialDesignThemes.Wpf;
+
 namespace LeaderAnalytics.LeaderPivot.XAML.WPF;
 
 public class LeaderPivotControl: ContentControl, IDropTarget, IDragSource
@@ -36,7 +41,7 @@ public class LeaderPivotControl: ContentControl, IDropTarget, IDragSource
     }
 
     public static readonly DependencyProperty ViewBuilderProperty =
-        DependencyProperty.Register("ViewBuilder", typeof(PivotViewBuilder), typeof(LeaderPivotControl), new PropertyMetadata(null, (s,e) => ((LeaderPivotControl)s).BuildGrid(null)));
+        DependencyProperty.Register("ViewBuilder", typeof(PivotViewBuilder), typeof(LeaderPivotControl), new PropertyMetadata(null, async (s,e) => await ((LeaderPivotControl)s).BuildGrid(null)));
 
 
     public bool DisplayGrandTotalOption
@@ -99,14 +104,14 @@ public class LeaderPivotControl: ContentControl, IDropTarget, IDragSource
         DependencyProperty.Register("CellPadding", typeof(int), typeof(LeaderPivotControl), new PropertyMetadata(4));
 
 
-    public bool IsLoading
+    public bool IsBusy
     {
-        get { return (bool)GetValue(IsLoadingProperty); }
-        set { SetValue(IsLoadingProperty, value); }
+        get { return (bool)GetValue(IsBusyProperty); }
+        set { SetValue(IsBusyProperty, value); }
     }
 
-    public static readonly DependencyProperty IsLoadingProperty =
-        DependencyProperty.Register("IsLoading", typeof(bool), typeof(LeaderPivotControl), new FrameworkPropertyMetadata(false));
+    public static readonly DependencyProperty IsBusyProperty =
+        DependencyProperty.Register("IsBusy", typeof(bool), typeof(LeaderPivotControl), new FrameworkPropertyMetadata(false) { BindsTwoWayByDefault = true});
 
     #endregion
 
@@ -132,8 +137,6 @@ public class LeaderPivotControl: ContentControl, IDropTarget, IDragSource
         DependencyProperty.Register("DimensionEventCommand", typeof(ICommand), typeof(LeaderPivotControl), new PropertyMetadata(null));
 
 
-
-
     #endregion
 
     private byte[,]? table;
@@ -144,9 +147,9 @@ public class LeaderPivotControl: ContentControl, IDropTarget, IDragSource
 
     public LeaderPivotControl()
     {
-        ReloadDataCommand = new RelayCommand(() => BuildGrid(null));
-        DimensionEventCommand = new RelayCommand<DimensionEventArgs>(DimensionEventCommandHandler);
-        toggleNodeExpansionCommand = new RelayCommand<string>(x => BuildGrid(x));
+        ReloadDataCommand = new AsyncRelayCommand(() => BuildGrid(null));
+        DimensionEventCommand = new AsyncRelayCommand<DimensionEventArgs>(DimensionEventCommandHandler);
+        toggleNodeExpansionCommand = new AsyncRelayCommand<string>(x => BuildGrid(x));
     }
 
     public override void OnApplyTemplate()
@@ -155,15 +158,14 @@ public class LeaderPivotControl: ContentControl, IDropTarget, IDragSource
         grid = (Grid) Template.FindName("PART_Grid", this);
     }
     
-    public void BuildGrid(string? nodeID)
+    public async Task BuildGrid(string? nodeID)
     {
         // Row span takes precidence over column span.
         // If a cell spans multiple rows, cells in the second and subsequent rows are pushed to the right - not down.
         // A cell is never pushed down to a lower row - it is pushed to the right.  Therefore a cells row index in the matrix is
         // always the same as it's row number in the grid.
-
-        IsLoading = true;
-        ViewBuilder.BuildMatrix(nodeID);
+        IsBusy = true;
+        await ViewBuilder.BuildMatrix(nodeID);
         grid.Children.Clear();
         grid.RowDefinitions.Clear();
         grid.ColumnDefinitions.Clear();
@@ -184,7 +186,7 @@ public class LeaderPivotControl: ContentControl, IDropTarget, IDragSource
             {
                 MatrixCell? mCell = ViewBuilder.Matrix.Rows[i].Cells[j];
 
-                Cell cell = mCell.CellType switch
+                BaseCell cell = mCell.CellType switch
                 {
                     CellType.Measure => new MeasureCell(),
                     CellType.Total => new TotalCell(),
@@ -210,10 +212,10 @@ public class LeaderPivotControl: ContentControl, IDropTarget, IDragSource
                 grid.Children.Add(cell);
             }
         }
-        IsLoading = false;
+        IsBusy = false;
     }
 
-    public void DimensionEventCommandHandler(DimensionEventArgs dimensionEvent)
+    public async Task DimensionEventCommandHandler(DimensionEventArgs dimensionEvent)
     { 
         if(dimensionEvent == null)
             throw new ArgumentNullException(nameof(dimensionEvent));
@@ -230,10 +232,10 @@ public class LeaderPivotControl: ContentControl, IDropTarget, IDragSource
             DimensionAction.UnHide => dimension.IsEnabled = true,
             _ => throw new Exception($"DimensionAction not recognised: {dimensionEvent.Action}"),
         };
-        BuildGrid(null);
+        await BuildGrid(null);
     }
 
-    private int IncrementCol(int rowIndex, int colIndex, Cell cell)
+    private int IncrementCol(int rowIndex, int colIndex, BaseCell cell)
     {
         while (table[rowIndex, colIndex] == 1)
             colIndex++;
@@ -258,7 +260,7 @@ public class LeaderPivotControl: ContentControl, IDropTarget, IDragSource
         }
     }
 
-    void IDropTarget.Drop(IDropInfo dropInfo)
+    async void IDropTarget.Drop(IDropInfo dropInfo)
     {
         int insertIndex = dropInfo.UnfilteredInsertIndex;
         var sourceList = dropInfo.DragInfo.SourceCollection.TryGetList();
@@ -285,7 +287,7 @@ public class LeaderPivotControl: ContentControl, IDropTarget, IDragSource
         foreach (Dimension d in dimensions.Where(x => x != sourceItem && x.Sequence >= sourceItem.Sequence))
             d.Sequence++;
 
-        BuildGrid(null);
+        await BuildGrid(null);
         
     }
     #endregion

@@ -21,10 +21,18 @@ internal class MainWindowViewModel : INotifyPropertyChanged
         set => SetProp(ref _ViewBuilder, value);
     }
 
+    private bool _IsBusy;
+    public bool IsBusy
+    {
+        get => _IsBusy;
+        set => SetProp(ref _IsBusy, value);
+    }
+
     private SalesDataService SalesDataService;
 
     public MainWindowViewModel()
     {
+        IsBusy = true;
         SalesDataService = new SalesDataService();
         BuildMatrix();
     }
@@ -34,7 +42,14 @@ internal class MainWindowViewModel : INotifyPropertyChanged
         List<Dimension<SalesData>> dimensions = SalesDataService.LoadDimensions();
         List<Measure<SalesData>> measures = SalesDataService.LoadMeasures();
         dimensions.First(x => x.DisplayValue == "City").IsEnabled = false;
-        ViewBuilder = new PivotViewBuilder<SalesData>(dimensions, measures, LoadData, true);
+        ViewBuilder = new PivotViewBuilder<SalesData>(dimensions, measures, LoadDataAsync, true);
+    }
+
+    public async Task<IEnumerable<SalesData>> LoadDataAsync()
+    {
+        await Task.Delay(1000);
+        List<SalesData> salesData = SalesDataService.GetSalesData();
+        return salesData;
     }
 
     public List<SalesData> LoadData()

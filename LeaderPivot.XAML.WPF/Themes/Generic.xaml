@@ -20,27 +20,26 @@
     <converters:DimensionEventCheckedConverter x:Key="DimensionEventCheckedConverter"/>
     <converters:DimensionEventEnabledConverter x:Key="DimensionEventEnabledConverter"/>
     <converters:DimensionActionDescriptionConverter x:Key="DimensionActionDescriptionConverter"/>
-    
-    
+
     <DataTemplate x:Key="DimensionButtonItemTemplate">
         <Border Padding="0,4,0,4" HorizontalAlignment="Left" VerticalAlignment="Center">
             <CheckBox HorizontalAlignment="Left" VerticalAlignment="Center" 
                 Content="{Binding Converter={StaticResource DimensionActionDescriptionConverter}}" 
                 Command="{Binding RelativeSource={RelativeSource AncestorType=local:LeaderPivotControl}, Path=DimensionEventCommand}">
                 <CheckBox.IsEnabled>
-                    <MultiBinding Converter="{StaticResource DimensionEventEnabledConverter}">
+                    <MultiBinding Converter="{StaticResource DimensionEventEnabledConverter}" Mode="OneWay">
                         <Binding Path="." />
                         <Binding RelativeSource="{RelativeSource AncestorType=local:DimensionContainerCell}" Path="." />
                     </MultiBinding>
                 </CheckBox.IsEnabled>
                 <CheckBox.IsChecked>
-                    <MultiBinding Converter="{StaticResource DimensionEventCheckedConverter}">
+                    <MultiBinding Converter="{StaticResource DimensionEventCheckedConverter}" Mode="OneWay">
                         <Binding RelativeSource="{RelativeSource AncestorType=local:DimensionButton}" Path="Dimension" />
                         <Binding Path="." />
                     </MultiBinding>
                 </CheckBox.IsChecked>
                 <CheckBox.CommandParameter>
-                    <MultiBinding Converter="{StaticResource DimensionEventArgsConverter}">
+                    <MultiBinding Converter="{StaticResource DimensionEventArgsConverter}" Mode="OneWay">
                         <Binding RelativeSource="{RelativeSource AncestorType=local:DimensionButton}" Path="Dimension" />
                         <Binding Path="." />
                     </MultiBinding>
@@ -75,14 +74,13 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:LeaderPivotControl}" >
-                    
                     <Border Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
                             DataContext="{Binding RelativeSource={RelativeSource AncestorType=local:LeaderPivotControl}}" >
 
                         <ScrollViewer x:Name="ContentScrollViewer" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                            <Grid x:Name="PART_Grid"  ></Grid> 
+                            <Grid x:Name="PART_Grid"/>
                         </ScrollViewer>
                     </Border>
                 </ControlTemplate>
@@ -90,7 +88,7 @@
         </Setter>
     </Style>
     
-    <Style TargetType="{x:Type local:Cell}"  x:Key="cellStyle">
+    <Style TargetType="{x:Type local:BaseCell}"  x:Key="cellStyle">
         <Style.Resources>
             <Style TargetType="TextBlock">
                 <Setter Property="TextWrapping" Value="Wrap"/>
@@ -98,12 +96,12 @@
         </Style.Resources>
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type local:Cell }">
+                <ControlTemplate TargetType="{x:Type local:BaseCell }">
                     <Border Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
                             DataContext="{Binding RelativeSource={RelativeSource AncestorType=local:LeaderPivotControl}}">
-                        <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType=local:Cell}, Path=Content}" Padding="{Binding CellPadding}" FontSize="{Binding FontSize}"/>
+                        <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType=local:BaseCell}, Path=Content}" Padding="{Binding CellPadding}" FontSize="{Binding FontSize}"/>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
@@ -127,7 +125,7 @@
     <Style TargetType="{x:Type local:GroupHeaderCell}" BasedOn="{StaticResource cellStyle}">
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type local:Cell }">
+                <ControlTemplate TargetType="{x:Type local:BaseCell }">
                     <Border Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
@@ -170,7 +168,7 @@
                                     </Style>
                                 </Button.Resources>
                             </Button>
-                            <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType=local:Cell}, Path=Content}" Padding="{Binding CellPadding}" FontSize="{Binding FontSize}"/>
+                            <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType=local:BaseCell}, Path=Content}" Padding="{Binding CellPadding}" FontSize="{Binding FontSize}"/>
                         </StackPanel>
                     </Border>
                 </ControlTemplate>

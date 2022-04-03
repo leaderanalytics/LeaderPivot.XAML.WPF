@@ -24,6 +24,6 @@ public class DimensionEventEnabledConverter : IMultiValueConverter
 
     public object[] ConvertBack(object value, Type[] targetTypes, object parameter, System.Globalization.CultureInfo culture)
     {
-        return new object[] { (bool)value };
+        throw new NotImplementedException();
     }
 }

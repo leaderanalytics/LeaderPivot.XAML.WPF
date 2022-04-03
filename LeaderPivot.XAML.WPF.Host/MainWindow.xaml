@@ -16,7 +16,32 @@
         TextOptions.TextRenderingMode="Auto"        
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}">
-    <Grid >
+    <Window.Resources>
+        <Storyboard x:Key="FadeIn">
+            <DoubleAnimation Storyboard.TargetProperty="Opacity" BeginTime="0:0:0:0" From="0.0" To="1" Duration="0:0:3" />
+        </Storyboard>
+
+        <Storyboard x:Key="FadeOut">
+            <DoubleAnimation Storyboard.TargetProperty="Opacity" From="1.0" To="1.0" Duration="0:0:.5" />
+        </Storyboard>
+
+        <Style x:Key="BorderStoryboardStyle" TargetType="Border">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsBusy}" Value="True">
+                    <DataTrigger.EnterActions>
+                        <BeginStoryboard Storyboard="{StaticResource FadeIn}" />
+                    </DataTrigger.EnterActions>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="MeasureCellStyle" TargetType="leaderpivot:MeasureCell" >
+            <Setter Property="Background" Value="Blue"/>
+        </Style>
+        <Style x:Key="MeasureLabelCellStyle" TargetType="leaderpivot:MeasureLabelCell" BasedOn="{StaticResource MeasureCellStyle}"></Style>
+
+    </Window.Resources>
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="150"/>
             <RowDefinition />
@@ -24,15 +49,31 @@
         
         <local:ControlPanel x:Name="cp"/>
 
-        <leaderpivot:LeaderPivotControl 
-                Grid.Row="1"
-                DisplayGrandTotalOption="{Binding ElementName=cp, Path=DisplayGrandTotalOption}"
-                DisplayDimensionButtons="{Binding ElementName=cp, Path=DisplayDimensionButtons}"
-                DisplayMeasureSelectors="{Binding ElementName=cp, Path=DisplayMeasureSelectors}"
-                DisplayReloadDataButton="{Binding ElementName=cp, Path=DisplayReloadDataButton}"
-                FontSize="{Binding ElementName=cp, Path=PivotControlFontSize}"
-                CellPadding="{Binding ElementName=cp, Path=CellPadding}"
-                ViewBuilder="{Binding ViewBuilder}" />
-
+        <Border Grid.Row="1" Style="{StaticResource BorderStoryboardStyle}">
+            <materialDesign:DialogHost  IsOpen="{Binding IsBusy}">
+                <materialDesign:DialogHost.DialogContent>
+                    <StackPanel Orientation="Vertical" Margin="16">
+                        <ProgressBar 
+                        Style="{StaticResource MaterialDesignCircularProgressBar}"
+                        HorizontalAlignment="Center" Margin="50,16,50,16"
+                        IsIndeterminate="True"
+                        Value="0" />
+                        <Label Content="Working..."/>
+                    </StackPanel>
+                </materialDesign:DialogHost.DialogContent>
+                <leaderpivot:LeaderPivotControl
+                    DisplayGrandTotalOption="{Binding ElementName=cp, Path=DisplayGrandTotalOption}"
+                    DisplayDimensionButtons="{Binding ElementName=cp, Path=DisplayDimensionButtons}"
+                    DisplayMeasureSelectors="{Binding ElementName=cp, Path=DisplayMeasureSelectors}"
+                    DisplayReloadDataButton="{Binding ElementName=cp, Path=DisplayReloadDataButton}"
+                    FontSize="{Binding ElementName=cp, Path=PivotControlFontSize}"
+                    CellPadding="{Binding ElementName=cp, Path=CellPadding}"
+                    ViewBuilder="{Binding ViewBuilder}"
+                    IsBusy="{Binding IsBusy}"  />
+            </materialDesign:DialogHost>
+            <Border.RenderTransform>
+                <TranslateTransform/>
+            </Border.RenderTransform>
+        </Border>
     </Grid>
 </Window>

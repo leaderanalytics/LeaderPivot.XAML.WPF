@@ -16,10 +16,16 @@ public class PivotViewBuilder<T> : PivotViewBuilder
 {
     private IEnumerable<Dimension<T>> DimensionsT;
     private IEnumerable<Measure<T>> MeasuresT;
-    private Func<IEnumerable<T>> LoadData;
+    private Func<Task<IEnumerable<T>>> LoadData;
     private MatrixBuilder<T> MatrixBuilder;
 
     public PivotViewBuilder(IEnumerable<Dimension<T>> dimensions, IEnumerable<Measure<T>> measures, Func<IEnumerable<T>> loadData, bool displayGrandTotals = true)
+        : this(dimensions, measures, () => Task.FromResult(loadData()), displayGrandTotals)
+    {
+        
+    }
+
+    public PivotViewBuilder(IEnumerable<Dimension<T>> dimensions, IEnumerable<Measure<T>> measures, Func<Task<IEnumerable<T>>> loadData, bool displayGrandTotals = true)
     {
         DimensionsT = dimensions;
         MeasuresT = measures;
@@ -31,15 +37,15 @@ public class PivotViewBuilder<T> : PivotViewBuilder
         Validator<T> validator = new Validator<T>();
         MatrixBuilder = new MatrixBuilder<T>(nodeBuilder, validator);
     }
-
-    public override void BuildMatrix(string? nodeID = null)
+    
+    public override async Task BuildMatrix(string? nodeID = null)
     {
         if (string.IsNullOrEmpty(nodeID))
         {
             RowDimensions = Dimensions.Where(x => x.IsEnabled && x.IsRow).OrderBy(x => x.Sequence).ToList();
             ColumnDimensions = Dimensions.Where(x => x.IsEnabled && !x.IsRow).OrderBy(x => x.Sequence).ToList();
             HiddenDimensions = Dimensions.Where(x => !x.IsEnabled).OrderBy(x => x.Sequence).ToList();
-            Matrix = MatrixBuilder.BuildMatrix(LoadData(), DimensionsT, MeasuresT, DisplayGrandTotals);
+            Matrix = MatrixBuilder.BuildMatrix(await LoadData(), DimensionsT, MeasuresT, DisplayGrandTotals);
         }
         else
             Matrix = MatrixBuilder.ToggleNodeExpansion(nodeID);
@@ -88,8 +94,6 @@ public abstract class PivotViewBuilder : INotifyPropertyChanged
         }
     }
 
-    
-
     private IList<Measure> _Measures;
     public IList<Measure> Measures
     {
@@ -106,7 +110,7 @@ public abstract class PivotViewBuilder : INotifyPropertyChanged
 
     public Visibility HiddenDimensionsVisibility => (HiddenDimensions?.Any() ?? false) ? Visibility.Visible : Visibility.Collapsed;
 
-    public abstract void BuildMatrix(string? nodeID);
+    public abstract Task BuildMatrix(string? nodeID);
 
     #region INotifyPropertyChanged implementation
     public event PropertyChangedEventHandler? PropertyChanged;
