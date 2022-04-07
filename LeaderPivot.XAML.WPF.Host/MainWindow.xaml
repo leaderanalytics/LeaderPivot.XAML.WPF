@@ -35,11 +35,9 @@
             </Style.Triggers>
         </Style>
 
-        <Style x:Key="MeasureCellStyle" TargetType="leaderpivot:MeasureCell" >
-            <Setter Property="Background" Value="Blue"/>
-        </Style>
-        <Style x:Key="MeasureLabelCellStyle" TargetType="leaderpivot:MeasureLabelCell" BasedOn="{StaticResource MeasureCellStyle}"></Style>
 
+        
+        
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -69,7 +67,7 @@
                     FontSize="{Binding ElementName=cp, Path=PivotControlFontSize}"
                     CellPadding="{Binding ElementName=cp, Path=CellPadding}"
                     ViewBuilder="{Binding ViewBuilder}"
-                    IsBusy="{Binding IsBusy}"  />
+                    IsBusy="{Binding IsBusy}"/>
             </materialDesign:DialogHost>
             <Border.RenderTransform>
                 <TranslateTransform/>

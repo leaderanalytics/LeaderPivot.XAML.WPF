@@ -75,6 +75,15 @@ public class DropDownButton : ContentControl, INotifyPropertyChanged
         DependencyProperty.Register("ButtonStyle", typeof(Style), typeof(DropDownButton), new PropertyMetadata(null));
 
 
+    public Style ListBoxStyle
+    {
+        get { return (Style)GetValue(ListBoxStyleProperty); }
+        set { SetValue(ListBoxStyleProperty, value); }
+    }
+
+    public static readonly DependencyProperty ListBoxStyleProperty =
+        DependencyProperty.Register("ListBoxStyle", typeof(Style), typeof(DropDownButton), new PropertyMetadata(null));
+
     #endregion
 
     private bool _IsDropDownOpen;

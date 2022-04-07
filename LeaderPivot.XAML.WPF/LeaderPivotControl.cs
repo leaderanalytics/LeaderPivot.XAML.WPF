@@ -113,6 +113,131 @@ public class LeaderPivotControl: ContentControl, IDropTarget, IDragSource
     public static readonly DependencyProperty IsBusyProperty =
         DependencyProperty.Register("IsBusy", typeof(bool), typeof(LeaderPivotControl), new FrameworkPropertyMetadata(false) { BindsTwoWayByDefault = true});
 
+
+    public Style MeasureCellStyle
+    {
+        get { return (Style)GetValue(MeasureCellStyleProperty); }
+        set { SetValue(MeasureCellStyleProperty, value); }
+    }
+
+    public static readonly DependencyProperty MeasureCellStyleProperty =
+        DependencyProperty.Register("MeasureCellStyle", typeof(Style), typeof(LeaderPivotControl), new PropertyMetadata(null));
+
+
+    public Style TotalCellStyle
+    {
+        get { return (Style)GetValue(TotalCellStyleProperty); }
+        set { SetValue(TotalCellStyleProperty, value); }
+    }
+
+    public static readonly DependencyProperty TotalCellStyleProperty =
+        DependencyProperty.Register("TotalCellStyle", typeof(Style), typeof(LeaderPivotControl), new PropertyMetadata(null));
+
+
+
+    public Style GrandTotalCellStyle
+    {
+        get { return (Style)GetValue(GrandTotalCellStyleProperty); }
+        set { SetValue(GrandTotalCellStyleProperty, value); }
+    }
+
+    public static readonly DependencyProperty GrandTotalCellStyleProperty =
+        DependencyProperty.Register("GrandTotalCellStyle", typeof(Style), typeof(LeaderPivotControl), new PropertyMetadata(null));
+
+
+
+    public Style GroupHeaderCellStyle
+    {
+        get { return (Style)GetValue(GroupHeaderCellStyleProperty); }
+        set { SetValue(GroupHeaderCellStyleProperty, value); }
+    }
+
+    public static readonly DependencyProperty GroupHeaderCellStyleProperty =
+        DependencyProperty.Register("GroupHeaderCellStyle", typeof(Style), typeof(LeaderPivotControl), new PropertyMetadata(null));
+
+
+
+    public Style TotalHeaderCellStyle
+    {
+        get { return (Style)GetValue(TotalHeaderCellStyleProperty); }
+        set { SetValue(TotalHeaderCellStyleProperty, value); }
+    }
+
+    public static readonly DependencyProperty TotalHeaderCellStyleProperty =
+        DependencyProperty.Register("TotalHeaderCellStyle", typeof(Style), typeof(LeaderPivotControl), new PropertyMetadata(null));
+
+
+
+    public Style GrandTotalHeaderCellStyle
+    {
+        get { return (Style)GetValue(GrandTotalHeaderCellStyleProperty); }
+        set { SetValue(GrandTotalHeaderCellStyleProperty, value); }
+    }
+
+    public static readonly DependencyProperty GrandTotalHeaderCellStyleProperty =
+        DependencyProperty.Register("GrandTotalHeaderCellStyle", typeof(Style), typeof(LeaderPivotControl), new PropertyMetadata(null));
+
+
+
+    public Style MeasureTotalLabelCellStyle
+    {
+        get { return (Style)GetValue(MeasureTotalLabelCellStyleProperty); }
+        set { SetValue(MeasureTotalLabelCellStyleProperty, value); }
+    }
+
+    public static readonly DependencyProperty MeasureTotalLabelCellStyleProperty =
+        DependencyProperty.Register("MeasureTotalLabelCellStyle", typeof(Style), typeof(LeaderPivotControl), new PropertyMetadata(null));
+
+
+    public Style MeasureContainerCellStyle
+    {
+        get { return (Style)GetValue(MeasureContainerCellStyleProperty); }
+        set { SetValue(MeasureContainerCellStyleProperty, value); }
+    }
+
+    public static readonly DependencyProperty MeasureContainerCellStyleProperty =
+        DependencyProperty.Register("MeasureContainerCellStyle", typeof(Style), typeof(LeaderPivotControl), new PropertyMetadata(null));
+
+
+    public Style DimensionContainerCellStyle
+    {
+        get { return (Style)GetValue(DimensionContainerCellStyleProperty); }
+        set { SetValue(DimensionContainerCellStyleProperty, value); }
+    }
+
+    public static readonly DependencyProperty DimensionContainerCellStyleProperty =
+        DependencyProperty.Register("DimensionContainerCellStyle", typeof(Style), typeof(LeaderPivotControl), new PropertyMetadata(null));
+
+
+    public Style MeasureLabelCellStyle
+    {
+        get { return (Style)GetValue(MeasureLabelCellStyleProperty); }
+        set { SetValue(MeasureLabelCellStyleProperty, value); }
+    }
+
+    public static readonly DependencyProperty MeasureLabelCellStyleProperty =
+        DependencyProperty.Register("MeasureLabelCellStyle", typeof(Style), typeof(LeaderPivotControl), new PropertyMetadata(null));
+
+
+    public Style DimensionButtonStyle
+    {
+        get { return (Style)GetValue(DimensionButtonStyleProperty); }
+        set { SetValue(DimensionButtonStyleProperty, value); }
+    }
+
+    public static readonly DependencyProperty DimensionButtonStyleProperty =
+        DependencyProperty.Register("DimensionButtonStyle", typeof(Style), typeof(LeaderPivotControl), new PropertyMetadata(null));
+
+
+    public Style MeasureCheckboxStyle
+    {
+        get { return (Style)GetValue(MeasureCheckboxStyleProperty); }
+        set { SetValue(MeasureCheckboxStyleProperty, value); }
+    }
+
+    public static readonly DependencyProperty MeasureCheckboxStyleProperty =
+        DependencyProperty.Register("MeasureCheckboxStyle", typeof(Style), typeof(LeaderPivotControl), new PropertyMetadata(null));
+
     #endregion
 
     #region Commands
@@ -198,8 +323,26 @@ public class LeaderPivotControl: ContentControl, IDropTarget, IDragSource
                     CellType.MeasureLabel when i == 0 && j == 0 => new MeasureContainerCell() ,
                     CellType.MeasureLabel when i == 0 && j == 1 => new DimensionContainerCell { Dimensions = ViewBuilder.ColumnDimensions, IsRows = false },
                     CellType.MeasureLabel => new MeasureLabelCell(),
-                    _ => throw new NotImplementedException()
+                    _ => throw new NotImplementedException($"Cell type not recognised: {mCell.CellType}.")
                 };
+                
+                Style? style = cell switch
+                {
+                    MeasureCell => MeasureCellStyle,
+                    TotalCell => TotalCellStyle,
+                    GrandTotalCell => GrandTotalCellStyle,
+                    GroupHeaderCell => GroupHeaderCellStyle,
+                    TotalHeaderCell => TotalHeaderCellStyle,
+                    GrandTotalHeaderCell => GrandTotalHeaderCellStyle,
+                    MeasureTotalLabelCell => MeasureTotalLabelCellStyle,
+                    MeasureContainerCell => MeasureContainerCellStyle,
+                    DimensionContainerCell => DimensionContainerCellStyle,
+                    MeasureLabelCell => MeasureLabelCellStyle,
+                    _ => throw new NotImplementedException($"Object type not recognised: {cell.GetType()}.")
+                };
+
+                if (style != null)
+                    cell.Style = style;
 
                 cell.RowSpan = mCell.RowSpan;
                 cell.ColSpan = mCell.ColSpan;

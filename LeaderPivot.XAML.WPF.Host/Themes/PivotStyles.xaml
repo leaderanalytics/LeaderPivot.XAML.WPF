@@ -1,0 +1,96 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+                    xmlns:leaderpivot="clr-namespace:LeaderAnalytics.LeaderPivot.XAML.WPF;assembly=LeaderAnalytics.LeaderPivot.XAML.WPF">
+
+    
+    <!--Non-Total cells-->
+    <Style TargetType="leaderpivot:GroupHeaderCell" >
+        <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
+        <Setter Property="Background" Value="{DynamicResource GroupHeaderBackgroundBrush}"/>
+    </Style>
+    
+    <Style TargetType="leaderpivot:MeasureCell">
+        <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
+        <Setter Property="Background" Value="{DynamicResource MeasureBackgroundBrush}"/>
+    </Style>
+    
+    <Style TargetType="leaderpivot:MeasureLabelCell" >
+        <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
+        <Setter Property="Background" Value="{DynamicResource MeasureLabelBackgroundBrush}"/>
+    </Style>
+
+    
+    
+    <!--Total cells-->
+    
+    <Style TargetType="leaderpivot:TotalCell" >
+        <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
+        <Setter Property="Background" Value="{DynamicResource TotalBackgroundBrush}"/>
+    </Style>
+
+    <Style TargetType="leaderpivot:MeasureTotalLabelCell" >
+        <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
+        <Setter Property="Background" Value="{DynamicResource TotalLabelBackgroundBrush}"/>
+    </Style>
+
+    <Style TargetType="leaderpivot:TotalHeaderCell" >
+        <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
+        <Setter Property="Background" Value="{DynamicResource TotalHeaderBackgroundBrush}"/>
+    </Style>
+
+    <Style TargetType="leaderpivot:GrandTotalHeaderCell" >
+        <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
+        <Setter Property="Background" Value="{DynamicResource GrandTotalHeaderBackgroundBrush}"/>
+    </Style>
+
+    <Style TargetType="leaderpivot:GrandTotalCell" >
+        <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
+        <Setter Property="Background" Value="{DynamicResource GrandTotalBackgroundBrush}"/>
+    </Style>
+    <!--Controls-->
+    
+    <Style TargetType="leaderpivot:DimensionButton">
+        <Setter Property="ButtonStyle">
+            <Setter.Value>
+                <Style TargetType="{x:Type Button}" BasedOn="{StaticResource MaterialDesignRaisedButton}">
+                    <Setter Property="Foreground" Value="{DynamicResource DimensionButtonForegroundBrush}"/>
+                    <Setter Property="Background" Value="{DynamicResource DimensionButtonBackgroundBrush}"/>
+                    <Setter Property="Padding" Value="6"/>
+                    <Setter Property="Margin" Value="4"/>
+                    <Setter Property="materialDesign:ShadowAssist.ShadowDepth" Value="Depth3"/>
+                </Style>
+            </Setter.Value>
+        </Setter>
+        
+    </Style>
+    
+    <Style TargetType="DropShadowEffect">
+        <Setter Property="Color" Value="{DynamicResource DimensionButtonShadowBrush}"/>
+    </Style>
+    
+    
+    
+    <Style TargetType="ListBox" >
+        <!--Dimension Button ListBoxes-->
+        <Setter Property="Foreground" Value="{DynamicResource DimensionButtonListboxForegroundBrush}"/>
+        <Setter Property="Background" Value="{DynamicResource DimensionButtonListboxBackgroundBrush}"/>
+    </Style>
+
+    <Style TargetType="CheckBox">
+        <!--Measure Checkboxes-->
+        <Setter Property="Foreground" Value="{DynamicResource MeasureCheckboxForegroundBrush}"/>
+        <Setter Property="Background" Value="{DynamicResource MeasureCheckboxBackgroundBrush}"/>
+    </Style>
+    
+    <!--Control containers-->
+    <Style TargetType="leaderpivot:DimensionContainerCell" >
+        <Setter Property="Foreground" Value="{DynamicResource DimensionContainerCellForegroundBrush}"/>
+        <Setter Property="Background" Value="{DynamicResource DimensionContainerCellBackgroundBrush}"/>
+    </Style>
+
+    <Style TargetType="leaderpivot:MeasureContainerCell" >
+        <Setter Property="Foreground" Value="{DynamicResource MeasureContainerCellForegroundBrush}"/>
+        <Setter Property="Background" Value="{DynamicResource MeasureContainerCellBackgroundBrush}"/>
+    </Style>
+</ResourceDictionary>

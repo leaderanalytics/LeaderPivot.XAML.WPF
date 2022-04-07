@@ -1,0 +1,36 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    
+    <SolidColorBrush x:Key="ForegroundBrush" Color="Black"/>
+    <SolidColorBrush x:Key="GroupHeaderBackgroundBrush" Color="WhiteSmoke"/>
+    
+    <SolidColorBrush x:Key="MeasureBackgroundBrush" Color="#fff"/>
+    <SolidColorBrush x:Key="MeasureLabelBackgroundBrush" Color="#fff"/>
+    
+    
+    <SolidColorBrush x:Key="TotalBackgroundBrush" Color="WhiteSmoke"/>
+    <SolidColorBrush x:Key="TotalLabelBackgroundBrush" Color="WhiteSmoke"/>
+    <SolidColorBrush x:Key="TotalHeaderBackgroundBrush" Color="WhiteSmoke"/>
+    
+    <SolidColorBrush x:Key="GrandTotalHeaderBackgroundBrush" Color="WhiteSmoke"/>
+    <SolidColorBrush x:Key="GrandTotalBackgroundBrush" Color="WhiteSmoke"/>
+
+
+    <SolidColorBrush x:Key="DimensionButtonForegroundBrush" Color="Black"/>
+    <SolidColorBrush x:Key="DimensionButtonBackgroundBrush" Color="#007bff"/>
+    <SolidColorBrush x:Key="DimensionButtonShadowBrush" Color="#a6a6a6"/>
+
+
+
+    <SolidColorBrush x:Key="DimensionButtonListboxForegroundBrush" Color="#007bff"/>
+    <SolidColorBrush x:Key="DimensionButtonListboxBackgroundBrush" Color="#007bff"/>
+
+    <SolidColorBrush x:Key="MeasureCheckboxForegroundBrush" Color="#007bff"/>
+    <SolidColorBrush x:Key="MeasureCheckboxBackgroundBrush" Color="#007bff"/>
+
+    <SolidColorBrush x:Key="DimensionContainerCellForegroundBrush" Color="#007bff"/>
+    <SolidColorBrush x:Key="DimensionContainerCellBackgroundBrush" Color="WhiteSmoke"/>
+
+    <SolidColorBrush x:Key="MeasureContainerCellForegroundBrush" Color="#007bff"/>
+    <SolidColorBrush x:Key="MeasureContainerCellBackgroundBrush" Color="WhiteSmoke"/>
+</ResourceDictionary>

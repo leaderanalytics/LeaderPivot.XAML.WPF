@@ -346,21 +346,13 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:DimensionButton}">
-                    <Border Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            DataContext="{Binding RelativeSource={RelativeSource AncestorType=local:DimensionButton}}">
                         <local:DropDownButton
+                            DataContext="{Binding RelativeSource={RelativeSource AncestorType=local:DimensionButton}}"
                             Content="{Binding Content}" 
                             ItemTemplate="{StaticResource DimensionButtonItemTemplate}"
-                            Style="{StaticResource ResourceKey=DropDownButtonStyle}">
-                            <local:DropDownButton.ButtonStyle>
-                                <Style TargetType="{x:Type Button}" BasedOn="{StaticResource MaterialDesignRaisedButton}">
-                                    <Setter Property="Padding" Value="6"/>
-                                    <Setter Property="Margin" Value="4"/>
-                                    <Setter Property="materialDesign:ShadowAssist.ShadowDepth" Value="Depth3"/>
-                                </Style>
-                            </local:DropDownButton.ButtonStyle>
+                            ButtonStyle="{Binding ButtonStyle}"
+                            ListBoxStyle="{Binding ListBoxStyle}">
+                            
                             <local:DropDownButton.ItemsSource>
                                 <x:Array Type="{x:Type local:DimensionAction}">
                                     <x:Static Member="local:DimensionAction.SortAscending"/>
@@ -369,7 +361,6 @@
                                 </x:Array>
                             </local:DropDownButton.ItemsSource>
                         </local:DropDownButton>
-                    </Border>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -386,35 +377,25 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:DropDownButton }">
-                    <Border Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            DataContext="{Binding RelativeSource={RelativeSource AncestorType=local:DropDownButton}}">
+                    <StackPanel Orientation="Vertical" DataContext="{Binding RelativeSource={RelativeSource AncestorType=local:DropDownButton}}">
                         <Behaviors:Interaction.Triggers>
                             <Behaviors:EventTrigger EventName="MouseLeave">
                                 <Behaviors:InvokeCommandAction Command="{Binding MouseLeaveCommand}"/>
                             </Behaviors:EventTrigger>
                         </Behaviors:Interaction.Triggers>
-                        <StackPanel Orientation="Vertical">
-
-                            <materialDesign:PopupBox PlacementMode="BottomAndAlignLeftEdges" IsPopupOpen="{Binding IsDropDownOpen, Mode=OneWay}" >
-                                <materialDesign:PopupBox.ToggleContent>
-                                    
-                                    <Button x:Name="MartyMcButton" Content="{Binding Content}" Command="{Binding ToggleDropDownCommand}" Style="{TemplateBinding ButtonStyle}"></Button>
-                                </materialDesign:PopupBox.ToggleContent>
-                                <Border  Margin="0,0,8,8" >
-                                    
-                                    <ListBox ItemsSource="{Binding ItemsSource}" SelectedItem="{Binding SelectedItem}" ItemTemplate="{Binding ItemTemplate}" >
-                                        <Behaviors:Interaction.Triggers>
-                                            <Behaviors:EventTrigger EventName="SelectionChanged">
-                                                <Behaviors:InvokeCommandAction Command="{Binding SelectionChangedCommand}"/>
-                                            </Behaviors:EventTrigger>
-                                        </Behaviors:Interaction.Triggers>
-                                    </ListBox>
-                                </Border>
-                            </materialDesign:PopupBox>
-                        </StackPanel>
-                    </Border>
+                        <materialDesign:PopupBox PlacementMode="BottomAndAlignLeftEdges" IsPopupOpen="{Binding IsDropDownOpen, Mode=OneWay}" >
+                            <materialDesign:PopupBox.ToggleContent>
+                                <Button x:Name="MartyMcButton" Content="{Binding Content}" Command="{Binding ToggleDropDownCommand}" Style="{TemplateBinding ButtonStyle}"></Button>
+                            </materialDesign:PopupBox.ToggleContent>
+                                <ListBox ItemsSource="{Binding ItemsSource}" SelectedItem="{Binding SelectedItem}" ItemTemplate="{Binding ItemTemplate}" >
+                                    <Behaviors:Interaction.Triggers>
+                                        <Behaviors:EventTrigger EventName="SelectionChanged">
+                                            <Behaviors:InvokeCommandAction Command="{Binding SelectionChangedCommand}"/>
+                                        </Behaviors:EventTrigger>
+                                    </Behaviors:Interaction.Triggers>
+                                </ListBox>
+                        </materialDesign:PopupBox>
+                    </StackPanel>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

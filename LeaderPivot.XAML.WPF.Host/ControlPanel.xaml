@@ -35,12 +35,12 @@
             
         </Grid.Resources>
         <Label Content="Sales Data" Grid.RowSpan="2" FontSize="30" Margin="20"></Label>
-        <StackPanel Grid.Column="1" Visibility="{Binding PanelVisibility}" >
+        <StackPanel Grid.Column="1" Visibility="{Binding PanelVisibility}"  >
             <CheckBox IsChecked="{Binding DisplayGrandTotalOption}" Content="Grand Totals Option"/>
             <CheckBox IsChecked="{Binding DisplayDimensionButtons}" Content="Dimension Buttons"/>
             <CheckBox IsChecked="{Binding DisplayMeasureSelectors}" Content="Measure Selectors"/>
             <CheckBox IsChecked="{Binding DisplayReloadDataButton}" Content="Reload Data Button"/>
-            <CheckBox IsChecked="{Binding UseDarkTheme}" Content="Dark Theme"/>
+            <!--<CheckBox IsChecked="{Binding UseDarkTheme}" Content="Dark Theme"/>
             
             <materialDesign:PopupBox 
                 Width="300" IsPopupOpen="{Binding IsColorPickerPopupOpen}" 
@@ -55,7 +55,23 @@
                     <materialDesign:ColorPicker Height="80"  Width="300"  Color="{Binding SecondaryColor, Delay=25}"/>
                     <Button Content="Close" Command="{Binding HideColorPickerPopupCommand}" HorizontalAlignment="Right" Margin="0,8,0,0"/>
                 </StackPanel>
-            </materialDesign:PopupBox>
+            </materialDesign:PopupBox>-->
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0"  >
+                <Label Content="Theme:" Margin="0,2,6,0" VerticalAlignment="Center" />
+                <ComboBox Width="120" BorderBrush="Black" BorderThickness=".5" Padding="6" VerticalAlignment="Center">
+                    <Behaviors:Interaction.Triggers>
+                        <Behaviors:EventTrigger EventName="SelectionChanged">
+                            <Behaviors:InvokeCommandAction Command="{Binding SelectedThemeChangedCommand}" PassEventArgsToCommand="True"/>
+                        </Behaviors:EventTrigger>
+                    </Behaviors:Interaction.Triggers>
+                    <ComboBox.Items>
+                        <ComboBoxItem Content="Primary" IsSelected="True" />
+                        <ComboBoxItem Content="Light" />
+                        <ComboBoxItem Content="Secondary" />
+                        <ComboBoxItem Content="Dark" />
+                    </ComboBox.Items>
+                </ComboBox>
+            </StackPanel>
         </StackPanel>
         <StackPanel Grid.Column="1" Grid.Row="2" Visibility="{Binding PanelVisibility}" >
             <StackPanel Orientation="Horizontal" Margin="0">
@@ -67,7 +83,14 @@
                 <Slider Value="{Binding CellPadding}" Minimum="0" Maximum="10" Width="200" VerticalAlignment="Center"/>
             </StackPanel>
         </StackPanel>
-        <Button Grid.RowSpan="2" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="20" Padding="6" Command="{Binding TogglePanelVisibilityCommand}">
+        <Button 
+            Grid.RowSpan="2" Grid.Column="2" 
+            VerticalAlignment="Center" HorizontalAlignment="Center" 
+            Margin="20" Padding="6" 
+            Command="{Binding TogglePanelVisibilityCommand}">
+            <Button.Effect>
+                <DropShadowEffect BlurRadius="10" Color="DarkGray" Opacity=".6" Direction="315" ShadowDepth="8"/>
+            </Button.Effect>
             <Button.Content>
                 <StackPanel Margin="0">
                     <TextBlock Visibility="{Binding PanelVisibility}">

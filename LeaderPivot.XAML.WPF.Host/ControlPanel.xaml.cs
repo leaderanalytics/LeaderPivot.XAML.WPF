@@ -165,6 +165,13 @@ public partial class ControlPanel : UserControl, INotifyPropertyChanged
         set => SetProp( ref _IsColorPickerPopupOpen, value);
     }
 
+    private ICommand _SelectedThemeChangedCommand;
+    public ICommand SelectedThemeChangedCommand
+    {
+        get => _SelectedThemeChangedCommand;
+        set => SetProp(ref _SelectedThemeChangedCommand, value);
+    }
+
     public string CellPaddingString => $"Cell Padding ({CellPadding})";
     public string FontSizeString => $"Font Size ({PivotControlFontSize})";
     
@@ -180,6 +187,8 @@ public partial class ControlPanel : UserControl, INotifyPropertyChanged
         var theme = paletteHelper.GetTheme();
         PrimaryColor = theme.PrimaryMid.Color;
         SecondaryColor = theme.SecondaryMid.Color;
+        SelectedThemeChangedCommand = new RelayCommand<SelectionChangedEventArgs>((x) => SelectedThemeChangedCommandHandler(x));
+        SetResourceDictionary("Primary", true);
     }
 
     public static void UseDarkThemeChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
@@ -203,6 +212,24 @@ public partial class ControlPanel : UserControl, INotifyPropertyChanged
         theme.SecondaryMid = new ColorPair(SecondaryColor);
         theme.SecondaryDark = new ColorPair(SecondaryColor.Darken());
         paletteHelper.SetTheme(theme);
+    }
+
+    private void SelectedThemeChangedCommandHandler(SelectionChangedEventArgs e)
+    {
+        string remove = ((ComboBoxItem)e.RemovedItems[0]).Content.ToString();
+        string add = ((ComboBoxItem)e.AddedItems[0]).Content.ToString();
+        SetResourceDictionary(remove, false);
+        SetResourceDictionary(add, true);
+    }
+
+    private void SetResourceDictionary(string themeName, bool add)
+    {
+        Uri uri = new Uri($"/LeaderPivot.XAML.WPF.Host;component/Themes/{themeName}.xaml", UriKind.Relative);
+
+        if (add)
+            Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = uri });
+        else
+            Application.Current.Resources.MergedDictionaries.Remove(Application.Current.Resources.MergedDictionaries.First(x => x.Source == uri));
     }
 
     #region INotifyPropertyChanged implementation

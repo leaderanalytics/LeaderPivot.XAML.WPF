@@ -20,4 +20,20 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\LeaderPivot.XAML.WPF\LeaderPivot.XAML.WPF.csproj" />
 	</ItemGroup>
+
+
+	<ItemGroup>
+	  <Page Update="Themes\Light.xaml">
+	    <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+	    <SubType>Designer</SubType>
+	  </Page>
+	  <Page Update="Themes\Dark.xaml">
+	    <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+	    <SubType>Designer</SubType>
+	  </Page>
+	  <Page Update="Themes\Secondary.xaml">
+	    <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+	    <SubType>Designer</SubType>
+	  </Page>
+	</ItemGroup>
 </Project>

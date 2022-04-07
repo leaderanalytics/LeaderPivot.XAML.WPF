@@ -11,7 +11,7 @@ using System.Windows.Input;
 
 namespace LeaderAnalytics.LeaderPivot.XAML.WPF;
 
-internal class DimensionButton : ContentControl
+public class DimensionButton : DropDownButton
 {
     public Dimension Dimension
     {
@@ -21,6 +21,7 @@ internal class DimensionButton : ContentControl
 
     public static readonly DependencyProperty DimensionProperty =
         DependencyProperty.Register("Dimension", typeof(Dimension), typeof(DimensionButton), new PropertyMetadata(null));
+
 
     static DimensionButton() => DefaultStyleKeyProperty.OverrideMetadata(typeof(DimensionButton), new FrameworkPropertyMetadata(typeof(DimensionButton)));
 }
