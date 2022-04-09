@@ -23,7 +23,7 @@
     
     
     <!--Total cells-->
-    
+
     <Style TargetType="leaderpivot:TotalCell" >
         <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
         <Setter Property="Background" Value="{DynamicResource TotalBackgroundBrush}"/>
@@ -62,6 +62,9 @@
                 </Style>
             </Setter.Value>
         </Setter>
+        
+    </Style>
+    <Style TargetType="ComboBox" BasedOn="{StaticResource MaterialDesignOutlinedComboBox}">
         
     </Style>
     

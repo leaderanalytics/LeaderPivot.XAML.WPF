@@ -3,15 +3,11 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:dd="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
     xmlns:Behaviors="http://schemas.microsoft.com/xaml/behaviors"
-    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:sys="clr-namespace:System;assembly=mscorlib"
     xmlns:controls="clr-namespace:System.Windows.Controls"
     xmlns:local="clr-namespace:LeaderAnalytics.LeaderPivot.XAML.WPF"
     xmlns:converters="clr-namespace:LeaderAnalytics.LeaderPivot.XAML.WPF.Converters">
-    <ResourceDictionary.MergedDictionaries>
-        <materialDesign:BundledTheme BaseTheme="Light" PrimaryColor="DeepPurple" SecondaryColor="Lime" />
-        <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
-    </ResourceDictionary.MergedDictionaries>
+    
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     <converters:BoolToStretchConverter x:Key="BoolToStretchConverter"/>
     <converters:SelectedItemConverter x:Key="SelectedItemConverter" />
@@ -111,8 +107,6 @@
     </Style>
     
     <Style TargetType="{x:Type local:BaseTotalCell}" BasedOn="{StaticResource cellStyle}" x:Key="totalCellStyle">
-        <Setter Property="Background" Value="{DynamicResource MaterialDesignTextFieldBoxBackground}"/>
-
         <Style.Resources>
             <Style TargetType="TextBlock">
                 <Setter Property="Padding" Value="6"/>
@@ -313,7 +307,6 @@
                                           Text="Hidden Dimensions" 
                                           IsReadOnly="True" IsEditable="True"
                                           DisplayMemberPath="DisplayValue"
-                                          Style="{StaticResource MaterialDesignOutlinedComboBox}"
                                           Visibility="{Binding ViewBuilder.HiddenDimensionsVisibility}"
                                           ItemsSource="{Binding ViewBuilder.HiddenDimensions}"
                                           SelectedItem="{x:Null}">
@@ -366,10 +359,13 @@
         </Setter>
     </Style>
     
+    
+
+
     <Style TargetType="local:DropDownButton">
         <Setter Property="ButtonStyle">
             <Setter.Value>
-                <Style TargetType="{x:Type Button}" >
+                <Style TargetType="{x:Type Button}">
                     <Setter Property="Padding" Value="3"/>
                 </Style>
             </Setter.Value>
@@ -383,22 +379,25 @@
                                 <Behaviors:InvokeCommandAction Command="{Binding MouseLeaveCommand}"/>
                             </Behaviors:EventTrigger>
                         </Behaviors:Interaction.Triggers>
-                        <materialDesign:PopupBox PlacementMode="BottomAndAlignLeftEdges" IsPopupOpen="{Binding IsDropDownOpen, Mode=OneWay}" >
-                            <materialDesign:PopupBox.ToggleContent>
-                                <Button x:Name="MartyMcButton" Content="{Binding Content}" Command="{Binding ToggleDropDownCommand}" Style="{TemplateBinding ButtonStyle}"></Button>
-                            </materialDesign:PopupBox.ToggleContent>
-                                <ListBox ItemsSource="{Binding ItemsSource}" SelectedItem="{Binding SelectedItem}" ItemTemplate="{Binding ItemTemplate}" >
+                        <Button x:Name="MartyMcButton" Content="{Binding Content}" Command="{Binding ToggleDropDownCommand}" Style="{TemplateBinding ButtonStyle}"></Button>
+                        <Popup IsOpen="{Binding IsDropDownOpen}" PlacementTarget="{Binding ElementName=MartyMcButton}" Placement="Bottom" AllowsTransparency="True" >
+                            <Border  Margin="0,0,8,8" >
+                                <Border.Effect>
+                                    <DropShadowEffect BlurRadius="5" Opacity="0.4"/>
+                                </Border.Effect>
+                                <ListBox ItemsSource="{Binding ItemsSource}" SelectedItem="{Binding SelectedItem}" ItemTemplate="{Binding ItemTemplate}" Style="{TemplateBinding ListBoxStyle}" >
                                     <Behaviors:Interaction.Triggers>
                                         <Behaviors:EventTrigger EventName="SelectionChanged">
                                             <Behaviors:InvokeCommandAction Command="{Binding SelectionChangedCommand}"/>
                                         </Behaviors:EventTrigger>
                                     </Behaviors:Interaction.Triggers>
                                 </ListBox>
-                        </materialDesign:PopupBox>
+                            </Border>
+                        </Popup>
                     </StackPanel>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
-    
+
 </ResourceDictionary>

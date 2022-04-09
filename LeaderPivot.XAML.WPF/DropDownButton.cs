@@ -114,6 +114,10 @@ public class DropDownButton : ContentControl, INotifyPropertyChanged
     {
         ToggleDropDownCommand = new RelayCommand(() => IsDropDownOpen = !IsDropDownOpen);
         MouseLeaveCommand = new RelayCommand(() => IsDropDownOpen = false);
+        SelectionChangedCommand = new RelayCommand(() =>
+        {
+            IsDropDownOpen = false;
+        });
     }
     
     static DropDownButton() => DefaultStyleKeyProperty.OverrideMetadata(typeof(DropDownButton), new FrameworkPropertyMetadata(typeof(DropDownButton)));
