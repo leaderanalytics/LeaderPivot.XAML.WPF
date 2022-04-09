@@ -100,7 +100,6 @@ public class DropDownButton : ContentControl, INotifyPropertyChanged
         set => SetProp(ref _ToggleDropDownCommand, value);
     }
 
-
     private ICommand _MouseLeaveCommand;
     public ICommand MouseLeaveCommand
     {
@@ -108,18 +107,13 @@ public class DropDownButton : ContentControl, INotifyPropertyChanged
         set => SetProp(ref _MouseLeaveCommand,value);
     }
 
-    
-
     public DropDownButton()
     {
         ToggleDropDownCommand = new RelayCommand(() => IsDropDownOpen = !IsDropDownOpen);
         MouseLeaveCommand = new RelayCommand(() => IsDropDownOpen = false);
-        SelectionChangedCommand = new RelayCommand(() =>
-        {
-            IsDropDownOpen = false;
-        });
     }
-    
+
+
     static DropDownButton() => DefaultStyleKeyProperty.OverrideMetadata(typeof(DropDownButton), new FrameworkPropertyMetadata(typeof(DropDownButton)));
 
 
