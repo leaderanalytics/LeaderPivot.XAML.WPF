@@ -18,10 +18,11 @@
     <converters:DimensionActionDescriptionConverter x:Key="DimensionActionDescriptionConverter"/>
 
     <DataTemplate x:Key="DimensionButtonItemTemplate">
+        <ListBoxItem IsSelected="{Binding ElementName=cb, Path=IsChecked}">
         <Border Padding="0,4,0,4" HorizontalAlignment="Left" VerticalAlignment="Center">
-            <CheckBox HorizontalAlignment="Left" VerticalAlignment="Center" 
+            <CheckBox HorizontalAlignment="Left" VerticalAlignment="Center" x:Name="cb"
                 Content="{Binding Converter={StaticResource DimensionActionDescriptionConverter}}" 
-                Command="{Binding RelativeSource={RelativeSource AncestorType=local:DropDownButton}, Path=Command}" >
+                Command="{Binding RelativeSource={RelativeSource AncestorType=local:DimensionButton}, Path=SelectionChangedCommand}" >
                 <CheckBox.IsEnabled>
                     <MultiBinding Converter="{StaticResource DimensionEventEnabledConverter}" Mode="OneWay">
                         <Binding Path="." />
@@ -40,13 +41,9 @@
                         <Binding Path="." />
                     </MultiBinding>
                 </CheckBox.CommandParameter>
-                <!--<Behaviors:Interaction.Triggers>
-                    <Behaviors:EventTrigger EventName="CommandManager.PreviewExecuted">
-                        <Behaviors:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource AncestorType=local:DropDownButton}, Path=PreviewExecutedCommandHandler}"/>
-                    </Behaviors:EventTrigger>
-                </Behaviors:Interaction.Triggers>-->
             </CheckBox>
         </Border>
+        </ListBoxItem>
     </DataTemplate>
     
     <Style TargetType="{x:Type ScrollViewer}">
@@ -251,7 +248,10 @@
                                           dd:DragDrop.UseDefaultDragAdorner="True"  >
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <local:DimensionButton Content="{Binding DisplayValue}" Dimension="{Binding}">
+                                        <local:DimensionButton 
+                                            Content="{Binding DisplayValue}" 
+                                            Dimension="{Binding}" 
+                                            SelectionChangedCommand="{Binding RelativeSource={RelativeSource AncestorType=local:LeaderPivotControl}, Path=DimensionEventCommand}" >
                                         </local:DimensionButton>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
@@ -346,7 +346,8 @@
                 <ControlTemplate TargetType="{x:Type local:DimensionButton}">
                         <local:DropDownButton
                             DataContext="{Binding RelativeSource={RelativeSource AncestorType=local:DimensionButton}}"
-                            Command="{Binding RelativeSource={RelativeSource AncestorType=local:LeaderPivotControl}, Path=DimensionEventCommand}" 
+                            Command="{Binding Command}"
+                            SelectionChangedCommand="{Binding SelectionChangedCommand}"
                             Content="{Binding Content}" 
                             ItemTemplate="{StaticResource DimensionButtonItemTemplate}"
                             ButtonStyle="{Binding ButtonStyle}"
@@ -386,7 +387,7 @@
                             </Behaviors:EventTrigger>
                         </Behaviors:Interaction.Triggers>
                         <Button x:Name="MartyMcButton" Content="{Binding Content}" Command="{Binding ToggleDropDownCommand}" Style="{TemplateBinding ButtonStyle}"></Button>
-                        <Popup IsOpen="{Binding IsDropDownOpen}" PlacementTarget="{Binding ElementName=MartyMcButton}" Placement="Bottom" AllowsTransparency="True" StaysOpen="False" >
+                        <Popup IsOpen="{Binding IsDropDownOpen}" PlacementTarget="{Binding ElementName=MartyMcButton}" Placement="Bottom" AllowsTransparency="True">
                             <Border  Margin="0,0,8,8" >
                                 <Border.Effect>
                                     <DropShadowEffect BlurRadius="5" Opacity="0.4"/>
@@ -394,6 +395,7 @@
                                 <ListBox ItemsSource="{Binding ItemsSource}" SelectedItem="{Binding SelectedItem}" ItemTemplate="{Binding ItemTemplate}" Style="{TemplateBinding ListBoxStyle}" >
                                     <Behaviors:Interaction.Triggers>
                                         <Behaviors:EventTrigger EventName="SelectionChanged">
+                                            <Behaviors:ChangePropertyAction PropertyName="IsDropDownOpen" TargetObject="{Binding RelativeSource={RelativeSource AncestorType=local:DropDownButton}}" Value="False"/>
                                             <Behaviors:InvokeCommandAction Command="{Binding SelectionChangedCommand}" CommandParameter="{Binding SelectedItem}"/>
                                         </Behaviors:EventTrigger>
                                     </Behaviors:Interaction.Triggers>

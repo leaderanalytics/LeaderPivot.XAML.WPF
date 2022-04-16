@@ -106,7 +106,7 @@ public class DropDownButton : ContentControl, INotifyPropertyChanged
         get => _MouseLeaveCommand;
         set => SetProp(ref _MouseLeaveCommand,value);
     }
-
+    
     public DropDownButton()
     {
         ToggleDropDownCommand = new RelayCommand(() => IsDropDownOpen = !IsDropDownOpen);

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace LeaderAnalytics.LeaderPivot.XAML.WPF.Converters;
 public class DimensionEventCheckedConverter : IMultiValueConverter
@@ -13,7 +14,6 @@ public class DimensionEventCheckedConverter : IMultiValueConverter
     {
         Dimension dimension = values[0] as Dimension ?? throw new Exception("Could not bind to Dimension");
         DimensionAction action = (DimensionAction)values[1];
-        
         return action == DimensionAction.Hide? false : action == DimensionAction.SortAscending ? dimension.IsAscending : ! dimension.IsAscending;
     }
 
