@@ -14,6 +14,7 @@
         TextElement.FontSize="13"
         TextOptions.TextFormattingMode="Ideal" 
         TextOptions.TextRenderingMode="Auto"        
+        xmlns:Behaviors="http://schemas.microsoft.com/xaml/behaviors"
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}">
     <Window.Resources>
@@ -38,6 +39,8 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="150"/>
+            <RowDefinition />
+            <RowDefinition />
             <RowDefinition />
         </Grid.RowDefinitions>
         
@@ -69,5 +72,69 @@
                 <TranslateTransform/>
             </Border.RenderTransform>
         </Border>
+
+
+        <leaderpivot:DropDownButton Content="Click Here" SelectionChangedCommand="{Binding JunkSelectedItemChangedCommand}" Grid.Row="2">
+            <leaderpivot:DropDownButton.Resources>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="OverridesDefaultStyle" Value="true" />
+                    <Setter Property="SnapsToDevicePixels" Value="true" />
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListBoxItem">
+                                <CheckBox Margin="5,2"
+                                          IsChecked="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},Path=IsSelected, Mode=TwoWay}">
+                                    <ContentPresenter />
+                                </CheckBox>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </leaderpivot:DropDownButton.Resources>
+            <leaderpivot:DropDownButton.ItemsSource>
+                <x:Array Type="{x:Type sys:String}">
+                    <sys:String>Item 1</sys:String>
+                    <sys:String>Item 2</sys:String>
+                    <sys:String>Item 3</sys:String>
+                    <sys:String>Item 4</sys:String>
+                    <sys:String>Item 5</sys:String>
+                </x:Array>
+            </leaderpivot:DropDownButton.ItemsSource>
+        </leaderpivot:DropDownButton>
+
+
+
+        <ListBox  Grid.Row="3" Background="White" SelectedItem="{Binding JunkSelectedItem}">
+            <Behaviors:Interaction.Triggers>
+                <Behaviors:EventTrigger EventName="SelectionChanged">
+                    <Behaviors:InvokeCommandAction Command="{Binding JunkSelectedItemChangedCommand}" />
+                </Behaviors:EventTrigger>
+            </Behaviors:Interaction.Triggers>
+            <ListBox.Resources>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="OverridesDefaultStyle" Value="true" />
+                    <Setter Property="SnapsToDevicePixels" Value="true" />
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListBoxItem">
+                                <CheckBox Margin="5,2"
+                                          IsChecked="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},Path=IsSelected, Mode=TwoWay}">
+                                    <ContentPresenter />
+                                </CheckBox>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListBox.Resources>
+            <ListBox.ItemsSource>
+                <x:Array Type="{x:Type sys:String}">
+                    <sys:String>Item 1</sys:String>
+                    <sys:String>Item 2</sys:String>
+                    <sys:String>Item 3</sys:String>
+                    <sys:String>Item 4</sys:String>
+                    <sys:String>Item 5</sys:String>
+                </x:Array>
+            </ListBox.ItemsSource>
+        </ListBox>
     </Grid>
 </Window>

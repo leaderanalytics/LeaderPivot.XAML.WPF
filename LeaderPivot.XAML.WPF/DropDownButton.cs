@@ -52,7 +52,7 @@ public class DropDownButton : ContentControl, INotifyPropertyChanged
     }
 
     public static readonly DependencyProperty SelectedItemProperty =
-        DependencyProperty.Register("SelectedItem", typeof(object), typeof(DropDownButton), new FrameworkPropertyMetadata(null) {BindsTwoWayByDefault = true });
+        DependencyProperty.Register("SelectedItem", typeof(object), typeof(DropDownButton), new FrameworkPropertyMetadata(null, Junk) {BindsTwoWayByDefault = true });
 
 
     public DataTemplate ItemTemplate
@@ -106,11 +106,36 @@ public class DropDownButton : ContentControl, INotifyPropertyChanged
         get => _MouseLeaveCommand;
         set => SetProp(ref _MouseLeaveCommand,value);
     }
+
+
+
+    public ICommand JunkCommand
+    {
+        get { return (ICommand)GetValue(JunkCommandProperty); }
+        set { SetValue(JunkCommandProperty, value); }
+    }
     
+    public static void Junk(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+    { 
+        DropDownButton thisControl = sender as DropDownButton;
+        object blah = thisControl.SelectedItem;
+    }
+
+    // Using a DependencyProperty as the backing store for JunkCommand.  This enables animation, styling, binding, etc...
+    public static readonly DependencyProperty JunkCommandProperty =
+        DependencyProperty.Register("JunkCommand", typeof(ICommand), typeof(DropDownButton), new PropertyMetadata(null));
+
+
+
     public DropDownButton()
     {
         ToggleDropDownCommand = new RelayCommand(() => IsDropDownOpen = !IsDropDownOpen);
         MouseLeaveCommand = new RelayCommand(() => IsDropDownOpen = false);
+
+        JunkCommand = new RelayCommand(() =>
+        {
+            IsDropDownOpen = false;
+        });
     }
 
 

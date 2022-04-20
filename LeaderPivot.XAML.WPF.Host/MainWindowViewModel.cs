@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LeaderAnalytics.LeaderPivot.XAML.WPF;
 using System.Windows.Input;
+using System.Windows.Controls;
 
 namespace LeaderPivot.XAML.WPF.Host;
 
@@ -29,12 +30,23 @@ internal class MainWindowViewModel : INotifyPropertyChanged
     }
 
     private SalesDataService SalesDataService;
+    public ICommand JunkSelectedItemChangedCommand { get; set; }
+    private string _JunkSelectedItem;
+    public string JunkSelectedItem
+    {
+        get => _JunkSelectedItem;
+        set => SetProp(ref _JunkSelectedItem, value);
+    }
 
     public MainWindowViewModel()
     {
         IsBusy = true;
         SalesDataService = new SalesDataService();
         BuildMatrix();
+
+        JunkSelectedItemChangedCommand = new RelayCommand(() => {
+            int x = 1;
+        });
     }
 
     private void BuildMatrix()
