@@ -129,6 +129,7 @@ public class DropDownButton : ContentControl, INotifyPropertyChanged
 
     public DropDownButton()
     {
+        Loaded += DropDownButton_Loaded;
         ToggleDropDownCommand = new RelayCommand(() => IsDropDownOpen = !IsDropDownOpen);
         MouseLeaveCommand = new RelayCommand(() => IsDropDownOpen = false);
 
@@ -138,9 +139,25 @@ public class DropDownButton : ContentControl, INotifyPropertyChanged
         });
     }
 
+    private void DropDownButton_Loaded(object sender, RoutedEventArgs e)
+    {
+        Loaded -= DropDownButton_Loaded;
+        ListBox lb = GetTemplateChild("PART_ListBox") as ListBox;
+        
+        //if (lb == null)
+        //    lb = LogicalTreeHelper.FindLogicalNode(this, "PART_ListBox") as ListBox;
+        
+        if(lb != null)
+            lb.SelectionChanged += (s, e) => SelectionChanged(s, e);
+    }
+
+    public event EventHandler SelectionChanged;
 
     static DropDownButton() => DefaultStyleKeyProperty.OverrideMetadata(typeof(DropDownButton), new FrameworkPropertyMetadata(typeof(DropDownButton)));
 
+    
+    
+    
 
     #region INotifyPropertyChanged implementation
     public event PropertyChangedEventHandler? PropertyChanged;

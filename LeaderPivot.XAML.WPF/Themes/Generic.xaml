@@ -251,7 +251,7 @@
                                         <local:DimensionButton 
                                             Content="{Binding DisplayValue}" 
                                             Dimension="{Binding}" 
-                                            SelectionChangedCommand="{Binding RelativeSource={RelativeSource AncestorType=local:LeaderPivotControl}, Path=DimensionEventCommand}"  >
+                                            SelectionChangedCommand="{Binding RelativeSource={RelativeSource AncestorType=local:LeaderPivotControl}, Path=DimensionEventCommand}" >
                                         </local:DimensionButton>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
@@ -347,7 +347,7 @@
                         <local:DropDownButton
                             DataContext="{Binding RelativeSource={RelativeSource AncestorType=local:DimensionButton}}"
                             Command="{Binding Command}"
-                            SelectionChangedCommand="{Binding SelectionChangedCommand, Mode=TwoWay}"
+                            
                             Content="{Binding Content}" 
                             ItemTemplate="{StaticResource DimensionButtonItemTemplate}"
                             SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
@@ -362,6 +362,15 @@
                                         <ControlTemplate TargetType="ListBoxItem">
                                             <CheckBox HorizontalAlignment="Left" VerticalAlignment="Center" IsChecked="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=IsSelected, Mode=TwoWay}"
                                                       Content="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content, Converter={StaticResource DimensionActionDescriptionConverter}}">
+
+                                                <!--<CheckBox.IsChecked>
+                                                    <MultiBinding Converter="{StaticResource DimensionEventCheckedConverter}" Mode="OneWay">
+                                                        <Binding RelativeSource="{RelativeSource AncestorType=local:DimensionButton}" Path="Dimension" />
+                                                        <Binding Path="." />
+                                                        <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="IsSelected" Mode="TwoWay"/>
+                                                    </MultiBinding>
+                                                </CheckBox.IsChecked>-->
+
                                                 <CheckBox.IsEnabled>
                                                     <MultiBinding Converter="{StaticResource DimensionEventEnabledConverter}" Mode="OneWay">
                                                         <Binding Path="." />
@@ -382,7 +391,11 @@
                                 <x:Static Member="local:DimensionAction.Hide"/>
                             </x:Array>
                         </local:DropDownButton.ItemsSource>
-                        
+                        <Behaviors:Interaction.Triggers>
+                            <Behaviors:EventTrigger EventName="SelectionChanged">
+                                <Behaviors:InvokeCommandAction Command="{Binding SelectionChangedCommand}" CommandParameter="{Binding CommandParameter}"  />
+                            </Behaviors:EventTrigger>
+                        </Behaviors:Interaction.Triggers>
                     </local:DropDownButton>
                 </ControlTemplate>
             </Setter.Value>
@@ -423,12 +436,12 @@
                                 <Border.Effect>
                                     <DropShadowEffect BlurRadius="5" Opacity="0.4"/>
                                 </Border.Effect>
-                                <ListBox ItemsSource="{Binding ItemsSource}" SelectedItem="{Binding SelectedItem, Mode=TwoWay}" ItemTemplate="{Binding ItemTemplate}" Style="{TemplateBinding ListBoxStyle}" >
+                                <ListBox x:Name="PART_ListBox" ItemsSource="{Binding ItemsSource}" SelectedItem="{Binding SelectedItem, Mode=TwoWay}" ItemTemplate="{Binding ItemTemplate}" Style="{TemplateBinding ListBoxStyle}" >
                                     <Behaviors:Interaction.Triggers>
                                         <Behaviors:EventTrigger EventName="SelectionChanged">
                                             <Behaviors:ChangePropertyAction PropertyName="IsDropDownOpen" TargetObject="{Binding RelativeSource={RelativeSource AncestorType=local:DropDownButton}}" Value="False"/>
                                             <Behaviors:InvokeCommandAction Command="{Binding JunkCommand}" />
-                                            <Behaviors:InvokeCommandAction Command="{Binding SelectionChangedCommand}" />
+                                            <Behaviors:InvokeCommandAction Command="{Binding SelectionChangedCommand}"  />
                                         </Behaviors:EventTrigger>
                                     </Behaviors:Interaction.Triggers>
                                 </ListBox>
