@@ -360,8 +360,21 @@
                                 <Setter Property="Template">
                                     <Setter.Value>
                                         <ControlTemplate TargetType="ListBoxItem">
-                                            <CheckBox HorizontalAlignment="Left" VerticalAlignment="Center" IsChecked="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=IsSelected, Mode=TwoWay}"
+                                            <CheckBox HorizontalAlignment="Left" VerticalAlignment="Center" 
+                                                      Command="{Binding RelativeSource={RelativeSource AncestorType=local:DimensionButton}, Path=CheckboxCheckedCommand}"
+                                                      CommandParameter="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content}"
                                                       Content="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content, Converter={StaticResource DimensionActionDescriptionConverter}}">
+
+                                                <CheckBox.IsChecked>
+                                                    <MultiBinding Converter="{StaticResource DimensionEventCheckedConverter}" Mode="OneWay" >
+                                                        <Binding RelativeSource="{RelativeSource AncestorType=local:DimensionButton}" Path="Dimension" Mode="OneWay" />
+                                                        <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Content" Mode="OneWay"  />
+                                                        <Binding RelativeSource="{RelativeSource AncestorType=local:DimensionButton}" Path="SelectedItem" Mode="TwoWay"/>
+                                                    </MultiBinding>
+                                                </CheckBox.IsChecked>
+
+
+                                                <!--IsChecked="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=IsSelected, Mode=TwoWay}"-->
 
                                                 <!--<CheckBox.IsChecked>
                                                     <MultiBinding Converter="{StaticResource DimensionEventCheckedConverter}" Mode="OneWay">
@@ -373,7 +386,7 @@
 
                                                 <CheckBox.IsEnabled>
                                                     <MultiBinding Converter="{StaticResource DimensionEventEnabledConverter}" Mode="OneWay">
-                                                        <Binding Path="." />
+                                                        <Binding RelativeSource="{RelativeSource AncestorType=ListBoxItem}" Path="Content" />
                                                         <Binding RelativeSource="{RelativeSource AncestorType=local:DimensionContainerCell}" Path="." />
                                                     </MultiBinding>
                                                 </CheckBox.IsEnabled>

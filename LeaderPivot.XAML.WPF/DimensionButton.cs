@@ -13,12 +13,14 @@ namespace LeaderAnalytics.LeaderPivot.XAML.WPF;
 
 public class DimensionButton : DropDownButton, ICommandSource
 {
-    public Dimension Dimension
+    public ICommand CheckboxCheckedCommand
     {
-        get { return (Dimension)GetValue(DimensionProperty); }
-        set { SetValue(DimensionProperty, value); }
+        get { return (ICommand)GetValue(CheckboxCheckedCommandProperty); }
+        set { SetValue(CheckboxCheckedCommandProperty, value); }
     }
 
+    public static readonly DependencyProperty CheckboxCheckedCommandProperty =
+        DependencyProperty.Register("CheckboxCheckedCommand", typeof(ICommand), typeof(DimensionButton), new PropertyMetadata(null));
 
 
     public object CommandParameter
@@ -39,11 +41,27 @@ public class DimensionButton : DropDownButton, ICommandSource
 
     public static readonly DependencyProperty CommandTargetProperty =
         DependencyProperty.Register("CommandTarget", typeof(IInputElement), typeof(DimensionButton), new PropertyMetadata(null));
-    
+
+
+    public Dimension Dimension
+    {
+        get { return (Dimension)GetValue(DimensionProperty); }
+        set { SetValue(DimensionProperty, value); }
+    }
 
     public static readonly DependencyProperty DimensionProperty =
         DependencyProperty.Register("Dimension", typeof(Dimension), typeof(DimensionButton), new PropertyMetadata(null));
 
 
     static DimensionButton() => DefaultStyleKeyProperty.OverrideMetadata(typeof(DimensionButton), new FrameworkPropertyMetadata(typeof(DimensionButton)));
+
+    public DimensionButton()
+    {
+        CheckboxCheckedCommand = new RelayCommand<DimensionAction>(CheckboxCheckedCommandHandler);
+    }
+
+    public void CheckboxCheckedCommandHandler(DimensionAction e)
+    {
+        SelectedItem = e;
+    }
 }
