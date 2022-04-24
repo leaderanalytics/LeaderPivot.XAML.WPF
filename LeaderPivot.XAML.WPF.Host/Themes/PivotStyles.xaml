@@ -61,8 +61,22 @@
                     <Setter Property="materialDesign:ShadowAssist.ShadowDepth" Value="Depth3"/>
                 </Style>
             </Setter.Value>
+            
         </Setter>
-        
+        <Setter Property="ListBoxStyle">
+            <Setter.Value>
+                <Style TargetType="ListBox">
+                    <Setter Property="Background" Value="{DynamicResource DimensionButtonPopupBackgroundBrush}"/>
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ListBoxItemStyle">
+            <Setter.Value>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="Background" Value="Green"></Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
     </Style>
     <Style TargetType="ComboBox" BasedOn="{StaticResource MaterialDesignOutlinedComboBox}">
         
@@ -85,6 +99,8 @@
         <Setter Property="Foreground" Value="{DynamicResource MeasureCheckboxForegroundBrush}"/>
         <Setter Property="Background" Value="{DynamicResource MeasureCheckboxBackgroundBrush}"/>
     </Style>
+
+    
     
     <!--Control containers-->
     <Style TargetType="leaderpivot:DimensionContainerCell" >

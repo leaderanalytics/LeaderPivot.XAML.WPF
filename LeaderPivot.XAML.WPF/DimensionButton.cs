@@ -55,13 +55,5 @@ public class DimensionButton : DropDownButton, ICommandSource
 
     static DimensionButton() => DefaultStyleKeyProperty.OverrideMetadata(typeof(DimensionButton), new FrameworkPropertyMetadata(typeof(DimensionButton)));
 
-    public DimensionButton()
-    {
-        CheckboxCheckedCommand = new RelayCommand<DimensionAction>(CheckboxCheckedCommandHandler);
-    }
-
-    public void CheckboxCheckedCommandHandler(DimensionAction e)
-    {
-        SelectedItem = e;
-    }
+    public DimensionButton() => CheckboxCheckedCommand = new RelayCommand<DimensionAction>(x => SelectedItem = x);
 }

@@ -15,36 +15,6 @@
     <converters:DimensionEventCheckedConverter x:Key="DimensionEventCheckedConverter"/>
     <converters:DimensionEventEnabledConverter x:Key="DimensionEventEnabledConverter"/>
     <converters:DimensionActionDescriptionConverter x:Key="DimensionActionDescriptionConverter"/>
-
-    <DataTemplate x:Key="DimensionButtonItemTemplate">
-        
-        <Border Padding="0,4,0,4" HorizontalAlignment="Left" VerticalAlignment="Center">
-            <CheckBox HorizontalAlignment="Left" VerticalAlignment="Center"
-                Content="{Binding Converter={StaticResource DimensionActionDescriptionConverter}}" 
-                Command="{Binding RelativeSource={RelativeSource AncestorType=local:DimensionButton}, Path=SelectionChangedCommand}" >
-                <CheckBox.IsEnabled>
-                    <MultiBinding Converter="{StaticResource DimensionEventEnabledConverter}" Mode="OneWay">
-                        <Binding Path="." />
-                        <Binding RelativeSource="{RelativeSource AncestorType=local:DimensionContainerCell}" Path="." />
-                    </MultiBinding>
-                </CheckBox.IsEnabled>
-                <CheckBox.IsChecked>
-                    <MultiBinding Converter="{StaticResource DimensionEventCheckedConverter}" Mode="OneWay">
-                        <Binding RelativeSource="{RelativeSource AncestorType=local:DimensionButton}" Path="Dimension" />
-                        <Binding Path="." />
-                        <Binding RelativeSource="{RelativeSource AncestorType=ListBoxItem}" Path="IsSelected" Mode="TwoWay"/>
-                    </MultiBinding>
-                </CheckBox.IsChecked>
-                <CheckBox.CommandParameter>
-                    <MultiBinding Converter="{StaticResource DimensionEventArgsConverter}" Mode="OneWay">
-                        <Binding RelativeSource="{RelativeSource AncestorType=local:DimensionButton}" Path="Dimension" />
-                        <Binding Path="." />
-                    </MultiBinding>
-                </CheckBox.CommandParameter>
-            </CheckBox>
-        </Border>
-        
-    </DataTemplate>
     
     <Style TargetType="{x:Type ScrollViewer}">
         <Setter Property="HorizontalScrollBarVisibility" Value="Auto"/>
@@ -341,62 +311,62 @@
     </Style>
     
     <Style TargetType="{x:Type local:DimensionButton}">
+        <Setter Property="PopupStyle">
+            <Setter.Value>
+                <Style TargetType="Popup">
+                    <Setter Property="AllowsTransparency" Value="True"/>
+                    <Setter Property="VerticalOffset" Value="0"/>
+                    <Setter Property="StaysOpen" Value="True"/>
+                </Style>
+            </Setter.Value>
+        </Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:DimensionButton}">
                         <local:DropDownButton
                             DataContext="{Binding RelativeSource={RelativeSource AncestorType=local:DimensionButton}}"
                             Command="{Binding Command}"
-                            
                             Content="{Binding Content}" 
-                            ItemTemplate="{StaticResource DimensionButtonItemTemplate}"
                             SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
                             ButtonStyle="{Binding ButtonStyle}"
-                            ListBoxStyle="{Binding ListBoxStyle}">
+                            ListBoxStyle="{Binding ListBoxStyle}"
+                            PopupStyle="{Binding PopupStyle}">
                         <local:DropDownButton.Resources>
                             <Style TargetType="ListBoxItem">
+                                <Setter Property="Margin" Value="2,10,2,10"/>
                                 <Setter Property="OverridesDefaultStyle" Value="true" />
                                 <Setter Property="SnapsToDevicePixels" Value="true" />
                                 <Setter Property="Template">
                                     <Setter.Value>
                                         <ControlTemplate TargetType="ListBoxItem">
-                                            <CheckBox HorizontalAlignment="Left" VerticalAlignment="Center" 
-                                                      Command="{Binding RelativeSource={RelativeSource AncestorType=local:DimensionButton}, Path=CheckboxCheckedCommand}"
-                                                      CommandParameter="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content}"
-                                                      Content="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content, Converter={StaticResource DimensionActionDescriptionConverter}}">
-
-                                                <CheckBox.IsChecked>
-                                                    <MultiBinding Converter="{StaticResource DimensionEventCheckedConverter}" Mode="OneWay" >
-                                                        <Binding RelativeSource="{RelativeSource AncestorType=local:DimensionButton}" Path="Dimension" Mode="OneWay" />
-                                                        <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Content" Mode="OneWay"  />
-                                                        <Binding RelativeSource="{RelativeSource AncestorType=local:DimensionButton}" Path="SelectedItem" Mode="TwoWay"/>
-                                                    </MultiBinding>
-                                                </CheckBox.IsChecked>
-
-
-                                                <!--IsChecked="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=IsSelected, Mode=TwoWay}"-->
-
-                                                <!--<CheckBox.IsChecked>
-                                                    <MultiBinding Converter="{StaticResource DimensionEventCheckedConverter}" Mode="OneWay">
-                                                        <Binding RelativeSource="{RelativeSource AncestorType=local:DimensionButton}" Path="Dimension" />
-                                                        <Binding Path="." />
-                                                        <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="IsSelected" Mode="TwoWay"/>
-                                                    </MultiBinding>
-                                                </CheckBox.IsChecked>-->
-
-                                                <CheckBox.IsEnabled>
-                                                    <MultiBinding Converter="{StaticResource DimensionEventEnabledConverter}" Mode="OneWay">
-                                                        <Binding RelativeSource="{RelativeSource AncestorType=ListBoxItem}" Path="Content" />
-                                                        <Binding RelativeSource="{RelativeSource AncestorType=local:DimensionContainerCell}" Path="." />
-                                                    </MultiBinding>
-                                                </CheckBox.IsEnabled>
-                                            </CheckBox>
+                                            <Border 
+                                                Background="{TemplateBinding Background}" 
+                                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                                BorderThickness="{TemplateBinding BorderThickness}"
+                                                Padding="{TemplateBinding Padding}">
+                                                <CheckBox HorizontalAlignment="Left" VerticalAlignment="Center"
+                                                          Command="{Binding RelativeSource={RelativeSource AncestorType=local:DimensionButton}, Path=CheckboxCheckedCommand}"
+                                                          CommandParameter="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content}"
+                                                          Content="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content, Converter={StaticResource DimensionActionDescriptionConverter}}">
+                                                    <CheckBox.IsChecked>
+                                                        <MultiBinding Converter="{StaticResource DimensionEventCheckedConverter}" Mode="OneWay" >
+                                                            <Binding RelativeSource="{RelativeSource AncestorType=local:DimensionButton}" Path="Dimension" Mode="OneWay" />
+                                                            <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Content" Mode="OneWay"  />
+                                                        </MultiBinding>
+                                                    </CheckBox.IsChecked>
+                                                    <CheckBox.IsEnabled>
+                                                        <MultiBinding Converter="{StaticResource DimensionEventEnabledConverter}" Mode="OneWay">
+                                                            <Binding RelativeSource="{RelativeSource AncestorType=ListBoxItem}" Path="Content" />
+                                                            <Binding RelativeSource="{RelativeSource AncestorType=local:DimensionContainerCell}" Path="." />
+                                                        </MultiBinding>
+                                                    </CheckBox.IsEnabled>
+                                                </CheckBox>
+                                            </Border>
                                         </ControlTemplate>
                                     </Setter.Value>
                                 </Setter>
                             </Style>
                         </local:DropDownButton.Resources>
-                            
                         <local:DropDownButton.ItemsSource>
                             <x:Array Type="{x:Type local:DimensionAction}">
                                 <x:Static Member="local:DimensionAction.SortAscending"/>
@@ -427,25 +397,27 @@
 
 
     <Style TargetType="local:DropDownButton">
-        <Setter Property="ButtonStyle">
-            <Setter.Value>
-                <Style TargetType="{x:Type Button}">
-                    <Setter Property="Padding" Value="3"/>
-                </Style>
-            </Setter.Value>
-        </Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:DropDownButton }">
                     <StackPanel Orientation="Vertical" DataContext="{Binding RelativeSource={RelativeSource AncestorType=local:DropDownButton}}">
+                        <StackPanel.Resources>
+                            <Style TargetType="Popup">
+                                <Setter Property="AllowsTransparency" Value="True"/>
+                                <Setter Property="Placement" Value="Bottom"/>
+                            </Style>
+                            <Style TargetType="{x:Type Button}">
+                                <Setter Property="Padding" Value="3"/>
+                            </Style>
+                        </StackPanel.Resources>
                         <Behaviors:Interaction.Triggers>
                             <Behaviors:EventTrigger EventName="MouseLeave">
                                 <Behaviors:InvokeCommandAction Command="{Binding MouseLeaveCommand}"/>
                             </Behaviors:EventTrigger>
                         </Behaviors:Interaction.Triggers>
                         <Button x:Name="MartyMcButton" Content="{Binding Content}" Command="{Binding ToggleDropDownCommand}" Style="{TemplateBinding ButtonStyle}"></Button>
-                        <Popup IsOpen="{Binding IsDropDownOpen}" PlacementTarget="{Binding ElementName=MartyMcButton}" Placement="Bottom" AllowsTransparency="True">
-                            <Border  Margin="0,0,8,8" >
+                        <Popup IsOpen="{Binding IsDropDownOpen}" PlacementTarget="{Binding ElementName=MartyMcButton}" Style="{Binding PopupStyle}">
+                            <Border Margin="0,0,8,8" Padding="{Binding PopupPadding}" >
                                 <Border.Effect>
                                     <DropShadowEffect BlurRadius="5" Opacity="0.4"/>
                                 </Border.Effect>

@@ -18,6 +18,7 @@
 
     <SolidColorBrush x:Key="DimensionButtonForegroundBrush" Color="Black"/>
     <SolidColorBrush x:Key="DimensionButtonBackgroundBrush" Color="#007bff"/>
+    <SolidColorBrush x:Key="DimensionButtonPopupBackgroundBrush" Color="WhiteSmoke"/>
     <SolidColorBrush x:Key="DimensionButtonShadowBrush" Color="#a6a6a6"/>
 
 

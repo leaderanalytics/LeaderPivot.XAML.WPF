@@ -52,7 +52,7 @@ public class DropDownButton : ContentControl, INotifyPropertyChanged
     }
 
     public static readonly DependencyProperty SelectedItemProperty =
-        DependencyProperty.Register("SelectedItem", typeof(object), typeof(DropDownButton), new FrameworkPropertyMetadata(null, Junk) {BindsTwoWayByDefault = true });
+        DependencyProperty.Register("SelectedItem", typeof(object), typeof(DropDownButton), new FrameworkPropertyMetadata {BindsTwoWayByDefault = true });
 
 
     public DataTemplate ItemTemplate
@@ -84,6 +84,40 @@ public class DropDownButton : ContentControl, INotifyPropertyChanged
     public static readonly DependencyProperty ListBoxStyleProperty =
         DependencyProperty.Register("ListBoxStyle", typeof(Style), typeof(DropDownButton), new PropertyMetadata(null));
 
+
+
+    public Style ListBoxItemStyle
+    {
+        get { return (Style)GetValue(ListBoxItemStyleProperty); }
+        set { SetValue(ListBoxItemStyleProperty, value); }
+    }
+
+    public static readonly DependencyProperty ListBoxItemStyleProperty =
+        DependencyProperty.Register("ListBoxItemStyle", typeof(Style), typeof(DropDownButton), new PropertyMetadata(null));
+
+
+
+    public Style PopupStyle
+    {
+        get { return (Style)GetValue(PopupStyleProperty); }
+        set { SetValue(PopupStyleProperty, value); }
+    }
+
+    public static readonly DependencyProperty PopupStyleProperty =
+        DependencyProperty.Register("PopupStyle", typeof(Style), typeof(DropDownButton), new PropertyMetadata(null));
+
+
+    public Thickness PopupPadding
+    {
+        get { return (Thickness)GetValue(PopupPaddingProperty); }
+        set { SetValue(PopupPaddingProperty, value); }
+    }
+
+    public static readonly DependencyProperty PopupPaddingProperty =
+        DependencyProperty.Register("PopupPadding", typeof(Thickness), typeof(DropDownButton), new PropertyMetadata(new Thickness()));
+
+
+
     #endregion
 
     private bool _IsDropDownOpen;
@@ -109,17 +143,7 @@ public class DropDownButton : ContentControl, INotifyPropertyChanged
 
 
 
-    public ICommand JunkCommand
-    {
-        get { return (ICommand)GetValue(JunkCommandProperty); }
-        set { SetValue(JunkCommandProperty, value); }
-    }
     
-    public static void Junk(DependencyObject sender, DependencyPropertyChangedEventArgs e)
-    { 
-        DropDownButton thisControl = sender as DropDownButton;
-        object blah = thisControl.SelectedItem;
-    }
 
     // Using a DependencyProperty as the backing store for JunkCommand.  This enables animation, styling, binding, etc...
     public static readonly DependencyProperty JunkCommandProperty =
@@ -132,11 +156,6 @@ public class DropDownButton : ContentControl, INotifyPropertyChanged
         Loaded += DropDownButton_Loaded;
         ToggleDropDownCommand = new RelayCommand(() => IsDropDownOpen = !IsDropDownOpen);
         MouseLeaveCommand = new RelayCommand(() => IsDropDownOpen = false);
-
-        JunkCommand = new RelayCommand(() =>
-        {
-            IsDropDownOpen = false;
-        });
     }
 
     private void DropDownButton_Loaded(object sender, RoutedEventArgs e)
