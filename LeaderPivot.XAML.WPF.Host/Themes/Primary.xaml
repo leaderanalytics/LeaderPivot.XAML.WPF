@@ -15,23 +15,26 @@
     <SolidColorBrush x:Key="GrandTotalHeaderBackgroundBrush" Color="WhiteSmoke"/>
     <SolidColorBrush x:Key="GrandTotalBackgroundBrush" Color="WhiteSmoke"/>
 
-
     <SolidColorBrush x:Key="DimensionButtonForegroundBrush" Color="Black"/>
     <SolidColorBrush x:Key="DimensionButtonBackgroundBrush" Color="#007bff"/>
     <SolidColorBrush x:Key="DimensionButtonPopupBackgroundBrush" Color="WhiteSmoke"/>
     <SolidColorBrush x:Key="DimensionButtonShadowBrush" Color="#a6a6a6"/>
 
-
-
     <SolidColorBrush x:Key="DimensionButtonListboxForegroundBrush" Color="#007bff"/>
     <SolidColorBrush x:Key="DimensionButtonListboxBackgroundBrush" Color="#007bff"/>
-
-    <SolidColorBrush x:Key="MeasureCheckboxForegroundBrush" Color="#007bff"/>
-    <SolidColorBrush x:Key="MeasureCheckboxBackgroundBrush" Color="#007bff"/>
 
     <SolidColorBrush x:Key="DimensionContainerCellForegroundBrush" Color="#007bff"/>
     <SolidColorBrush x:Key="DimensionContainerCellBackgroundBrush" Color="WhiteSmoke"/>
 
     <SolidColorBrush x:Key="MeasureContainerCellForegroundBrush" Color="#007bff"/>
     <SolidColorBrush x:Key="MeasureContainerCellBackgroundBrush" Color="WhiteSmoke"/>
+
+    <SolidColorBrush x:Key="ReloadButtonForegroundBrush" Color="Black"/>
+    <SolidColorBrush x:Key="ReloadButtonBackgroundBrush" Color="LightGray"/>
+
+    <SolidColorBrush x:Key="MeasureCheckboxForegroundBrush" Color="Black"/>
+    <SolidColorBrush x:Key="MeasureCheckboxBackgroundBrush" Color="LightGray"/>
+    
+    <SolidColorBrush x:Key="HiddenDimListBoxForegroundBrush" Color="Black"/>
+    <SolidColorBrush x:Key="HiddenDimListBoxBackgroundBrush" Color="LightGray"/>
 </ResourceDictionary>

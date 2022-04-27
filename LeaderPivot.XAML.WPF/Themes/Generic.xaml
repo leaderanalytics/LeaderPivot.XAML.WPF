@@ -257,20 +257,25 @@
                                     <RowDefinition/>
                                 </Grid.RowDefinitions>
                                 <Button Content="Reload Data" 
-                                        Style="{StaticResource ReloadButtonStyle}"
+                                        Style="{TemplateBinding ReloadButtonStyle}" Height="25" Width="80"
                                         Command="{Binding ReloadDataCommand}" 
                                         Visibility="{Binding DisplayReloadDataButton, Converter={StaticResource BooleanToVisibilityConverter}}" />
                                 <ItemsControl ItemsSource="{Binding ViewBuilder.Measures}" Grid.Row="1" Margin="3,10,0,0"
                                               Visibility="{Binding DisplayMeasureSelectors, Converter={StaticResource BooleanToVisibilityConverter}}">
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
-                                            <CheckBox Content="{Binding DisplayValue}" IsChecked="{Binding IsEnabled}" Command="{Binding RelativeSource={RelativeSource AncestorType=local:LeaderPivotControl}, Path=ReloadDataCommand}" Padding="2" />
+                                            <CheckBox 
+                                                Content="{Binding DisplayValue}" 
+                                                IsChecked="{Binding IsEnabled}" 
+                                                Command="{Binding RelativeSource={RelativeSource AncestorType=local:LeaderPivotControl}, Path=ReloadDataCommand}" 
+                                                Style="{Binding RelativeSource={RelativeSource AncestorType=local:MeasureContainerCell}, Path=MeasureCheckBoxStyle}" Padding="2" />
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>
                                 <CheckBox Content="Grand Totals" Margin="3,0,0,0"
                                           IsChecked="{Binding ViewBuilder.DisplayGrandTotals}" Command="{Binding ReloadDataCommand}" Padding="2" 
                                           Visibility="{Binding DisplayGrandTotalOption, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                          Style="{TemplateBinding MeasureCheckBoxStyle}"
                                           Grid.Row="2" />
                                 
                                 <local:DimensionContainerCell BorderThickness="0" Margin="0,3,0,0"
@@ -278,7 +283,9 @@
                                     Dimensions="{Binding ViewBuilder.RowDimensions}" 
                                     Grid.Row="3"/>
 
-                                <ComboBox Grid.Row="4" Margin="0,6,0,6" x:Name="HiddenDimensionsComboBox" Padding="6"
+                                <ComboBox Grid.Row="4" x:Name="HiddenDimensionsComboBox" 
+                                          Style="{TemplateBinding HiddenDimensionsListBoxStyle}"
+                                          Padding="6" Margin="0,6,0,6"
                                           Text="Hidden Dimensions" 
                                           IsReadOnly="True" IsEditable="True"
                                           DisplayMemberPath="DisplayValue"

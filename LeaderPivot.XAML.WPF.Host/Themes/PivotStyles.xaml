@@ -32,6 +32,7 @@
     <Style TargetType="leaderpivot:MeasureTotalLabelCell" >
         <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
         <Setter Property="Background" Value="{DynamicResource TotalLabelBackgroundBrush}"/>
+        
     </Style>
 
     <Style TargetType="leaderpivot:TotalHeaderCell" >
@@ -78,6 +79,7 @@
             </Setter.Value>
         </Setter>
     </Style>
+    
     <Style TargetType="ComboBox" BasedOn="{StaticResource MaterialDesignOutlinedComboBox}">
         
     </Style>
@@ -88,17 +90,7 @@
     
     
     
-    <Style TargetType="ListBox" >
-        <!--Dimension Button ListBoxes-->
-        <Setter Property="Foreground" Value="{DynamicResource DimensionButtonListboxForegroundBrush}"/>
-        <Setter Property="Background" Value="{DynamicResource DimensionButtonListboxBackgroundBrush}"/>
-    </Style>
-
-    <Style TargetType="CheckBox">
-        <!--Measure Checkboxes-->
-        <Setter Property="Foreground" Value="{DynamicResource MeasureCheckboxForegroundBrush}"/>
-        <Setter Property="Background" Value="{DynamicResource MeasureCheckboxBackgroundBrush}"/>
-    </Style>
+   
 
     
     
@@ -111,5 +103,29 @@
     <Style TargetType="leaderpivot:MeasureContainerCell" >
         <Setter Property="Foreground" Value="{DynamicResource MeasureContainerCellForegroundBrush}"/>
         <Setter Property="Background" Value="{DynamicResource MeasureContainerCellBackgroundBrush}"/>
+        <Setter Property="ReloadButtonStyle">
+            <Setter.Value>
+                <Style TargetType="Button">
+                    <Setter Property="Foreground" Value="{DynamicResource ReloadButtonForegroundBrush}"/>
+                    <Setter Property="Background" Value="{DynamicResource ReloadButtonBackgroundBrush}"/>
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="MeasureCheckBoxStyle">
+            <Setter.Value>
+                <Style TargetType="CheckBox">
+                    <Setter Property="Foreground" Value="{DynamicResource MeasureCheckboxForegroundBrush}"/>
+                    <Setter Property="Background" Value="{DynamicResource MeasureCheckboxBackgroundBrush}"/>
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="HiddenDimensionsListBoxStyle">
+            <Setter.Value>
+                <Style TargetType="ComboBox">
+                    <Setter Property="Foreground" Value="{DynamicResource HiddenDimListBoxForegroundBrush}"/>
+                    <Setter Property="Background" Value="{DynamicResource HiddenDimListBoxBackgroundBrush}"/>
+                </Style>
+            </Setter.Value>
+        </Setter>
     </Style>
 </ResourceDictionary>

@@ -128,6 +128,34 @@ public class MeasureCell : BaseCell
 
 public class MeasureContainerCell : BaseCell
 {
+    public Style ReloadButtonStyle
+    {
+        get { return (Style)GetValue(ReloadButtonStyleProperty); }
+        set { SetValue(ReloadButtonStyleProperty, value); }
+    }
+
+    public static readonly DependencyProperty ReloadButtonStyleProperty =
+        DependencyProperty.Register("ReloadButtonStyle", typeof(Style), typeof(MeasureContainerCell), new PropertyMetadata(null));
+
+    public Style MeasureCheckBoxStyle
+    {
+        get { return (Style)GetValue(MeasureCheckBoxStyleProperty); }
+        set { SetValue(MeasureCheckBoxStyleProperty, value); }
+    }
+
+    public static readonly DependencyProperty MeasureCheckBoxStyleProperty =
+        DependencyProperty.Register("MeasureCheckBoxStyle", typeof(Style), typeof(MeasureContainerCell), new PropertyMetadata(null));
+
+
+    public Style HiddenDimensionsListBoxStyle
+    {
+        get { return (Style)GetValue(HiddenDimensionsListBoxStyleProperty); }
+        set { SetValue(HiddenDimensionsListBoxStyleProperty, value); }
+    }
+
+    public static readonly DependencyProperty HiddenDimensionsListBoxStyleProperty =
+        DependencyProperty.Register("HiddenDimensionsListBoxStyle", typeof(Style), typeof(MeasureContainerCell), new PropertyMetadata(null));
+
     static MeasureContainerCell() => DefaultStyleKeyProperty.OverrideMetadata(typeof(MeasureContainerCell), new FrameworkPropertyMetadata(typeof(MeasureContainerCell)));
 }
 
