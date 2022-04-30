@@ -5,6 +5,7 @@
 
     
     <!--Non-Total cells-->
+    
     <Style TargetType="leaderpivot:GroupHeaderCell" >
         <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
         <Setter Property="Background" Value="{DynamicResource GroupHeaderBackgroundBrush}"/>
@@ -19,8 +20,6 @@
         <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
         <Setter Property="Background" Value="{DynamicResource MeasureLabelBackgroundBrush}"/>
     </Style>
-
-    
     
     <!--Total cells-->
 
@@ -32,7 +31,6 @@
     <Style TargetType="leaderpivot:MeasureTotalLabelCell" >
         <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
         <Setter Property="Background" Value="{DynamicResource TotalLabelBackgroundBrush}"/>
-        
     </Style>
 
     <Style TargetType="leaderpivot:TotalHeaderCell" >
@@ -49,6 +47,7 @@
         <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
         <Setter Property="Background" Value="{DynamicResource GrandTotalBackgroundBrush}"/>
     </Style>
+    
     <!--Controls-->
     
     <Style TargetType="leaderpivot:DimensionButton">
@@ -62,39 +61,27 @@
                     <Setter Property="materialDesign:ShadowAssist.ShadowDepth" Value="Depth3"/>
                 </Style>
             </Setter.Value>
-            
         </Setter>
         <Setter Property="ListBoxStyle">
             <Setter.Value>
                 <Style TargetType="ListBox">
-                    <Setter Property="Background" Value="{DynamicResource DimensionButtonPopupBackgroundBrush}"/>
+                    <Setter Property="Foreground" Value="{DynamicResource DimensionButtonListboxForegroundBrush}"/>
+                    <Setter Property="Background" Value="{DynamicResource DimensionButtonListboxBackgroundBrush}"/>
                 </Style>
             </Setter.Value>
         </Setter>
         <Setter Property="ListBoxItemStyle">
             <Setter.Value>
                 <Style TargetType="ListBoxItem">
-                    <Setter Property="Background" Value="Green"></Setter>
+                    <Setter Property="Foreground" Value="{DynamicResource DimensionButtonListboxItemForegroundBrush}"/>
+                    <Setter Property="Background" Value="{DynamicResource DimensionButtonListboxItemBackgroundBrush}"/>
                 </Style>
             </Setter.Value>
         </Setter>
     </Style>
     
-    <Style TargetType="ComboBox" BasedOn="{StaticResource MaterialDesignOutlinedComboBox}">
-        
-    </Style>
-    
-    <Style TargetType="DropShadowEffect">
-        <Setter Property="Color" Value="{DynamicResource DimensionButtonShadowBrush}"/>
-    </Style>
-    
-    
-    
-   
-
-    
-    
     <!--Control containers-->
+
     <Style TargetType="leaderpivot:DimensionContainerCell" >
         <Setter Property="Foreground" Value="{DynamicResource DimensionContainerCellForegroundBrush}"/>
         <Setter Property="Background" Value="{DynamicResource DimensionContainerCellBackgroundBrush}"/>

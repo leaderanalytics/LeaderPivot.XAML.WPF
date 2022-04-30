@@ -6,8 +6,7 @@
     
     <SolidColorBrush x:Key="MeasureBackgroundBrush" Color="#fff"/>
     <SolidColorBrush x:Key="MeasureLabelBackgroundBrush" Color="#fff"/>
-    
-    
+        
     <SolidColorBrush x:Key="TotalBackgroundBrush" Color="WhiteSmoke"/>
     <SolidColorBrush x:Key="TotalLabelBackgroundBrush" Color="WhiteSmoke"/>
     <SolidColorBrush x:Key="TotalHeaderBackgroundBrush" Color="WhiteSmoke"/>
@@ -17,11 +16,13 @@
 
     <SolidColorBrush x:Key="DimensionButtonForegroundBrush" Color="Black"/>
     <SolidColorBrush x:Key="DimensionButtonBackgroundBrush" Color="#007bff"/>
-    <SolidColorBrush x:Key="DimensionButtonPopupBackgroundBrush" Color="WhiteSmoke"/>
     <SolidColorBrush x:Key="DimensionButtonShadowBrush" Color="#a6a6a6"/>
 
-    <SolidColorBrush x:Key="DimensionButtonListboxForegroundBrush" Color="#007bff"/>
-    <SolidColorBrush x:Key="DimensionButtonListboxBackgroundBrush" Color="#007bff"/>
+    <SolidColorBrush x:Key="DimensionButtonListboxForegroundBrush" Color="Black"/>
+    <SolidColorBrush x:Key="DimensionButtonListboxBackgroundBrush" Color="WhiteSmoke"/>
+
+    <SolidColorBrush x:Key="DimensionButtonListboxItemForegroundBrush" Color="Black"/>
+    <SolidColorBrush x:Key="DimensionButtonListboxItemBackgroundBrush" Color="WhiteSmoke"/>
 
     <SolidColorBrush x:Key="DimensionContainerCellForegroundBrush" Color="#007bff"/>
     <SolidColorBrush x:Key="DimensionContainerCellBackgroundBrush" Color="WhiteSmoke"/>
