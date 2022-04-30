@@ -1,5 +1,41 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <SolidColorBrush x:Key="background" Color="Blue"/>
+    <SolidColorBrush x:Key="ForegroundBrush" Color="White"/>
+    <SolidColorBrush x:Key="GroupHeaderBackgroundBrush" Color="#242a2f"/>
+
+    <SolidColorBrush x:Key="MeasureBackgroundBrush" Color="#242a2f"/>
+    <SolidColorBrush x:Key="MeasureLabelBackgroundBrush" Color="#242a2f"/>
+
+    <SolidColorBrush x:Key="TotalBackgroundBrush" Color="#343a40"/>
+    <SolidColorBrush x:Key="TotalLabelBackgroundBrush" Color="#343a40"/>
+    <SolidColorBrush x:Key="TotalHeaderBackgroundBrush" Color="#343a40"/>
+
+    <SolidColorBrush x:Key="GrandTotalHeaderBackgroundBrush" Color="#343a40"/>
+    <SolidColorBrush x:Key="GrandTotalBackgroundBrush" Color="#343a40"/>
+
+    <SolidColorBrush x:Key="DimensionButtonForegroundBrush" Color="#fff"/>
+    <SolidColorBrush x:Key="DimensionButtonBackgroundBrush" Color="#343a40"/>
+    <SolidColorBrush x:Key="DimensionButtonShadowBrush" Color="Black"/>
+
+    <SolidColorBrush x:Key="DimensionButtonListboxForegroundBrush" Color="Black"/>
+    <SolidColorBrush x:Key="DimensionButtonListboxBackgroundBrush" Color="WhiteSmoke"/>
+
+    <SolidColorBrush x:Key="DimensionButtonListboxItemForegroundBrush" Color="Black"/>
+    <SolidColorBrush x:Key="DimensionButtonListboxItemBackgroundBrush" Color="WhiteSmoke"/>
+
+    <SolidColorBrush x:Key="DimensionContainerCellForegroundBrush" Color="#007bff"/>
+    <SolidColorBrush x:Key="DimensionContainerCellBackgroundBrush" Color="#242a2f"/>
+
+    <SolidColorBrush x:Key="MeasureContainerCellForegroundBrush" Color="#007bff"/>
+    <SolidColorBrush x:Key="MeasureContainerCellBackgroundBrush" Color="#242a2f"/>
+
+    <SolidColorBrush x:Key="ReloadButtonForegroundBrush" Color="Black"/>
+    <SolidColorBrush x:Key="ReloadButtonBackgroundBrush" Color="#343a40"/>
+
+    <SolidColorBrush x:Key="MeasureCheckboxForegroundBrush" Color="White"/>
+    <SolidColorBrush x:Key="MeasureCheckboxBackgroundBrush" Color="#6c757d"/>
+
+    <SolidColorBrush x:Key="HiddenDimListBoxForegroundBrush" Color="Black"/>
+    <SolidColorBrush x:Key="HiddenDimListBoxBackgroundBrush" Color="LightGray"/>
 </ResourceDictionary>
