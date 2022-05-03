@@ -36,15 +36,15 @@
             </Style.Triggers>
         </Style>
     </Window.Resources>
-    <Grid>
+    <Grid Background="CornflowerBlue">
         <Grid.RowDefinitions>
             <RowDefinition Height="150"/>
             <RowDefinition />
         </Grid.RowDefinitions>
         
-        <local:ControlPanel x:Name="cp"/>
+        <local:ControlPanel x:Name="controlPanel"/>
 
-        <Border Grid.Row="1" Style="{StaticResource BorderStoryboardStyle}">
+        <Border Grid.Row="1" Style="{StaticResource BorderStoryboardStyle}" >
             <materialDesign:DialogHost  IsOpen="{Binding IsBusy}">
                 <materialDesign:DialogHost.DialogContent>
                     <StackPanel Orientation="Vertical" Margin="16">
@@ -56,13 +56,13 @@
                         <Label Content="Working..."/>
                     </StackPanel>
                 </materialDesign:DialogHost.DialogContent>
-                <leaderpivot:LeaderPivotControl
-                    DisplayGrandTotalOption="{Binding ElementName=cp, Path=DisplayGrandTotalOption}"
-                    DisplayDimensionButtons="{Binding ElementName=cp, Path=DisplayDimensionButtons}"
-                    DisplayMeasureSelectors="{Binding ElementName=cp, Path=DisplayMeasureSelectors}"
-                    DisplayReloadDataButton="{Binding ElementName=cp, Path=DisplayReloadDataButton}"
-                    FontSize="{Binding ElementName=cp, Path=PivotControlFontSize}"
-                    CellPadding="{Binding ElementName=cp, Path=CellPadding}"
+                <leaderpivot:LeaderPivotControl BorderThickness="6" BorderBrush="Silver" Margin="20"
+                    DisplayGrandTotalOption="{Binding ElementName=controlPanel, Path=DisplayGrandTotalOption}"
+                    DisplayDimensionButtons="{Binding ElementName=controlPanel, Path=DisplayDimensionButtons}"
+                    DisplayMeasureSelectors="{Binding ElementName=controlPanel, Path=DisplayMeasureSelectors}"
+                    DisplayReloadDataButton="{Binding ElementName=controlPanel, Path=DisplayReloadDataButton}"
+                    FontSize="{Binding ElementName=controlPanel, Path=PivotControlFontSize}"
+                    CellPadding="{Binding ElementName=controlPanel, Path=CellPadding}"
                     ViewBuilder="{Binding ViewBuilder}"
                     IsBusy="{Binding IsBusy}"/>
             </materialDesign:DialogHost>

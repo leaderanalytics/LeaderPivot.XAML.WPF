@@ -1,6 +1,4 @@
-﻿using System.ComponentModel;
-
-namespace LeaderAnalytics.LeaderPivot.XAML.WPF;
+﻿namespace LeaderAnalytics.LeaderPivot.XAML.WPF;
 
 public enum DimensionAction
 {

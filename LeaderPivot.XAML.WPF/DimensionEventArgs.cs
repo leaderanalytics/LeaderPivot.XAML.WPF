@@ -1,8 +1,4 @@
-﻿using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-
-namespace LeaderAnalytics.LeaderPivot.XAML.WPF;
+﻿namespace LeaderAnalytics.LeaderPivot.XAML.WPF;
 
 public class DimensionEventArgs  
 {

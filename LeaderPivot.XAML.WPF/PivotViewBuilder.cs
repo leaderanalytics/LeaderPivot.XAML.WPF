@@ -1,16 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Media;
-using System.Windows;
-using LeaderAnalytics.LeaderPivot;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-namespace LeaderAnalytics.LeaderPivot.XAML.WPF;
+﻿namespace LeaderAnalytics.LeaderPivot.XAML.WPF;
 
 public class PivotViewBuilder<T> : PivotViewBuilder
 {

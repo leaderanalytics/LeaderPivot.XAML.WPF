@@ -12,7 +12,7 @@
         <local:NegateVisibilityConverter x:Key="NegateVisibilityConverter" />
     </UserControl.Resources>
     
-    <Grid DataContext="{Binding RelativeSource={RelativeSource AncestorType=local:ControlPanel}}" VerticalAlignment="Top">
+    <Grid DataContext="{Binding RelativeSource={RelativeSource AncestorType=local:ControlPanel}}" VerticalAlignment="Top" Background="Cornsilk" >
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition/>
@@ -35,27 +35,11 @@
             
         </Grid.Resources>
         <Label Content="Sales Data" Grid.RowSpan="2" FontSize="30" Margin="20"></Label>
-        <StackPanel Grid.Column="1" Visibility="{Binding PanelVisibility}"  >
+        <StackPanel Grid.Column="1" Visibility="{Binding PanelVisibility}">
             <CheckBox IsChecked="{Binding DisplayGrandTotalOption}" Content="Grand Totals Option"/>
             <CheckBox IsChecked="{Binding DisplayDimensionButtons}" Content="Dimension Buttons"/>
             <CheckBox IsChecked="{Binding DisplayMeasureSelectors}" Content="Measure Selectors"/>
             <CheckBox IsChecked="{Binding DisplayReloadDataButton}" Content="Reload Data Button"/>
-            <!--<CheckBox IsChecked="{Binding UseDarkTheme}" Content="Dark Theme"/>
-            
-            <materialDesign:PopupBox 
-                Width="300" IsPopupOpen="{Binding IsColorPickerPopupOpen}" 
-                PlacementMode="BottomAndAlignRightEdges" Padding="8" StaysOpen="True"  >
-                <materialDesign:PopupBox.ToggleContent>
-                    <Button x:Name="ColorPickerButton" Content="Colors..." Command="{Binding ShowColorPickerPopupCommand}"/>
-                </materialDesign:PopupBox.ToggleContent>
-                <StackPanel Orientation="Vertical">
-                    <Label Content="Primary Color:"/>
-                    <materialDesign:ColorPicker Height="80"  Width="300"  Color="{Binding PrimaryColor, Delay=25}"  />
-                    <Label Content="Secondary Color:"/>
-                    <materialDesign:ColorPicker Height="80"  Width="300"  Color="{Binding SecondaryColor, Delay=25}"/>
-                    <Button Content="Close" Command="{Binding HideColorPickerPopupCommand}" HorizontalAlignment="Right" Margin="0,8,0,0"/>
-                </StackPanel>
-            </materialDesign:PopupBox>-->
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0"  >
                 <Label Content="Theme:" Margin="0,2,6,0" VerticalAlignment="Center" />
                 <ComboBox Width="120" BorderBrush="Black" BorderThickness=".5" Padding="6" VerticalAlignment="Center">

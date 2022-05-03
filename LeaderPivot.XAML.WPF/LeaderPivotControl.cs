@@ -6,29 +6,6 @@
  * Please do not remove this header.
  */
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media.Imaging;
-using System.Windows.Media.Media3D;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using CommunityToolkit.Mvvm.Input;
-using GongSolutions.Wpf.DragDrop;
-using GongSolutions.Wpf.DragDrop.Utilities;
-using LeaderAnalytics.LeaderPivot;
-using System.Windows.Media;
-
 namespace LeaderAnalytics.LeaderPivot.XAML.WPF;
 
 public class LeaderPivotControl: ContentControl, IDropTarget, IDragSource

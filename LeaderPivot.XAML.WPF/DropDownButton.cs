@@ -1,16 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Windows.Input;
-using System.Collections;
-
-namespace LeaderAnalytics.LeaderPivot.XAML.WPF;
+﻿namespace LeaderAnalytics.LeaderPivot.XAML.WPF;
 
 public class DropDownButton : ContentControl, INotifyPropertyChanged
 {

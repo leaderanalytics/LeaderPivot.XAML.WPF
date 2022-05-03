@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
+﻿namespace LeaderAnalytics.LeaderPivot.XAML.WPF;
 
-namespace LeaderAnalytics.LeaderPivot.XAML.WPF;
 public class RelayCommand : ICommand
 {
     private Action execute;

@@ -54,14 +54,19 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:LeaderPivotControl}" >
-                    <Border Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding CellBorderBrush}"
-                            BorderThickness="{TemplateBinding CellBorderThickness}"
-                            DataContext="{Binding RelativeSource={RelativeSource AncestorType=local:LeaderPivotControl}}" >
+                    <Border Background="{TemplateBinding Background}" 
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            VerticalAlignment="Top" HorizontalAlignment="Left">
+                            
+                        <Border BorderBrush="{TemplateBinding CellBorderBrush}"
+                                BorderThickness="{TemplateBinding CellBorderThickness}"
+                                DataContext="{Binding RelativeSource={RelativeSource AncestorType=local:LeaderPivotControl}}" >
 
-                        <ScrollViewer x:Name="ContentScrollViewer" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                            <Grid x:Name="PART_Grid" />
-                        </ScrollViewer>
+                            <ScrollViewer x:Name="ContentScrollViewer" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                                <Grid x:Name="PART_Grid" />
+                            </ScrollViewer>
+                        </Border>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>

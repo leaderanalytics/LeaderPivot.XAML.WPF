@@ -1,0 +1,13 @@
+﻿global using CommunityToolkit.Mvvm.Input;
+global using GongSolutions.Wpf.DragDrop;
+global using GongSolutions.Wpf.DragDrop.Utilities;
+global using System.Collections;
+global using System.ComponentModel;
+global using System.Globalization;
+global using System.Reflection;
+global using System.Runtime.CompilerServices;
+global using System.Windows;
+global using System.Windows.Controls;
+global using System.Windows.Data;
+global using System.Windows.Input;
+global using System.Windows.Media;
