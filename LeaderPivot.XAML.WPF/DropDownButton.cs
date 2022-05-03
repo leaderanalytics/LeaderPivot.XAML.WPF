@@ -96,7 +96,6 @@ public class DropDownButton : ContentControl, INotifyPropertyChanged
         DependencyProperty.Register("ListBoxItemStyle", typeof(Style), typeof(DropDownButton), new PropertyMetadata(null));
 
 
-
     public Style PopupStyle
     {
         get { return (Style)GetValue(PopupStyleProperty); }
@@ -141,11 +140,6 @@ public class DropDownButton : ContentControl, INotifyPropertyChanged
         set => SetProp(ref _MouseLeaveCommand,value);
     }
 
-
-
-    
-
-    // Using a DependencyProperty as the backing store for JunkCommand.  This enables animation, styling, binding, etc...
     public static readonly DependencyProperty JunkCommandProperty =
         DependencyProperty.Register("JunkCommand", typeof(ICommand), typeof(DropDownButton), new PropertyMetadata(null));
 
@@ -163,9 +157,6 @@ public class DropDownButton : ContentControl, INotifyPropertyChanged
         Loaded -= DropDownButton_Loaded;
         ListBox lb = GetTemplateChild("PART_ListBox") as ListBox;
         
-        //if (lb == null)
-        //    lb = LogicalTreeHelper.FindLogicalNode(this, "PART_ListBox") as ListBox;
-        
         if(lb != null)
             lb.SelectionChanged += (s, e) => SelectionChanged(s, e);
     }
@@ -173,9 +164,6 @@ public class DropDownButton : ContentControl, INotifyPropertyChanged
     public event EventHandler SelectionChanged;
 
     static DropDownButton() => DefaultStyleKeyProperty.OverrideMetadata(typeof(DropDownButton), new FrameworkPropertyMetadata(typeof(DropDownButton)));
-
-    
-    
     
 
     #region INotifyPropertyChanged implementation

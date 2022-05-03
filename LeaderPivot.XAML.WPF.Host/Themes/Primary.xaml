@@ -3,7 +3,8 @@
     
     <SolidColorBrush x:Key="ForegroundBrush" Color="Black"/>
     <SolidColorBrush x:Key="GroupHeaderBackgroundBrush" Color="WhiteSmoke"/>
-    
+    <SolidColorBrush x:Key="CellBorderBrush" Color="Silver"/>
+
     <SolidColorBrush x:Key="MeasureBackgroundBrush" Color="#fff"/>
     <SolidColorBrush x:Key="MeasureLabelBackgroundBrush" Color="#fff"/>
         
@@ -38,4 +39,5 @@
     
     <SolidColorBrush x:Key="HiddenDimListBoxForegroundBrush" Color="Black"/>
     <SolidColorBrush x:Key="HiddenDimListBoxBackgroundBrush" Color="LightGray"/>
+    
 </ResourceDictionary>

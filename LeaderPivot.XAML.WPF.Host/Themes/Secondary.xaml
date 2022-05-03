@@ -3,6 +3,7 @@
 
     <SolidColorBrush x:Key="ForegroundBrush" Color="Black"/>
     <SolidColorBrush x:Key="GroupHeaderBackgroundBrush" Color="#d6d8db"/>
+    <SolidColorBrush x:Key="CellBorderBrush" Color="Silver"/>
 
     <SolidColorBrush x:Key="MeasureBackgroundBrush" Color="#d6d8db"/>
     <SolidColorBrush x:Key="MeasureLabelBackgroundBrush" Color="#d6d8db"/>

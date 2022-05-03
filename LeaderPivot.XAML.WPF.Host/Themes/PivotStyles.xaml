@@ -49,6 +49,10 @@
     </Style>
     
     <!--Controls-->
+    <Style TargetType="leaderpivot:LeaderPivotControl">
+        <Setter Property="CellBorderBrush" Value="{DynamicResource CellBorderBrush}"/>
+        <Setter Property="CellBorderThickness" Value="1"/>
+    </Style>
 
     <Style TargetType="leaderpivot:DimensionButton">
         <Setter Property="ButtonStyle">

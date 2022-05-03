@@ -7,11 +7,16 @@ using System.Windows.Input;
 
 namespace LeaderAnalytics.LeaderPivot.XAML.WPF;
 
-public abstract class BaseCell : ContentControl, INotifyPropertyChanged
+public class CellContainer : ContentControl
 {
     public int RowSpan { get; set; } = 1;
     public int ColSpan { get; set; } = 1;
 
+    static CellContainer() => DefaultStyleKeyProperty.OverrideMetadata(typeof(CellContainer), new FrameworkPropertyMetadata(typeof(CellContainer)));
+}
+
+public abstract class BaseCell : ContentControl, INotifyPropertyChanged
+{
     static BaseCell() => DefaultStyleKeyProperty.OverrideMetadata(typeof(BaseCell), new FrameworkPropertyMetadata(typeof(BaseCell)));
 
     #region INotifyPropertyChanged implementation
@@ -27,11 +32,6 @@ public abstract class BaseCell : ContentControl, INotifyPropertyChanged
         }
     }
     #endregion
-}
-
-public abstract class BaseTotalCell : BaseCell 
-{
-
 }
 
 public class DimensionContainerCell : BaseCell
@@ -62,7 +62,6 @@ public class DimensionContainerCell : BaseCell
     }
 
     static DimensionContainerCell() => DefaultStyleKeyProperty.OverrideMetadata(typeof(DimensionContainerCell), new FrameworkPropertyMetadata(typeof(DimensionContainerCell)));
-
 }
 
 public class GroupHeaderCell : BaseCell
@@ -111,12 +110,12 @@ public class GroupHeaderCell : BaseCell
     
 }
 
-public class GrandTotalHeaderCell : BaseTotalCell 
+public class GrandTotalHeaderCell : BaseCell 
 {
     static GrandTotalHeaderCell() => DefaultStyleKeyProperty.OverrideMetadata(typeof(GrandTotalHeaderCell), new FrameworkPropertyMetadata(typeof(GrandTotalHeaderCell)));
 }
 
-public class GrandTotalCell : BaseTotalCell
+public class GrandTotalCell : BaseCell
 {
     static GrandTotalCell() => DefaultStyleKeyProperty.OverrideMetadata(typeof(GrandTotalCell), new FrameworkPropertyMetadata(typeof(GrandTotalCell)));
 }
@@ -164,17 +163,17 @@ public class MeasureLabelCell : BaseCell
     static MeasureLabelCell() => DefaultStyleKeyProperty.OverrideMetadata(typeof(MeasureLabelCell), new FrameworkPropertyMetadata(typeof(MeasureLabelCell)));
 }
 
-public class MeasureTotalLabelCell : BaseTotalCell
+public class MeasureTotalLabelCell : BaseCell
 {
     static MeasureTotalLabelCell() => DefaultStyleKeyProperty.OverrideMetadata(typeof(MeasureTotalLabelCell), new FrameworkPropertyMetadata(typeof(MeasureTotalLabelCell)));
 }
 
-public class TotalCell : BaseTotalCell 
+public class TotalCell : BaseCell 
 {
     static TotalCell() => DefaultStyleKeyProperty.OverrideMetadata(typeof(TotalCell), new FrameworkPropertyMetadata(typeof(TotalCell)));
 }
 
-public class TotalHeaderCell : BaseTotalCell 
+public class TotalHeaderCell : BaseCell 
 {
     static TotalHeaderCell() => DefaultStyleKeyProperty.OverrideMetadata(typeof(TotalHeaderCell), new FrameworkPropertyMetadata(typeof(TotalHeaderCell)));
 }

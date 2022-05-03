@@ -38,40 +38,29 @@
         <Setter Property="Padding" Value="4"/>
     </Style>
 
-    <DataTemplate x:Key="DimensionButtonItemTemplate">
-        <Border Margin="2,3,2,3">
-                <CheckBox HorizontalAlignment="Left" VerticalAlignment="Center"
-                          Command="{Binding RelativeSource={RelativeSource AncestorType=local:DimensionButton}, Path=CheckboxCheckedCommand}"
-                          CommandParameter="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content}"
-                          Content="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content, Converter={StaticResource DimensionActionDescriptionConverter}}">
-
-                <CheckBox.IsChecked>
-                    <MultiBinding Converter="{StaticResource DimensionEventCheckedConverter}" Mode="OneWay" >
-                        <Binding RelativeSource="{RelativeSource AncestorType=local:DimensionButton}" Path="Dimension" Mode="OneWay" />
-                        <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Content" Mode="OneWay"  />
-                    </MultiBinding>
-                </CheckBox.IsChecked>
-                <CheckBox.IsEnabled>
-                    <MultiBinding Converter="{StaticResource DimensionEventEnabledConverter}" Mode="OneWay">
-                        <Binding RelativeSource="{RelativeSource AncestorType=ListBoxItem}" Path="Content" />
-                        <Binding RelativeSource="{RelativeSource AncestorType=local:DimensionContainerCell}" Path="." />
-                    </MultiBinding>
-                </CheckBox.IsEnabled>
-            </CheckBox>
-        </Border>
-    </DataTemplate>
+    <Style TargetType="TextBlock" x:Key="LeftTextBlockStyle">
+        <Setter Property="TextAlignment" Value="Left"/>
+        <Setter Property="TextWrapping" Value="Wrap"/>
+    </Style>
+    <Style TargetType="TextBlock" x:Key="RightTextBlockStyle">
+        <Setter Property="TextAlignment" Value="Right"/>
+        <Setter Property="TextWrapping" Value="NoWrap"/>
+    </Style>
 
     <Style TargetType="{x:Type local:LeaderPivotControl}" >
+        <Setter Property="CellBorderBrush" Value="Black"/>
+        <Setter Property="CellBorderThickness" Value=".5"/>
+        <Setter Property="CellPadding" Value="4"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:LeaderPivotControl}" >
                     <Border Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
+                            BorderBrush="{TemplateBinding CellBorderBrush}"
+                            BorderThickness="{TemplateBinding CellBorderThickness}"
                             DataContext="{Binding RelativeSource={RelativeSource AncestorType=local:LeaderPivotControl}}" >
 
                         <ScrollViewer x:Name="ContentScrollViewer" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                            <Grid x:Name="PART_Grid"/>
+                            <Grid x:Name="PART_Grid" />
                         </ScrollViewer>
                     </Border>
                 </ControlTemplate>
@@ -79,45 +68,84 @@
         </Setter>
     </Style>
     
-    <Style TargetType="{x:Type local:BaseCell}"  x:Key="cellStyle">
-        <Style.Resources>
-            <Style TargetType="TextBlock">
-                <Setter Property="TextWrapping" Value="Wrap"/>
-            </Style>
-        </Style.Resources>
+    <Style TargetType="{x:Type local:CellContainer}">
+        <Setter Property="Margin" Value="0.00"/>
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type local:BaseCell }">
-                    <Border Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
+                <ControlTemplate TargetType="{x:Type local:CellContainer }">
+                    <!-- This border provides uniform BorderBrush and BorderThickness only. --> 
+                    <Border Background="Transparent" Padding="0" SnapsToDevicePixels="True"
+                            BorderBrush="{Binding RelativeSource={RelativeSource AncestorType=local:LeaderPivotControl}, Path=CellBorderBrush}"
+                            BorderThickness="{Binding RelativeSource={RelativeSource AncestorType=local:LeaderPivotControl}, Path=CellBorderThickness}"
                             DataContext="{Binding RelativeSource={RelativeSource AncestorType=local:LeaderPivotControl}}">
-                        <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType=local:BaseCell}, Path=Content}" Padding="{Binding CellPadding}" FontSize="{Binding FontSize}"/>
+                        <ContentPresenter/>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        <Setter Property="BorderBrush" Value="Black"/>
-        <Setter Property="BorderThickness" Value=".5"/>
-    </Style>
-    
-    <Style TargetType="{x:Type local:BaseTotalCell}" BasedOn="{StaticResource cellStyle}" x:Key="totalCellStyle">
-        <Style.Resources>
-            <Style TargetType="TextBlock">
-                <Setter Property="Padding" Value="6"/>
-                <Setter Property="TextAlignment" Value="Right"/>
-                <Setter Property="TextWrapping" Value="NoWrap"/>
-            </Style>
-        </Style.Resources>
     </Style>
 
-    <Style TargetType="{x:Type local:GroupHeaderCell}" BasedOn="{StaticResource cellStyle}">
+    <Style TargetType="{x:Type local:BaseCell}" x:Key="BaseCellStyle">
+        <Style.Resources>
+            <Style TargetType="TextBlock" BasedOn="{StaticResource RightTextBlockStyle}"></Style>
+        </Style.Resources>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:BaseCell }">
-                    <Border Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
+                    <!-- This border provides cell-specific background. Also proives padding based on value provided by LeaderPivotControl  -->
+                    <Border Background="{TemplateBinding Background}" BorderThickness="0" SnapsToDevicePixels="True"
+                            Padding="{Binding RelativeSource={RelativeSource AncestorType=local:LeaderPivotControl}, Path=CellPadding}">
+                        <TextBlock Text="{TemplateBinding Content}" Padding="{Binding Padding}" FontSize="{Binding FontSize}"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <Style TargetType="{x:Type local:BaseCell}" BasedOn="{StaticResource BaseCellStyle}" x:Key="BaseTotalCellStyle">
+        <Setter Property="Background" Value="LightGray"/>
+    </Style>
+
+    <Style TargetType="local:MeasureCell" BasedOn="{StaticResource BaseCellStyle}">
+    </Style>
+
+    <Style TargetType="{x:Type local:TotalCell}"  BasedOn="{StaticResource BaseTotalCellStyle}">
+    </Style>
+    
+    <Style TargetType="{x:Type local:GrandTotalCell}"  BasedOn="{StaticResource BaseTotalCellStyle}">
+    </Style>
+    
+    <Style TargetType="{x:Type local:MeasureLabelCell }"  BasedOn="{StaticResource BaseCellStyle}">
+        <Style.Resources>
+            <Style TargetType="TextBlock" BasedOn="{StaticResource LeftTextBlockStyle}"></Style>
+        </Style.Resources>
+    </Style>
+
+    <Style TargetType="{x:Type local:MeasureTotalLabelCell }"  BasedOn="{StaticResource BaseTotalCellStyle}">
+        <Style.Resources>
+            <Style TargetType="TextBlock" BasedOn="{StaticResource LeftTextBlockStyle}"></Style>
+        </Style.Resources>
+    </Style>
+
+    <Style TargetType="{x:Type local:TotalHeaderCell}"  BasedOn="{StaticResource BaseTotalCellStyle}">
+        <Style.Resources>
+            <Style TargetType="TextBlock" BasedOn="{StaticResource LeftTextBlockStyle}"></Style>
+        </Style.Resources>
+    </Style>
+
+    <Style TargetType="{x:Type local:GrandTotalHeaderCell}"  BasedOn="{StaticResource BaseTotalCellStyle}">
+        <Style.Resources>
+            <Style TargetType="TextBlock" BasedOn="{StaticResource LeftTextBlockStyle}"></Style>
+        </Style.Resources>
+    </Style>
+
+    <Style TargetType="{x:Type local:GroupHeaderCell}" >
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:GroupHeaderCell}">
+                    <Border Background="{TemplateBinding Background}" SnapsToDevicePixels="True"
+                            BorderThickness="0"
+                            Padding="{Binding RelativeSource={RelativeSource AncestorType=local:LeaderPivotControl}, Path=CellPadding}"
                             DataContext="{Binding RelativeSource={RelativeSource AncestorType=local:LeaderPivotControl}}">
                         <StackPanel Orientation="Horizontal">
                             
@@ -133,6 +161,7 @@
                                     <Style TargetType="Button">
                                         <Setter Property="BorderThickness" Value="0"/>
                                         <Setter Property="Background" Value="Transparent"/>
+                                        <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource AncestorType=local:GroupHeaderCell}, Path=Foreground}"/>
                                         <Setter Property="Height" Value="25"/>
                                         <Setter Property="Width" Value="25"/>
                                         <Setter Property="HorizontalAlignment" Value="Left"/>
@@ -157,7 +186,7 @@
                                     </Style>
                                 </Button.Resources>
                             </Button>
-                            <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType=local:BaseCell}, Path=Content}" Padding="{Binding CellPadding}" FontSize="{Binding FontSize}"/>
+                            <TextBlock Text="{TemplateBinding Content}" Padding="{Binding Padding}" Margin="0,6,0,0" FontSize="{Binding FontSize}"/>
                         </StackPanel>
                     </Border>
                 </ControlTemplate>
@@ -165,67 +194,14 @@
         </Setter>
     </Style>
     
-    <Style TargetType="{x:Type local:GrandTotalHeaderCell }"  BasedOn="{StaticResource totalCellStyle}">
-        <Style.Resources>
-            <Style TargetType="TextBlock">
-                <Setter Property="Padding" Value="6"/>
-                <Setter Property="TextAlignment" Value="Left"/>
-                <Setter Property="TextWrapping" Value="Wrap"/>
-            </Style>
-        </Style.Resources>
-    </Style>
-    
-    <Style TargetType="{x:Type local:GrandTotalCell }"  BasedOn="{StaticResource totalCellStyle}">
-        
-    </Style>
-    
-    <Style TargetType="{x:Type local:MeasureCell }"  BasedOn="{StaticResource cellStyle}">
-        <Style.Resources>
-            <Style TargetType="TextBlock">
-                <Setter Property="Padding" Value="6"/>
-                <Setter Property="TextAlignment" Value="Right"/>
-                <Setter Property="TextWrapping" Value="NoWrap"/>
-            </Style>
-        </Style.Resources>
-    </Style>
-    
-    <Style TargetType="{x:Type local:MeasureLabelCell }"  BasedOn="{StaticResource cellStyle}">
-        
-    </Style>
-    
-    <Style TargetType="{x:Type local:MeasureTotalLabelCell }"  BasedOn="{StaticResource totalCellStyle}">
-        <Style.Resources>
-            <Style TargetType="TextBlock">
-                <Setter Property="Padding" Value="6"/>
-                <Setter Property="TextAlignment" Value="Left"/>
-                <Setter Property="TextWrapping" Value="Wrap"/>
-            </Style>
-        </Style.Resources>
-    </Style>
-    
-    <Style TargetType="{x:Type local:TotalCell }"  BasedOn="{StaticResource totalCellStyle}">
-        
-    </Style>
-    
-    <Style TargetType="{x:Type local:TotalHeaderCell }"  BasedOn="{StaticResource totalCellStyle}">
-        <Style.Resources>
-            <Style TargetType="TextBlock">
-                <Setter Property="Padding" Value="6"/>
-                <Setter Property="TextAlignment" Value="Left"/>
-                <Setter Property="TextWrapping" Value="Wrap"/>
-            </Style>
-        </Style.Resources>
-    </Style>
-    
-    <Style TargetType="{x:Type local:DimensionContainerCell }"  BasedOn="{StaticResource cellStyle}">
+    <Style TargetType="{x:Type local:DimensionContainerCell }">
         <Setter Property="Padding" Value="6"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:DimensionContainerCell}" >
                     <Border Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            Padding="{TemplateBinding Padding}"
+                            BorderThickness="0"
+                            Padding="{Binding RelativeSource={RelativeSource AncestorType=local:LeaderPivotControl}, Path=CellPadding}"
                             DataContext="{Binding RelativeSource={RelativeSource AncestorType=local:LeaderPivotControl}}">
 
                         <ScrollViewer 
@@ -261,14 +237,13 @@
         </Setter>
     </Style>
     
-    <Style TargetType="{x:Type local:MeasureContainerCell }"  BasedOn="{StaticResource cellStyle}">
+    <Style TargetType="{x:Type local:MeasureContainerCell }">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:MeasureContainerCell}" >
                     <Border Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            Padding="6"
+                            BorderThickness="0"
+                            Padding="{Binding RelativeSource={RelativeSource AncestorType=local:LeaderPivotControl}, Path=CellPadding}"
                             DataContext="{Binding RelativeSource={RelativeSource AncestorType=local:LeaderPivotControl}}">
                         <ScrollViewer x:Name="ContentScrollViewer" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
                             <Grid x:Name="PART_Grid">
@@ -339,14 +314,54 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
+    <DataTemplate x:Key="DimensionButtonItemTemplate">
+        <Border Margin="2,3,2,3">
+            <CheckBox HorizontalAlignment="Left" VerticalAlignment="Center"
+                          Command="{Binding RelativeSource={RelativeSource AncestorType=local:DimensionButton}, Path=CheckboxCheckedCommand}"
+                          CommandParameter="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content}"
+                          Content="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content, Converter={StaticResource DimensionActionDescriptionConverter}}">
+
+                <CheckBox.IsChecked>
+                    <MultiBinding Converter="{StaticResource DimensionEventCheckedConverter}" Mode="OneWay" >
+                        <Binding RelativeSource="{RelativeSource AncestorType=local:DimensionButton}" Path="Dimension" Mode="OneWay" />
+                        <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Content" Mode="OneWay"  />
+                    </MultiBinding>
+                </CheckBox.IsChecked>
+                <CheckBox.IsEnabled>
+                    <MultiBinding Converter="{StaticResource DimensionEventEnabledConverter}" Mode="OneWay">
+                        <Binding RelativeSource="{RelativeSource AncestorType=ListBoxItem}" Path="Content" />
+                        <Binding RelativeSource="{RelativeSource AncestorType=local:DimensionContainerCell}" Path="." />
+                    </MultiBinding>
+                </CheckBox.IsEnabled>
+            </CheckBox>
+        </Border>
+    </DataTemplate>
+
     <Style TargetType="{x:Type local:DimensionButton}">
+        <Style.Resources>
+            <Style TargetType="local:DropDownButton">
+                <Setter Property="Margin" Value="6"/>
+            </Style>
+        </Style.Resources>
         <Setter Property="PopupStyle">
             <Setter.Value>
                 <Style TargetType="Popup">
                     <Setter Property="AllowsTransparency" Value="True"/>
                     <Setter Property="VerticalOffset" Value="0"/>
                     <Setter Property="StaysOpen" Value="True"/>
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ButtonStyle">
+            <Setter.Value>
+                <Style TargetType="Button">
+                    <Setter Property="Padding" Value="6"/>
+                    <Setter Property="Effect">
+                        <Setter.Value>
+                            <DropShadowEffect BlurRadius="5" Opacity="0.4"/>
+                        </Setter.Value>
+                    </Setter>
                 </Style>
             </Setter.Value>
         </Setter>
@@ -391,6 +406,18 @@
     </Style>
 
     <Style TargetType="local:DropDownButton">
+        <Setter Property="ButtonStyle">
+            <Setter.Value>
+                <Style TargetType="Button">
+                    <Setter Property="Padding" Value="6"/>
+                    <Setter Property="Effect">
+                        <Setter.Value>
+                            <DropShadowEffect BlurRadius="5" Opacity="0.4"/>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:DropDownButton }">
@@ -400,16 +427,13 @@
                                 <Setter Property="AllowsTransparency" Value="True"/>
                                 <Setter Property="Placement" Value="Bottom"/>
                             </Style>
-                            <Style TargetType="{x:Type Button}">
-                                <Setter Property="Padding" Value="3"/>
-                            </Style>
                         </StackPanel.Resources>
                         <Behaviors:Interaction.Triggers>
                             <Behaviors:EventTrigger EventName="MouseLeave">
                                 <Behaviors:InvokeCommandAction Command="{Binding MouseLeaveCommand}"/>
                             </Behaviors:EventTrigger>
                         </Behaviors:Interaction.Triggers>
-                        <Button x:Name="MartyMcButton" Content="{Binding Content}" Command="{Binding ToggleDropDownCommand}" Style="{TemplateBinding ButtonStyle}"></Button>
+                        <Button x:Name="MartyMcButton" Style="{TemplateBinding ButtonStyle}" Content="{TemplateBinding Content}" Command="{Binding ToggleDropDownCommand}"></Button>
                         <Popup IsOpen="{Binding IsDropDownOpen}" PlacementTarget="{Binding ElementName=MartyMcButton}" Style="{Binding PopupStyle}">
                             <Border Margin="0,0,8,8" Padding="{Binding PopupPadding}" >
                                 <Border.Effect>

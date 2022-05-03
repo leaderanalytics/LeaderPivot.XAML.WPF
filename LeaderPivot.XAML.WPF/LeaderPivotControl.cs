@@ -27,7 +27,7 @@ using CommunityToolkit.Mvvm.Input;
 using GongSolutions.Wpf.DragDrop;
 using GongSolutions.Wpf.DragDrop.Utilities;
 using LeaderAnalytics.LeaderPivot;
-
+using System.Windows.Media;
 
 namespace LeaderAnalytics.LeaderPivot.XAML.WPF;
 
@@ -102,6 +102,26 @@ public class LeaderPivotControl: ContentControl, IDropTarget, IDragSource
 
     public static readonly DependencyProperty CellPaddingProperty =
         DependencyProperty.Register("CellPadding", typeof(int), typeof(LeaderPivotControl), new PropertyMetadata(4));
+
+
+    public Thickness CellBorderThickness
+    {
+        get { return (Thickness)GetValue(CellBorderThicknessProperty); }
+        set { SetValue(CellBorderThicknessProperty, value); }
+    }
+
+    public static readonly DependencyProperty CellBorderThicknessProperty =
+        DependencyProperty.Register("CellBorderThickness", typeof(Thickness), typeof(LeaderPivotControl), new PropertyMetadata(null));
+
+
+    public Brush CellBorderBrush
+    {
+        get { return (Brush)GetValue(CellBorderBrushProperty); }
+        set { SetValue(CellBorderBrushProperty, value); }
+    }
+    
+    public static readonly DependencyProperty CellBorderBrushProperty =
+        DependencyProperty.Register("CellBorderBrush", typeof(Brush), typeof(LeaderPivotControl), new PropertyMetadata(null));
 
 
     public bool IsBusy
@@ -344,15 +364,18 @@ public class LeaderPivotControl: ContentControl, IDropTarget, IDragSource
                 if (style != null)
                     cell.Style = style;
 
-                cell.RowSpan = mCell.RowSpan;
-                cell.ColSpan = mCell.ColSpan;
+                CellContainer container = new CellContainer();
+
+                container.RowSpan = mCell.RowSpan;
+                container.ColSpan = mCell.ColSpan;
+                container.Content = cell;
                 cell.Content = mCell.Value?.ToString(); 
-                columnIndex = IncrementCol(i, columnIndex, cell);
-                Grid.SetRow(cell, i);
-                Grid.SetRowSpan(cell, cell.RowSpan);
-                Grid.SetColumn(cell, columnIndex);
-                Grid.SetColumnSpan(cell, cell.ColSpan);
-                grid.Children.Add(cell);
+                columnIndex = IncrementCol(i, columnIndex, container);
+                Grid.SetRow(container, i);
+                Grid.SetRowSpan(container, container.RowSpan);
+                Grid.SetColumn(container, columnIndex);
+                Grid.SetColumnSpan(container, container.ColSpan);
+                grid.Children.Add(container);
             }
         }
         IsBusy = false;
@@ -378,7 +401,7 @@ public class LeaderPivotControl: ContentControl, IDropTarget, IDragSource
         await BuildGrid(null);
     }
 
-    private int IncrementCol(int rowIndex, int colIndex, BaseCell cell)
+    private int IncrementCol(int rowIndex, int colIndex, CellContainer cell)
     {
         while (table[rowIndex, colIndex] == 1)
             colIndex++;
