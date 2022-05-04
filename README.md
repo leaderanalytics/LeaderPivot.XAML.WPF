@@ -4,7 +4,7 @@
 
 # LeaderPivot.XAML.WPF
 
-A pivot table control for WPF.
+Pivot grid control for WPF.
 
 * Easy to implement and configure
 * Drag and drop dimensions across axis
@@ -12,7 +12,7 @@ A pivot table control for WPF.
 * Four color themes provided, customize or create your own.
 
 
-![Leader Analytics pivot table control](./screencap.png) 
+![Leader Analytics pivot grid control](./screencap.png) 
 
 # Getting Started
 
@@ -20,7 +20,7 @@ A pivot table control for WPF.
 
 * [Get the test data application](https://github.com/leaderanalytics/LeaderPivot.TestData)
 
-* [Get the NuGet package](https://www.nuget.org/packages/LeaderAnalytics.LeaderPivot.XXX/)
+* [Get the NuGet package](https://www.nuget.org/packages/LeaderAnalytics.LeaderPivot.XAML.WPF/)
 
 * Create a data structure to model your denormalized data.  See the [`SalesData`](https://github.com/leaderanalytics/LeaderPivot.TestData/blob/main/LeaderPivot.TestData/SalesData.cs) class for an example.
 

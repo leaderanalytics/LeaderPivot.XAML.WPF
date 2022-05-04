@@ -30,23 +30,13 @@ internal class MainWindowViewModel : INotifyPropertyChanged
     }
 
     private SalesDataService SalesDataService;
-    public ICommand JunkSelectedItemChangedCommand { get; set; }
-    private string _JunkSelectedItem;
-    public string JunkSelectedItem
-    {
-        get => _JunkSelectedItem;
-        set => SetProp(ref _JunkSelectedItem, value);
-    }
+    
 
     public MainWindowViewModel()
     {
         IsBusy = true;
         SalesDataService = new SalesDataService();
         BuildMatrix();
-
-        JunkSelectedItemChangedCommand = new RelayCommand(() => {
-            int x = 1;
-        });
     }
 
     private void BuildMatrix()
@@ -59,7 +49,7 @@ internal class MainWindowViewModel : INotifyPropertyChanged
 
     public async Task<IEnumerable<SalesData>> LoadDataAsync()
     {
-        await Task.Delay(1000);
+        await Task.Delay(1);
         List<SalesData> salesData = SalesDataService.GetSalesData();
         return salesData;
     }
