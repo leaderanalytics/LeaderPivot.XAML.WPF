@@ -18,7 +18,7 @@ public class PivotViewBuilder<T> : PivotViewBuilder
         DimensionsT = dimensions;
         MeasuresT = measures;
         Dimensions = DimensionsT.ToList<Dimension>();
-        Measures = MeasuresT.OrderBy(x => x.Sequence).ToList<Measure>();
+        Measures = MeasuresT.OrderBy(x => x.Sequence).Select(x => new Selectable<Measure>(x, x.IsEnabled)).ToList();
         DisplayGrandTotals = displayGrandTotals;
         LoadData = loadData;
         NodeBuilder<T> nodeBuilder = new NodeBuilder<T>();
@@ -41,7 +41,7 @@ public class PivotViewBuilder<T> : PivotViewBuilder
 }
 
 
-public abstract class PivotViewBuilder : INotifyPropertyChanged
+public abstract class PivotViewBuilder : PropertyChangedBase
 {
     private bool _DisplayGrandTotals;
     public bool DisplayGrandTotals
@@ -82,8 +82,8 @@ public abstract class PivotViewBuilder : INotifyPropertyChanged
         }
     }
 
-    private IList<Measure> _Measures;
-    public IList<Measure> Measures
+    private IList<Selectable<Measure>> _Measures;
+    public IList<Selectable<Measure>> Measures
     {
         get => _Measures;
         protected set => SetProp(ref _Measures, value);
@@ -99,18 +99,4 @@ public abstract class PivotViewBuilder : INotifyPropertyChanged
     public Visibility HiddenDimensionsVisibility => (HiddenDimensions?.Any() ?? false) ? Visibility.Visible : Visibility.Collapsed;
 
     public abstract Task BuildMatrix(string? nodeID);
-
-    #region INotifyPropertyChanged implementation
-    public event PropertyChangedEventHandler? PropertyChanged;
-    public void RaisePropertyChanged([CallerMemberNameAttribute] string propertyName = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-
-    public void SetProp<T>(ref T prop, T value, [CallerMemberNameAttribute] string propertyName = "")
-    {
-        if (!Object.Equals(prop, value))
-        {
-            prop = value;
-            RaisePropertyChanged(propertyName);
-        }
-    }
-    #endregion
 }

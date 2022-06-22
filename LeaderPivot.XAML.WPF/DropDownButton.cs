@@ -128,11 +128,6 @@ public class DropDownButton : ContentControl, INotifyPropertyChanged
         set => SetProp(ref _MouseLeaveCommand,value);
     }
 
-    public static readonly DependencyProperty JunkCommandProperty =
-        DependencyProperty.Register("JunkCommand", typeof(ICommand), typeof(DropDownButton), new PropertyMetadata(null));
-
-
-
     public DropDownButton()
     {
         Loaded += DropDownButton_Loaded;

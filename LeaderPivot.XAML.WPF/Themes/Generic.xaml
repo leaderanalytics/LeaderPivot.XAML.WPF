@@ -268,9 +268,10 @@
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
                                             <CheckBox 
-                                                Content="{Binding DisplayValue}" 
-                                                IsChecked="{Binding IsEnabled}" 
-                                                Command="{Binding RelativeSource={RelativeSource AncestorType=local:LeaderPivotControl}, Path=ReloadDataCommand}" 
+                                                Content="{Binding Item.DisplayValue}" 
+                                                IsChecked="{Binding IsSelected }" 
+                                                Command="{Binding RelativeSource={RelativeSource AncestorType=local:LeaderPivotControl}, Path=ToggleMeasureEnabledCommand}" 
+                                                CommandParameter="{Binding}"
                                                 Style="{Binding RelativeSource={RelativeSource AncestorType=local:MeasureContainerCell}, Path=MeasureCheckBoxStyle}" Padding="2" />
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
@@ -452,7 +453,6 @@
                                     <Behaviors:Interaction.Triggers>
                                         <Behaviors:EventTrigger EventName="SelectionChanged">
                                             <Behaviors:ChangePropertyAction PropertyName="IsDropDownOpen" TargetObject="{Binding RelativeSource={RelativeSource AncestorType=local:DropDownButton}}" Value="False"/>
-                                            <Behaviors:InvokeCommandAction Command="{Binding JunkCommand}" />
                                             <Behaviors:InvokeCommandAction Command="{Binding SelectionChangedCommand}"  />
                                         </Behaviors:EventTrigger>
                                     </Behaviors:Interaction.Triggers>
