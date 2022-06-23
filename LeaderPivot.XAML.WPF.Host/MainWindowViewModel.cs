@@ -49,9 +49,10 @@ internal class MainWindowViewModel : INotifyPropertyChanged
 
     public async Task<IEnumerable<SalesData>> LoadDataAsync()
     {
-        await Task.Delay(1);
         List<SalesData> salesData = SalesDataService.GetSalesData();
-        return salesData;
+        return await Task.FromResult(salesData);
+        //await Task.Delay(1);
+        //return salesData;
     }
 
     public List<SalesData> LoadData()
