@@ -44,14 +44,14 @@ internal class MainWindowViewModel : INotifyPropertyChanged
         List<Dimension<SalesData>> dimensions = SalesDataService.LoadDimensions();
         List<Measure<SalesData>> measures = SalesDataService.LoadMeasures();
         dimensions.First(x => x.DisplayValue == "City").IsEnabled = false;
-        ViewBuilder = new PivotViewBuilder<SalesData>(dimensions, measures, LoadDataAsync, true);
+        ViewBuilder = new PivotViewBuilder<SalesData>(dimensions, measures, LoadData, true);
     }
 
     public async Task<IEnumerable<SalesData>> LoadDataAsync()
     {
-        await Task.Delay(1);
-        List<SalesData> salesData = SalesDataService.GetSalesData();
-        return salesData;
+        return await Task.Run(() => SalesDataService.GetSalesData());
+        //List<SalesData> salesData = SalesDataService.GetSalesData();
+        //return await Task.FromResult(salesData);
     }
 
     public List<SalesData> LoadData()

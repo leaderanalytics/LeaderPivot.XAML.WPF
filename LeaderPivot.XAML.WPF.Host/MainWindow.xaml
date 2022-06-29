@@ -19,7 +19,7 @@
         FontFamily="{DynamicResource MaterialDesignFont}">
     <Window.Resources>
         <Storyboard x:Key="FadeIn">
-            <DoubleAnimation Storyboard.TargetProperty="Opacity" BeginTime="0:0:0:0" From="0.0" To="1" Duration="0:0:3" />
+            <DoubleAnimation Storyboard.TargetProperty="Opacity" BeginTime="0:0:0:0" From="0.0" To="1" Duration="0:0:.5" />
         </Storyboard>
 
         <Storyboard x:Key="FadeOut">
@@ -63,7 +63,7 @@
                     DisplayReloadDataButton="{Binding ElementName=controlPanel, Path=DisplayReloadDataButton}"
                     FontSize="{Binding ElementName=controlPanel, Path=PivotControlFontSize}"
                     CellPadding="{Binding ElementName=controlPanel, Path=CellPadding}"
-                    ViewBuilder="{Binding ViewBuilder}"
+                    ViewBuilder="{Binding ViewBuilder, IsAsync=True}"
                     IsBusy="{Binding IsBusy}"/>
             </materialDesign:DialogHost>
         </Border>
