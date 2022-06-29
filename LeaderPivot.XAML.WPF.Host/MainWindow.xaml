@@ -19,7 +19,7 @@
         FontFamily="{DynamicResource MaterialDesignFont}">
     <Window.Resources>
         <Storyboard x:Key="FadeIn">
-            <DoubleAnimation Storyboard.TargetProperty="Opacity" BeginTime="0:0:0:0" From="0.0" To="1" Duration="0:0:.3" />
+            <DoubleAnimation Storyboard.TargetProperty="Opacity" BeginTime="0:0:0:0" From="0.0" To="1" Duration="0:0:3" />
         </Storyboard>
 
         <Storyboard x:Key="FadeOut">
@@ -44,18 +44,28 @@
         
         <local:ControlPanel x:Name="controlPanel"/>
 
-        <Border Grid.Row="1" >
-
-            <leaderpivot:LeaderPivotControl BorderThickness="6" BorderBrush="Silver" Margin="20"
-                DisplayGrandTotalOption="{Binding ElementName=controlPanel, Path=DisplayGrandTotalOption}"
-                DisplayDimensionButtons="{Binding ElementName=controlPanel, Path=DisplayDimensionButtons}"
-                DisplayMeasureSelectors="{Binding ElementName=controlPanel, Path=DisplayMeasureSelectors}"
-                DisplayReloadDataButton="{Binding ElementName=controlPanel, Path=DisplayReloadDataButton}"
-                FontSize="{Binding ElementName=controlPanel, Path=PivotControlFontSize}"
-                CellPadding="{Binding ElementName=controlPanel, Path=CellPadding}"
-                ViewBuilder="{Binding ViewBuilder}"
-                IsBusy="{Binding IsBusy}"/>
-
+        <Border Grid.Row="1" Style="{StaticResource BorderStoryboardStyle}" >
+            <materialDesign:DialogHost  IsOpen="{Binding IsBusy}">
+                <materialDesign:DialogHost.DialogContent>
+                    <StackPanel Orientation="Vertical" Margin="16">
+                        <ProgressBar 
+                        Style="{StaticResource MaterialDesignCircularProgressBar}"
+                        HorizontalAlignment="Center" Margin="50,16,50,16"
+                        IsIndeterminate="True"
+                        Value="0" />
+                        <Label Content="Working..."/>
+                    </StackPanel>
+                </materialDesign:DialogHost.DialogContent>
+                <leaderpivot:LeaderPivotControl BorderThickness="6" BorderBrush="Silver" Margin="20"
+                    DisplayGrandTotalOption="{Binding ElementName=controlPanel, Path=DisplayGrandTotalOption}"
+                    DisplayDimensionButtons="{Binding ElementName=controlPanel, Path=DisplayDimensionButtons}"
+                    DisplayMeasureSelectors="{Binding ElementName=controlPanel, Path=DisplayMeasureSelectors}"
+                    DisplayReloadDataButton="{Binding ElementName=controlPanel, Path=DisplayReloadDataButton}"
+                    FontSize="{Binding ElementName=controlPanel, Path=PivotControlFontSize}"
+                    CellPadding="{Binding ElementName=controlPanel, Path=CellPadding}"
+                    ViewBuilder="{Binding ViewBuilder}"
+                    IsBusy="{Binding IsBusy}"/>
+            </materialDesign:DialogHost>
         </Border>
     </Grid>
 </Window>
