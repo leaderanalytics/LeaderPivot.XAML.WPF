@@ -61,7 +61,8 @@ steps:
   displayName: 'dotnet build'
   inputs:
     command: 'build'
-    arguments: '--configuration $(buildConfiguration) --PublicRelease:true'
+    arguments: '--configuration $(buildConfiguration)'
+    publicRelease: true
     projects: $(project)
 
 
