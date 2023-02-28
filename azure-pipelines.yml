@@ -20,6 +20,18 @@ variables:
   NugetVersion: $(major).$(minor).$(patch)-beta.2
 
 steps:
+- checkout: self
+  fetchDepth: 0
+
+- task: DotNetCoreCLI@2  
+  displayName: Install NBGV tool
+  inputs:
+    command: custom
+    custom: tool
+    arguments: install --tool-path . nbgv
+
+- script: nbgv cloud
+  displayName: Set Version
 
 - task: UseDotNet@2
   displayName: 'Use dotnet 6'
