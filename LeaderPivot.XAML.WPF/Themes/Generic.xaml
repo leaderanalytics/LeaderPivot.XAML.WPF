@@ -48,8 +48,8 @@
     </Style>
 
     <Style TargetType="{x:Type local:LeaderPivotControl}" >
-        <Setter Property="CellBorderBrush" Value="Black"/>
-        <Setter Property="CellBorderThickness" Value=".5"/>
+        <Setter Property="CellBorderBrush" Value="{DynamicResource CellBorderBrush}"/>
+        <Setter Property="CellBorderThickness" Value="1"/>
         <Setter Property="CellPadding" Value="4"/>
         <Setter Property="Template">
             <Setter.Value>
@@ -112,39 +112,55 @@
     </Style>
 
     <Style TargetType="local:MeasureCell" BasedOn="{StaticResource BaseCellStyle}">
+        <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
+        <Setter Property="Background" Value="{DynamicResource MeasureBackgroundBrush}"/>
     </Style>
 
     <Style TargetType="{x:Type local:TotalCell}"  BasedOn="{StaticResource BaseTotalCellStyle}">
+        <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
+        <Setter Property="Background" Value="{DynamicResource TotalBackgroundBrush}"/>
     </Style>
     
     <Style TargetType="{x:Type local:GrandTotalCell}"  BasedOn="{StaticResource BaseTotalCellStyle}">
+        <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
+        <Setter Property="Background" Value="{DynamicResource GrandTotalBackgroundBrush}"/>
     </Style>
     
     <Style TargetType="{x:Type local:MeasureLabelCell }"  BasedOn="{StaticResource BaseCellStyle}">
+        <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
+        <Setter Property="Background" Value="{DynamicResource MeasureLabelBackgroundBrush}"/>
         <Style.Resources>
             <Style TargetType="TextBlock" BasedOn="{StaticResource LeftTextBlockStyle}"></Style>
         </Style.Resources>
     </Style>
 
     <Style TargetType="{x:Type local:MeasureTotalLabelCell }"  BasedOn="{StaticResource BaseTotalCellStyle}">
+        <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
+        <Setter Property="Background" Value="{DynamicResource TotalLabelBackgroundBrush}"/>
         <Style.Resources>
             <Style TargetType="TextBlock" BasedOn="{StaticResource LeftTextBlockStyle}"></Style>
         </Style.Resources>
     </Style>
 
     <Style TargetType="{x:Type local:TotalHeaderCell}"  BasedOn="{StaticResource BaseTotalCellStyle}">
+        <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
+        <Setter Property="Background" Value="{DynamicResource TotalHeaderBackgroundBrush}"/>
         <Style.Resources>
             <Style TargetType="TextBlock" BasedOn="{StaticResource LeftTextBlockStyle}"></Style>
         </Style.Resources>
     </Style>
 
     <Style TargetType="{x:Type local:GrandTotalHeaderCell}"  BasedOn="{StaticResource BaseTotalCellStyle}">
+        <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
+        <Setter Property="Background" Value="{DynamicResource GrandTotalHeaderBackgroundBrush}"/>
         <Style.Resources>
             <Style TargetType="TextBlock" BasedOn="{StaticResource LeftTextBlockStyle}"></Style>
         </Style.Resources>
     </Style>
 
     <Style TargetType="{x:Type local:GroupHeaderCell}" >
+        <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
+        <Setter Property="Background" Value="{DynamicResource GroupHeaderBackgroundBrush}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:GroupHeaderCell}">
@@ -200,6 +216,8 @@
     </Style>
     
     <Style TargetType="{x:Type local:DimensionContainerCell }">
+        <Setter Property="Foreground" Value="{DynamicResource DimensionContainerCellForegroundBrush}"/>
+        <Setter Property="Background" Value="{DynamicResource DimensionContainerCellBackgroundBrush}"/>
         <Setter Property="Padding" Value="6"/>
         <Setter Property="Template">
             <Setter.Value>
@@ -243,6 +261,32 @@
     </Style>
     
     <Style TargetType="{x:Type local:MeasureContainerCell }">
+        <Setter Property="Foreground" Value="{DynamicResource MeasureContainerCellForegroundBrush}"/>
+        <Setter Property="Background" Value="{DynamicResource MeasureContainerCellBackgroundBrush}"/>
+        <Setter Property="ReloadButtonStyle">
+            <Setter.Value>
+                <Style TargetType="Button">
+                    <Setter Property="Foreground" Value="{DynamicResource ReloadButtonForegroundBrush}"/>
+                    <Setter Property="Background" Value="{DynamicResource ReloadButtonBackgroundBrush}"/>
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="MeasureCheckBoxStyle">
+            <Setter.Value>
+                <Style TargetType="CheckBox">
+                    <Setter Property="Foreground" Value="{DynamicResource MeasureCheckboxForegroundBrush}"/>
+                    <Setter Property="Background" Value="{DynamicResource MeasureCheckboxBackgroundBrush}"/>
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="HiddenDimensionsListBoxStyle">
+            <Setter.Value>
+                <Style TargetType="ComboBox">
+                    <Setter Property="Foreground" Value="{DynamicResource HiddenDimListBoxForegroundBrush}"/>
+                    <Setter Property="Background" Value="{DynamicResource HiddenDimListBoxBackgroundBrush}"/>
+                </Style>
+            </Setter.Value>
+        </Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:MeasureContainerCell}" >
@@ -362,12 +406,32 @@
         <Setter Property="ButtonStyle">
             <Setter.Value>
                 <Style TargetType="Button">
+                    <Setter Property="Foreground" Value="{DynamicResource DimensionButtonForegroundBrush}"/>
+                    <Setter Property="Background" Value="{DynamicResource DimensionButtonBackgroundBrush}"/>
                     <Setter Property="Padding" Value="6"/>
+                    <Setter Property="Margin" Value="4"/>
+                    <Setter Property="BorderThickness" Value="0"/>
                     <Setter Property="Effect">
                         <Setter.Value>
                             <DropShadowEffect BlurRadius="5" Opacity="0.4"/>
                         </Setter.Value>
                     </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ListBoxStyle">
+            <Setter.Value>
+                <Style TargetType="ListBox">
+                    <Setter Property="Foreground" Value="{DynamicResource DimensionButtonListboxForegroundBrush}"/>
+                    <Setter Property="Background" Value="{DynamicResource DimensionButtonListboxBackgroundBrush}"/>
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ListBoxItemStyle">
+            <Setter.Value>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="Foreground" Value="{DynamicResource DimensionButtonListboxItemForegroundBrush}"/>
+                    <Setter Property="Background" Value="{DynamicResource DimensionButtonListboxItemBackgroundBrush}"/>
                 </Style>
             </Setter.Value>
         </Setter>
