@@ -62,7 +62,6 @@ steps:
   inputs:
     command: 'build'
     arguments: '--configuration $(buildConfiguration)'
-    publicRelease: true
     projects: $(project)
 
 
@@ -74,6 +73,7 @@ steps:
     packagesToPack: $(project)
     versioningScheme: 'byEnvVar'
     versionEnvVar: 'NugetVersion'
+    publicRelease: true
 
   
 - task: NuGetCommand@2
