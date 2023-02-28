@@ -22,8 +22,13 @@ variables:
   NugetVersion: $(major).$(minor).$(patch)-beta.2
 
 steps:
+
+# nbgv need a deep clone
+
 - checkout: self
   fetchDepth: 0
+
+# install nbgv tooling
 
 - task: DotNetCoreCLI@2  
   displayName: Install NBGV tool
@@ -31,6 +36,8 @@ steps:
     command: custom
     custom: tool
     arguments: install --tool-path . nbgv
+
+# allow nbgv to set the version
 
 - script: nbgv cloud
   displayName: Set Version
@@ -47,11 +54,14 @@ steps:
     restoreSolution: '$(solution)'
     vstsFeed: 'LeaderAnalyticsFeed'
 
+
+# Add /p:PublicRelease=true so nbgv will not append last commit id to version
+
 - task: DotNetCoreCLI@2
   displayName: 'dotnet build'
   inputs:
     command: 'build'
-    arguments: '--configuration $(buildConfiguration)'
+    arguments: '--configuration $(buildConfiguration)' /p:PublicRelease=true
     projects: $(project)
 
 
