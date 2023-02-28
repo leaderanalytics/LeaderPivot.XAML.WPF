@@ -73,8 +73,6 @@ steps:
     packagesToPack: $(project)
     versioningScheme: 'byEnvVar'
     versionEnvVar: 'NugetVersion'
-    publicRelease: 'true'
-
   
 - task: NuGetCommand@2
   inputs:
