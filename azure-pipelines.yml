@@ -61,7 +61,7 @@ steps:
   displayName: 'dotnet build'
   inputs:
     command: 'build'
-    arguments: '--configuration $(buildConfiguration) /p:PublicRelease=true'
+    arguments: '--configuration $(buildConfiguration)'
     projects: $(project)
 
 
@@ -71,7 +71,6 @@ steps:
     command: 'pack'
     arguments: '--configuration $(buildConfiguration) /p:PublicRelease=true'
     packagesToPack: $(project)
-    versioningScheme: 'byEnvVar'
     versionEnvVar: 'NugetVersion'
   
 - task: NuGetCommand@2
