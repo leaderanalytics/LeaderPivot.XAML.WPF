@@ -68,10 +68,9 @@ steps:
 - task: DotNetCoreCLI@2
   displayName: "dotnet pack"
   inputs:
-    command: 'pack'
-    arguments: '--configuration $(buildConfiguration)'
-    packagesToPack: $(project)
-    configuration: '/p:PublicRelease=true'
+    command: 'custom'
+    arguments: 'pack  /p:PublicRelease=true'
+   
   
   
 - task: NuGetCommand@2
