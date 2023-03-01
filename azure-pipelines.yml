@@ -69,7 +69,7 @@ steps:
   displayName: "dotnet pack"
   inputs:
     command: 'pack'
-    arguments: '--configuration $(buildConfiguration) /p:PublicRelease=true'
+    arguments: '--configuration $(buildConfiguration) /p:xyz=true'
     packagesToPack: $(project)
   
   
