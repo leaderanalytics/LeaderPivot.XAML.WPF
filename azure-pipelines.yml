@@ -65,11 +65,11 @@ steps:
     projects: $(project)
 
 
-- task: DotNetCoreCLI@2
+- task: NuGetCommand@2
   displayName: "dotnet pack"
   inputs:
     command: 'custom'
-    arguments: 'pack  /p:PublicRelease=true'
+    arguments: 'pack "$(project)" /p:PublicRelease=true'
    
   
   
