@@ -71,7 +71,7 @@ steps:
     command: 'pack'
     arguments: '--configuration $(buildConfiguration) /p:PublicRelease=true'
     packagesToPack: $(project)
-    versionEnvVar: 'NugetVersion'
+  
   
 - task: NuGetCommand@2
   inputs:
