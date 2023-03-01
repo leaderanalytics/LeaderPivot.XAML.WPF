@@ -69,8 +69,9 @@ steps:
   displayName: "dotnet pack"
   inputs:
     command: 'pack'
-    arguments: '--configuration $(buildConfiguration) /p:xyz=true'
+    arguments: '--configuration $(buildConfiguration)'
     packagesToPack: $(project)
+    configuration: '/p:PublicRelease=true'
   
   
 - task: NuGetCommand@2
