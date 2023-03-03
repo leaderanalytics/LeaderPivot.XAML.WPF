@@ -70,7 +70,7 @@ steps:
   inputs:
     command: 'custom'
     custom: 'pack'
-    arguments: '--output $(Build.ArtifactStagingDirectory) /p:PublicRelease=true'
+    arguments: '--no-build --output $(Build.ArtifactStagingDirectory)\ /p:PublicRelease=true'
    
   
   
