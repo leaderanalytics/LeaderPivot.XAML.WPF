@@ -64,15 +64,16 @@ steps:
     arguments: '--configuration $(buildConfiguration)'
     projects: $(project)
 
-
 - task: DotNetCoreCLI@2
   displayName: "dotnet pack"
   inputs:
-    command: 'custom'
-    custom: 'pack'
-    arguments: '--output $(Build.ArtifactStagingDirectory)\ /p:PublicRelease=true'
+    command: 'pack'
+    arguments: '/p:PublicRelease=true --configuration $(buildConfiguration)'
+    packagesToPack: $(project)
    
   
+   # versioningScheme: 'byEnvVar'
+   # versionEnvVar: 'NugetVersion'  
   
 - task: NuGetCommand@2
   inputs:
