@@ -69,7 +69,7 @@ steps:
   inputs:
     command: 'custom'
     custom: 'pack'
-    arguments: '/$(project) /p:PublicRelease=true --no-build --include-symbols --include-source -c=Release -o $(build.artifactstagingdirectory)'
+    arguments: 'LeaderPivot.XAML.WPF.csproj /p:PublicRelease=true --no-build --include-symbols --include-source -c=Release -o $(build.artifactstagingdirectory)'
 
   
 - task: NuGetCommand@2
