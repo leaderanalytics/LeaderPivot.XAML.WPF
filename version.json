@@ -9,5 +9,6 @@
     "buildNumber": {
       "enabled": true
     }
-  }
+  },
+  "release": {"tagName": "release/{version}"}
 }
