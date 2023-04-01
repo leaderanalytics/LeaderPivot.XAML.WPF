@@ -378,12 +378,7 @@
                         <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Content" Mode="OneWay"  />
                     </MultiBinding>
                 </CheckBox.IsChecked>
-                <CheckBox.IsEnabled>
-                    <MultiBinding Converter="{StaticResource DimensionEventEnabledConverter}" Mode="OneWay">
-                        <Binding RelativeSource="{RelativeSource AncestorType=ListBoxItem}" Path="Content" />
-                        <Binding RelativeSource="{RelativeSource AncestorType=local:DimensionContainerCell}" Path="." />
-                    </MultiBinding>
-                </CheckBox.IsEnabled>
+               
             </CheckBox>
         </Border>
     </DataTemplate>
@@ -432,6 +427,14 @@
                 <Style TargetType="ListBoxItem">
                     <Setter Property="Foreground" Value="{DynamicResource DimensionButtonListboxItemForegroundBrush}"/>
                     <Setter Property="Background" Value="{DynamicResource DimensionButtonListboxItemBackgroundBrush}"/>
+                    <Setter Property="IsEnabled">
+                        <Setter.Value>
+                            <MultiBinding Converter="{StaticResource DimensionEventEnabledConverter}" Mode="OneWay">
+                                <Binding Path="." />
+                                <Binding RelativeSource="{RelativeSource AncestorType=local:DimensionContainerCell}" Path="." />
+                            </MultiBinding>
+                        </Setter.Value>
+                    </Setter> 
                 </Style>
             </Setter.Value>
         </Setter>
