@@ -312,8 +312,8 @@
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
                                             <CheckBox 
-                                                Content="{Binding Item.DisplayValue}" 
-                                                IsChecked="{Binding IsSelected }" 
+                                                Content="{Binding DisplayValue}" 
+                                                IsChecked="{Binding IsEnabled }" 
                                                 Command="{Binding RelativeSource={RelativeSource AncestorType=local:LeaderPivotControl}, Path=ToggleMeasureEnabledCommand}" 
                                                 CommandParameter="{Binding}"
                                                 Style="{Binding RelativeSource={RelativeSource AncestorType=local:MeasureContainerCell}, Path=MeasureCheckBoxStyle}" Padding="2" />

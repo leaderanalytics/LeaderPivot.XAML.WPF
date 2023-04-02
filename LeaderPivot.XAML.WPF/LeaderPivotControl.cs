@@ -283,16 +283,7 @@ public class LeaderPivotControl: ContentControl, IDropTarget, IDragSource
         ReloadDataCommand = new AsyncRelayCommand(() => BuildGrid(null));
         DimensionEventCommand = new AsyncRelayCommand<DimensionEventArgs>(DimensionEventCommandHandler);
         toggleNodeExpansionCommand = new AsyncRelayCommand<string>(x => BuildGrid(x));
-        ToggleMeasureEnabledCommand = new AsyncRelayCommand<Selectable<Measure>>(ToggleMeasureEnabledCommandHandler, (m) => {
-
-            // The intent of this logic is to require at least one measure to be selected.
-            // Therefore, the checkbox should be enabled if any of the following is true:
-            // 1.) Checkbox is unchecked - user should always be able to select (check) a measure.
-            // 2.) More than one checkbox is checked.
-
-            bool canExecute = !m.IsSelected || ViewBuilder.Measures.Count(x => x.Item.IsEnabled) > 1;
-            return canExecute;
-        });
+        ToggleMeasureEnabledCommand = new AsyncRelayCommand<Measure>(ToggleMeasureEnabledCommandHandler, (m) => m.CanDisable);
     }
 
     public override void OnApplyTemplate()
@@ -496,9 +487,8 @@ public class LeaderPivotControl: ContentControl, IDropTarget, IDragSource
     {
     }
 
-    public async Task ToggleMeasureEnabledCommandHandler(Selectable<Measure> measure)
+    public async Task ToggleMeasureEnabledCommandHandler(Measure measure)
     {
-        measure.Item.IsEnabled = measure.IsSelected;
         ToggleMeasureEnabledCommand.NotifyCanExecuteChanged();
         await BuildGrid(null);
     }
