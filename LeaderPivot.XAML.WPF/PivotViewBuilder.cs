@@ -18,7 +18,7 @@ public class PivotViewBuilder<T> : PivotViewBuilder
         DimensionsT = dimensions;
         MeasuresT = measures;
         Dimensions = DimensionsT.ToList<Dimension>();
-        Measures = MeasuresT.OrderBy(x => x.Sequence).Select(x => new Selectable<Measure>(x, x.IsEnabled)).ToList();
+        Measures = MeasuresT.OrderBy(x => x.Sequence).Cast<Measure>().ToList();
         DisplayGrandTotals = displayGrandTotals;
         LoadData = loadData;
         NodeBuilder<T> nodeBuilder = new NodeBuilder<T>();
@@ -82,8 +82,8 @@ public abstract class PivotViewBuilder : PropertyChangedBase
         }
     }
 
-    private IList<Selectable<Measure>> _Measures;
-    public IList<Selectable<Measure>> Measures
+    private IList<Measure> _Measures;
+    public IList<Measure> Measures
     {
         get => _Measures;
         protected set => SetProp(ref _Measures, value);

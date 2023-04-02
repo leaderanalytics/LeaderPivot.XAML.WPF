@@ -283,7 +283,7 @@ public class LeaderPivotControl: ContentControl, IDropTarget, IDragSource
         ReloadDataCommand = new AsyncRelayCommand(() => BuildGrid(null));
         DimensionEventCommand = new AsyncRelayCommand<DimensionEventArgs>(DimensionEventCommandHandler);
         toggleNodeExpansionCommand = new AsyncRelayCommand<string>(x => BuildGrid(x));
-        ToggleMeasureEnabledCommand = new AsyncRelayCommand<Selectable<Measure>>(ToggleMeasureEnabledCommandHandler, (m) => m.Item.CanDisable);
+        ToggleMeasureEnabledCommand = new AsyncRelayCommand<Measure>(ToggleMeasureEnabledCommandHandler, (m) => m.CanDisable);
     }
 
     public override void OnApplyTemplate()
@@ -487,9 +487,8 @@ public class LeaderPivotControl: ContentControl, IDropTarget, IDragSource
     {
     }
 
-    public async Task ToggleMeasureEnabledCommandHandler(Selectable<Measure> measure)
+    public async Task ToggleMeasureEnabledCommandHandler(Measure measure)
     {
-        measure.Item.IsEnabled = measure.IsSelected;
         ToggleMeasureEnabledCommand.NotifyCanExecuteChanged();
         await BuildGrid(null);
     }
