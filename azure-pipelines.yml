@@ -12,7 +12,7 @@ pool:
   vmImage: 'windows-latest'
 
 variables:
-  project: '**/LeaderPivot.XAML.WPF.csproj'
+  project: 'LeaderPivot.XAML.WPF/LeaderPivot.XAML.WPF.csproj'
   solution: '**/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
@@ -69,7 +69,7 @@ steps:
   inputs:
     command: 'custom'
     custom: 'pack'
-    arguments: 'LeaderPivot.XAML.WPF/LeaderPivot.XAML.WPF.csproj /p:PublicRelease=true --no-build --include-symbols --include-source -c=Release -o $(build.artifactstagingdirectory)'
+    arguments: '$(project) /p:PublicRelease=true --no-build --include-symbols --include-source -c=Release -o $(build.artifactstagingdirectory)'
 
   
 - task: NuGetCommand@2
