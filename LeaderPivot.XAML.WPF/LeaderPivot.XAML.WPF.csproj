@@ -19,7 +19,8 @@
 	<PackageTags>Leader Analytics LeaderAnalytics Pivot Table Pivot Grid Pivot Matrix WPF</PackageTags>
 	<PackageReleaseNotes>See Repository</PackageReleaseNotes>
 	<PackageId>LeaderAnalytics.LeaderPivot.XAML.WPF</PackageId>
-	<PackageLicenseFile>LICENSE.md</PackageLicenseFile>  
+	<PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+	<PackageOutputPath>C:\\NugetPackages</PackageOutputPath>
   </PropertyGroup>
 
 	<PropertyGroup>
@@ -32,10 +33,7 @@
 		<None Include="..\LICENSE.md" Pack="true" PackagePath="\" />
 	</ItemGroup>
 
-	<Target Name="CopyPackage" AfterTargets="Pack" Condition=" '$(Configuration)'=='Debug' ">
-		<Copy SourceFiles="$(OutputPath)..\$(PackageId).$(PackageVersion).nupkg" DestinationFolder="c:\NugetPackages\" />
-		<Copy SourceFiles="$(OutputPath)..\$(PackageId).$(PackageVersion).snupkg" DestinationFolder="c:\NugetPackages\" />
-	</Target>	
+	
 	
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0" />
