@@ -38,7 +38,7 @@
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0" />
     <PackageReference Include="gong-wpf-dragdrop" Version="3.2.1" />
-    <PackageReference Include="LeaderAnalytics.LeaderPivot" Version="1.2.0" />
+    <PackageReference Include="LeaderAnalytics.LeaderPivot" Version="1.2.5" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
     <PackageReference Include="System.ObjectModel" Version="4.3.0" />
   </ItemGroup>
