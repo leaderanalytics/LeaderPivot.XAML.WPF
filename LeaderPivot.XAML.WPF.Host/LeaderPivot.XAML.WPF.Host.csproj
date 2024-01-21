@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows</TargetFramework>
+    <TargetFramework>net8.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
 	<ImplicitUsings>enable</ImplicitUsings>
@@ -11,13 +11,18 @@
 
 	<ItemGroup>
 		<PackageReference Include="LeaderAnalytics.LeaderPivot.TestData" Version="1.2.5" />
-		<PackageReference Include="MaterialDesignThemes" Version="4.8.0" />
+		<PackageReference Include="MaterialDesignThemes" Version="4.9.0" />
 		<PackageReference Include="ShowMeTheXAML.MSBuild" Version="2.0.0" />
 	</ItemGroup>
 
 
 	<ItemGroup>
 	  <ProjectReference Include="..\LeaderPivot.XAML.WPF\LeaderPivot.XAML.WPF.csproj" />
+	</ItemGroup>
+
+
+	<ItemGroup>
+	  <PackageReference Update="Nerdbank.GitVersioning" Version="3.6.133" />
 	</ItemGroup>
 
 
